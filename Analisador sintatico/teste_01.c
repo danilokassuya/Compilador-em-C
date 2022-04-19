@@ -1,13 +1,3 @@
-int
-mod (int a, int b)
-
-{
-  return (a % b);
-}
-
-int
-main ()
-{
-  mod (1, 2);
-  exit (0);
-}
+error:syntax:1:3: asda
+asda
+  ^
