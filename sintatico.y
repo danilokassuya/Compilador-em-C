@@ -1,12 +1,15 @@
 %{
     #include<stdio.h>
     #include<string.h>
+    #include "symbol.h"
+    Identificador hash;
     extern char* yytext;
     extern int yylex();
     extern int characters;
     extern int totalLines;
     extern int lastLine;
-
+    extern char id[200];
+    int tipo = 0;
     void yyerror(char *s);
 %}
 
@@ -153,9 +156,9 @@ parametersAuxB:
 ;
 
 type:
-        INT {}
-    |   CHAR {}
-    |   VOID {}
+        INT {tipo = 1;}
+    |   CHAR {tipo = 2;}
+    |   VOID {tipo = 3;}
 ;
 
 block:
@@ -352,10 +355,10 @@ void yyerror(char *s) {
             }
 			printf("^");
 			break;
-
         case UNTERMINATED_COMMENT:
 			printf("error:lexical:%d:%d: unterminated comment", totalLines, characters);
-			break;
+            break;
+
 		default:
 			characters -= strlen(yytext);
 			printf("error:syntax:%d:%d: %s\n", totalLines, characters, yytext);
@@ -378,6 +381,8 @@ void yyerror(char *s) {
 }
 
 int main() {
+    hash = createControl();
+	clean(hash);
     yyparse();
 
     return 0;

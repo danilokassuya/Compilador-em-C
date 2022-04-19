@@ -66,15 +66,18 @@
 
     #include<stdio.h>
     #include<string.h>
+    #include "symbol.h"
+    Identificador hash;
     extern char* yytext;
     extern int yylex();
     extern int characters;
     extern int totalLines;
     extern int lastLine;
-
+    extern char id[200];
+    int tipo = 0;
     void yyerror(char *s);
 
-#line 78 "sintatico.tab.c" /* yacc.c:339  */
+#line 81 "sintatico.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -193,7 +196,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 197 "sintatico.tab.c" /* yacc.c:358  */
+#line 200 "sintatico.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -497,18 +500,18 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    84,    84,    85,    89,    90,    94,    95,    96,   100,
-     104,   105,   109,   110,   114,   118,   119,   123,   124,   128,
-     129,   133,   134,   138,   141,   145,   146,   147,   151,   152,
-     156,   157,   158,   162,   166,   167,   171,   172,   173,   174,
-     175,   176,   177,   178,   179,   180,   181,   182,   183,   187,
-     188,   192,   193,   197,   198,   199,   203,   204,   209,   210,
-     214,   215,   219,   220,   224,   225,   229,   230,   234,   235,
-     239,   240,   244,   245,   249,   250,   251,   252,   256,   257,
-     258,   262,   263,   264,   268,   269,   270,   271,   275,   276,
-     280,   281,   282,   283,   284,   285,   286,   287,   288,   292,
-     293,   294,   295,   296,   300,   301,   305,   306,   310,   311,
-     312,   313,   314,   318,   319,   320
+       0,    87,    87,    88,    92,    93,    97,    98,    99,   103,
+     107,   108,   112,   113,   117,   121,   122,   126,   127,   131,
+     132,   136,   137,   141,   144,   148,   149,   150,   154,   155,
+     159,   160,   161,   165,   169,   170,   174,   175,   176,   177,
+     178,   179,   180,   181,   182,   183,   184,   185,   186,   190,
+     191,   195,   196,   200,   201,   202,   206,   207,   212,   213,
+     217,   218,   222,   223,   227,   228,   232,   233,   237,   238,
+     242,   243,   247,   248,   252,   253,   254,   255,   259,   260,
+     261,   265,   266,   267,   271,   272,   273,   274,   278,   279,
+     283,   284,   285,   286,   287,   288,   289,   290,   291,   295,
+     296,   297,   298,   299,   303,   304,   308,   309,   313,   314,
+     315,   316,   317,   321,   322,   323
 };
 #endif
 
@@ -1456,685 +1459,685 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 84 "sintatico.y" /* yacc.c:1646  */
+#line 87 "sintatico.y" /* yacc.c:1646  */
     { printf("SUCCESSFUL COMPILATION."); return 0; }
-#line 1462 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1465 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 85 "sintatico.y" /* yacc.c:1646  */
+#line 88 "sintatico.y" /* yacc.c:1646  */
     { printf("SUCCESSFUL COMPILATION."); return 0; }
-#line 1468 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1471 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 89 "sintatico.y" /* yacc.c:1646  */
+#line 92 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1474 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1477 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 90 "sintatico.y" /* yacc.c:1646  */
+#line 93 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1480 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1483 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 94 "sintatico.y" /* yacc.c:1646  */
+#line 97 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1486 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1489 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 95 "sintatico.y" /* yacc.c:1646  */
+#line 98 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1492 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1495 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 96 "sintatico.y" /* yacc.c:1646  */
+#line 99 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1498 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1501 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 100 "sintatico.y" /* yacc.c:1646  */
+#line 103 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1504 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1507 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 104 "sintatico.y" /* yacc.c:1646  */
+#line 107 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1510 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1513 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 105 "sintatico.y" /* yacc.c:1646  */
+#line 108 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1516 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1519 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 109 "sintatico.y" /* yacc.c:1646  */
+#line 112 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1522 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1525 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 110 "sintatico.y" /* yacc.c:1646  */
+#line 113 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1528 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1531 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 114 "sintatico.y" /* yacc.c:1646  */
+#line 117 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1534 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1537 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 118 "sintatico.y" /* yacc.c:1646  */
+#line 121 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1540 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1543 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 119 "sintatico.y" /* yacc.c:1646  */
+#line 122 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1546 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1549 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 123 "sintatico.y" /* yacc.c:1646  */
+#line 126 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1552 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1555 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 124 "sintatico.y" /* yacc.c:1646  */
+#line 127 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1558 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1561 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 128 "sintatico.y" /* yacc.c:1646  */
+#line 131 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1564 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1567 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 129 "sintatico.y" /* yacc.c:1646  */
+#line 132 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1570 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1573 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 133 "sintatico.y" /* yacc.c:1646  */
+#line 136 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1576 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1579 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 134 "sintatico.y" /* yacc.c:1646  */
+#line 137 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1582 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1585 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 138 "sintatico.y" /* yacc.c:1646  */
+#line 141 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1588 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1591 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 141 "sintatico.y" /* yacc.c:1646  */
+#line 144 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1594 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1597 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 145 "sintatico.y" /* yacc.c:1646  */
+#line 148 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1600 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1603 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 146 "sintatico.y" /* yacc.c:1646  */
+#line 149 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1606 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1609 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 147 "sintatico.y" /* yacc.c:1646  */
+#line 150 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1612 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1615 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 151 "sintatico.y" /* yacc.c:1646  */
+#line 154 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1618 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1621 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 152 "sintatico.y" /* yacc.c:1646  */
+#line 155 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1624 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1627 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 156 "sintatico.y" /* yacc.c:1646  */
-    {}
-#line 1630 "sintatico.tab.c" /* yacc.c:1646  */
+#line 159 "sintatico.y" /* yacc.c:1646  */
+    {tipo = 1;}
+#line 1633 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 157 "sintatico.y" /* yacc.c:1646  */
-    {}
-#line 1636 "sintatico.tab.c" /* yacc.c:1646  */
+#line 160 "sintatico.y" /* yacc.c:1646  */
+    {tipo = 2;}
+#line 1639 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 158 "sintatico.y" /* yacc.c:1646  */
-    {}
-#line 1642 "sintatico.tab.c" /* yacc.c:1646  */
+#line 161 "sintatico.y" /* yacc.c:1646  */
+    {tipo = 3;}
+#line 1645 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 162 "sintatico.y" /* yacc.c:1646  */
+#line 165 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1648 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1651 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 166 "sintatico.y" /* yacc.c:1646  */
+#line 169 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1654 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1657 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 167 "sintatico.y" /* yacc.c:1646  */
+#line 170 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1660 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1663 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 171 "sintatico.y" /* yacc.c:1646  */
+#line 174 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1666 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1669 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 172 "sintatico.y" /* yacc.c:1646  */
+#line 175 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1672 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1675 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 173 "sintatico.y" /* yacc.c:1646  */
+#line 176 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1678 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1681 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 174 "sintatico.y" /* yacc.c:1646  */
+#line 177 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1684 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1687 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 175 "sintatico.y" /* yacc.c:1646  */
+#line 178 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1690 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1693 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 41:
-#line 176 "sintatico.y" /* yacc.c:1646  */
+#line 179 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1696 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1699 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 42:
-#line 177 "sintatico.y" /* yacc.c:1646  */
+#line 180 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1702 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1705 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 43:
-#line 178 "sintatico.y" /* yacc.c:1646  */
+#line 181 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1708 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1711 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 44:
-#line 179 "sintatico.y" /* yacc.c:1646  */
+#line 182 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1714 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1717 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 45:
-#line 180 "sintatico.y" /* yacc.c:1646  */
+#line 183 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1720 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1723 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 46:
-#line 181 "sintatico.y" /* yacc.c:1646  */
+#line 184 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1726 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1729 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 47:
-#line 182 "sintatico.y" /* yacc.c:1646  */
+#line 185 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1732 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1735 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 48:
-#line 183 "sintatico.y" /* yacc.c:1646  */
+#line 186 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1738 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1741 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 49:
-#line 187 "sintatico.y" /* yacc.c:1646  */
+#line 190 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1744 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1747 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 50:
-#line 188 "sintatico.y" /* yacc.c:1646  */
+#line 191 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1750 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1753 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 51:
-#line 192 "sintatico.y" /* yacc.c:1646  */
+#line 195 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1756 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1759 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 52:
-#line 193 "sintatico.y" /* yacc.c:1646  */
+#line 196 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1762 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1765 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 53:
-#line 197 "sintatico.y" /* yacc.c:1646  */
+#line 200 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1768 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1771 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 54:
-#line 198 "sintatico.y" /* yacc.c:1646  */
+#line 201 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1774 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1777 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 55:
-#line 199 "sintatico.y" /* yacc.c:1646  */
+#line 202 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1780 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1783 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 56:
-#line 203 "sintatico.y" /* yacc.c:1646  */
+#line 206 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1786 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1789 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 57:
-#line 204 "sintatico.y" /* yacc.c:1646  */
+#line 207 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1792 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1795 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 58:
-#line 209 "sintatico.y" /* yacc.c:1646  */
+#line 212 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1798 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1801 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 59:
-#line 210 "sintatico.y" /* yacc.c:1646  */
+#line 213 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1804 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1807 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 60:
-#line 214 "sintatico.y" /* yacc.c:1646  */
+#line 217 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1810 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1813 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 61:
-#line 215 "sintatico.y" /* yacc.c:1646  */
+#line 218 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1816 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1819 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 62:
-#line 219 "sintatico.y" /* yacc.c:1646  */
+#line 222 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1822 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1825 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 63:
-#line 220 "sintatico.y" /* yacc.c:1646  */
+#line 223 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1828 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1831 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 64:
-#line 224 "sintatico.y" /* yacc.c:1646  */
+#line 227 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1834 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1837 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 65:
-#line 225 "sintatico.y" /* yacc.c:1646  */
+#line 228 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1840 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1843 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 66:
-#line 229 "sintatico.y" /* yacc.c:1646  */
+#line 232 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1846 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1849 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 67:
-#line 230 "sintatico.y" /* yacc.c:1646  */
+#line 233 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1852 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1855 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 68:
-#line 234 "sintatico.y" /* yacc.c:1646  */
+#line 237 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1858 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1861 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 69:
-#line 235 "sintatico.y" /* yacc.c:1646  */
+#line 238 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1864 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1867 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 70:
-#line 239 "sintatico.y" /* yacc.c:1646  */
+#line 242 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1870 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1873 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 71:
-#line 240 "sintatico.y" /* yacc.c:1646  */
+#line 243 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1876 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1879 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 72:
-#line 244 "sintatico.y" /* yacc.c:1646  */
+#line 247 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1882 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1885 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 73:
-#line 245 "sintatico.y" /* yacc.c:1646  */
+#line 248 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1888 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1891 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 74:
-#line 249 "sintatico.y" /* yacc.c:1646  */
+#line 252 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1894 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1897 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 75:
-#line 250 "sintatico.y" /* yacc.c:1646  */
+#line 253 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1900 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1903 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 76:
-#line 251 "sintatico.y" /* yacc.c:1646  */
+#line 254 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1906 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1909 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 77:
-#line 252 "sintatico.y" /* yacc.c:1646  */
+#line 255 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1912 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1915 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 78:
-#line 256 "sintatico.y" /* yacc.c:1646  */
+#line 259 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1918 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1921 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 79:
-#line 257 "sintatico.y" /* yacc.c:1646  */
+#line 260 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1924 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1927 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 80:
-#line 258 "sintatico.y" /* yacc.c:1646  */
+#line 261 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1930 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1933 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 81:
-#line 262 "sintatico.y" /* yacc.c:1646  */
+#line 265 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1936 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1939 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 82:
-#line 263 "sintatico.y" /* yacc.c:1646  */
+#line 266 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1942 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1945 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 83:
-#line 264 "sintatico.y" /* yacc.c:1646  */
+#line 267 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1948 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1951 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 84:
-#line 268 "sintatico.y" /* yacc.c:1646  */
+#line 271 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1954 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1957 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 85:
-#line 269 "sintatico.y" /* yacc.c:1646  */
+#line 272 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1960 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1963 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 86:
-#line 270 "sintatico.y" /* yacc.c:1646  */
+#line 273 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1966 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1969 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 87:
-#line 271 "sintatico.y" /* yacc.c:1646  */
+#line 274 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1972 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1975 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 88:
-#line 275 "sintatico.y" /* yacc.c:1646  */
+#line 278 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1978 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1981 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 89:
-#line 276 "sintatico.y" /* yacc.c:1646  */
+#line 279 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1984 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1987 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 90:
-#line 280 "sintatico.y" /* yacc.c:1646  */
+#line 283 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1990 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1993 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 91:
-#line 281 "sintatico.y" /* yacc.c:1646  */
+#line 284 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 1996 "sintatico.tab.c" /* yacc.c:1646  */
+#line 1999 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 92:
-#line 282 "sintatico.y" /* yacc.c:1646  */
+#line 285 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 2002 "sintatico.tab.c" /* yacc.c:1646  */
+#line 2005 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 93:
-#line 283 "sintatico.y" /* yacc.c:1646  */
+#line 286 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 2008 "sintatico.tab.c" /* yacc.c:1646  */
+#line 2011 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 94:
-#line 284 "sintatico.y" /* yacc.c:1646  */
+#line 287 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 2014 "sintatico.tab.c" /* yacc.c:1646  */
+#line 2017 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 95:
-#line 285 "sintatico.y" /* yacc.c:1646  */
+#line 288 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 2020 "sintatico.tab.c" /* yacc.c:1646  */
+#line 2023 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 96:
-#line 286 "sintatico.y" /* yacc.c:1646  */
+#line 289 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 2026 "sintatico.tab.c" /* yacc.c:1646  */
+#line 2029 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 97:
-#line 287 "sintatico.y" /* yacc.c:1646  */
+#line 290 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 2032 "sintatico.tab.c" /* yacc.c:1646  */
+#line 2035 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 98:
-#line 288 "sintatico.y" /* yacc.c:1646  */
+#line 291 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 2038 "sintatico.tab.c" /* yacc.c:1646  */
+#line 2041 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 99:
-#line 292 "sintatico.y" /* yacc.c:1646  */
+#line 295 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 2044 "sintatico.tab.c" /* yacc.c:1646  */
+#line 2047 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 100:
-#line 293 "sintatico.y" /* yacc.c:1646  */
+#line 296 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 2050 "sintatico.tab.c" /* yacc.c:1646  */
+#line 2053 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 101:
-#line 294 "sintatico.y" /* yacc.c:1646  */
+#line 297 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 2056 "sintatico.tab.c" /* yacc.c:1646  */
+#line 2059 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 102:
-#line 295 "sintatico.y" /* yacc.c:1646  */
+#line 298 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 2062 "sintatico.tab.c" /* yacc.c:1646  */
+#line 2065 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 103:
-#line 296 "sintatico.y" /* yacc.c:1646  */
+#line 299 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 2068 "sintatico.tab.c" /* yacc.c:1646  */
+#line 2071 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 104:
-#line 300 "sintatico.y" /* yacc.c:1646  */
+#line 303 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 2074 "sintatico.tab.c" /* yacc.c:1646  */
+#line 2077 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 105:
-#line 301 "sintatico.y" /* yacc.c:1646  */
+#line 304 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 2080 "sintatico.tab.c" /* yacc.c:1646  */
+#line 2083 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 106:
-#line 305 "sintatico.y" /* yacc.c:1646  */
+#line 308 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 2086 "sintatico.tab.c" /* yacc.c:1646  */
+#line 2089 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 108:
-#line 310 "sintatico.y" /* yacc.c:1646  */
+#line 313 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 2092 "sintatico.tab.c" /* yacc.c:1646  */
+#line 2095 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 109:
-#line 311 "sintatico.y" /* yacc.c:1646  */
+#line 314 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 2098 "sintatico.tab.c" /* yacc.c:1646  */
+#line 2101 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 110:
-#line 312 "sintatico.y" /* yacc.c:1646  */
+#line 315 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 2104 "sintatico.tab.c" /* yacc.c:1646  */
+#line 2107 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 111:
-#line 313 "sintatico.y" /* yacc.c:1646  */
+#line 316 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 2110 "sintatico.tab.c" /* yacc.c:1646  */
+#line 2113 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 112:
-#line 314 "sintatico.y" /* yacc.c:1646  */
+#line 317 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 2116 "sintatico.tab.c" /* yacc.c:1646  */
+#line 2119 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 113:
-#line 318 "sintatico.y" /* yacc.c:1646  */
+#line 321 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 2122 "sintatico.tab.c" /* yacc.c:1646  */
+#line 2125 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 114:
-#line 319 "sintatico.y" /* yacc.c:1646  */
+#line 322 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 2128 "sintatico.tab.c" /* yacc.c:1646  */
+#line 2131 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 115:
-#line 320 "sintatico.y" /* yacc.c:1646  */
+#line 323 "sintatico.y" /* yacc.c:1646  */
     {}
-#line 2134 "sintatico.tab.c" /* yacc.c:1646  */
+#line 2137 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 2138 "sintatico.tab.c" /* yacc.c:1646  */
+#line 2141 "sintatico.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2362,7 +2365,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 323 "sintatico.y" /* yacc.c:1906  */
+#line 326 "sintatico.y" /* yacc.c:1906  */
 
 
 void yyerror(char *s) {
@@ -2395,10 +2398,10 @@ void yyerror(char *s) {
             }
 			printf("^");
 			break;
-
         case UNTERMINATED_COMMENT:
 			printf("error:lexical:%d:%d: unterminated comment", totalLines, characters);
-			break;
+            break;
+
 		default:
 			characters -= strlen(yytext);
 			printf("error:syntax:%d:%d: %s\n", totalLines, characters, yytext);
@@ -2421,6 +2424,8 @@ void yyerror(char *s) {
 }
 
 int main() {
+    hash = createControl();
+	clean(hash);
     yyparse();
 
     return 0;

@@ -4,10 +4,14 @@
 %{
 	#include <sintatico.tab.h>
 	#include <string.h>
+	#include "symbol.h"	
+	extern Identificador hash;
 	int totalLines = 1;
 	int characters = 1;
 	int lastLine;
+	extern tipo;
 	char identifier[200] = "";
+	char id[200];
 %}
 
 %x IDENTIFIER
@@ -74,7 +78,7 @@
 "exit"					characters += strlen(yytext); return EXIT;
 "/*" 					lastLine = totalLines; BEGIN(COMMENT);
 "//".*\n				totalLines++;
-[_a-zA-Z][_a-zA-Z0-9]*	characters += strlen(yytext); return ID;
+[_a-zA-Z][_a-zA-Z0-9]*	characters += strlen(yytext); strcpy(id,yytext);hash = insert(hash,id,tipo,lastLine,characters);tipo = 0;return ID;
 "0"[0-9]+				characters += strlen(yytext); return NUM_OCTAL;
 [0-9][0-9]*				characters += strlen(yytext); return NUM_INTEGER;
 "0"[x|X][a-fA-F0-9]*	characters += strlen(yytext); return NUM_HEXA;
