@@ -1,23 +1,26 @@
-#ifndef _SYMBOL_H_
-#define _SYMBOL_H_
+#ifndef _SYMBOL_H
+#define _SYMBOL_H
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "ast.h"
 
 typedef void *Identificador;
-
-int erro();
 
 void addZ();
 
 Identificador createControl();
 
-int getQuebra();
+int getLinha(Identificador ctr, char string[]);
 
-void setQuebra(int i);
+int getColuna(Identificador ctr, char string[]);
 
-Identificador insert(Identificador ctr, char string[],int type,int totalline,int character);
+int insert(Identificador ctr, char string[],int type,int totalline,int character);
+
+int insertConstante(Identificador ctr, char string[],int type,int tipo,int totalline,int character){
+
+void constanteSetValor(Identificador ctr, char string[],char valor[]);
 
 Identificador clean(Identificador ctr);
 

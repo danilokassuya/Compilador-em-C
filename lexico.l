@@ -78,12 +78,12 @@
 "exit"					characters += strlen(yytext); return EXIT;
 "/*" 					lastLine = totalLines; BEGIN(COMMENT);
 "//".*\n				totalLines++;
-[_a-zA-Z][_a-zA-Z0-9]*	characters += strlen(yytext); strcpy(id,yytext);hash = insert(hash,id,tipo,lastLine,characters);tipo = 0;return ID;
+[_a-zA-Z][_a-zA-Z0-9]*			characters += strlen(yytext); strcpy(id,yytext);int a = insert(hash,id,tipo,totalLines,characters-1);tipo = 0;if(a == 0) return ERRO_HASH;return ID;
 "0"[0-9]+				characters += strlen(yytext); return NUM_OCTAL;
 [0-9][0-9]*				characters += strlen(yytext); return NUM_INTEGER;
-"0"[x|X][a-fA-F0-9]*	characters += strlen(yytext); return NUM_HEXA;
-\"(\\.|[^"\\])*\"		characters += strlen(yytext); return STRING;
-'([^'\\\n]|\\.)'		characters += strlen(yytext); return CHARACTER;
+"0"[x|X][a-fA-F0-9]*			characters += strlen(yytext); return NUM_HEXA;
+\"(\\.|[^"\\])*\"			characters += strlen(yytext); return STRING;
+'([^'\\\n]|\\.)'			characters += strlen(yytext); return CHARACTER;
 \t						characters += strlen(yytext);
 \r
 \n						totalLines++; characters = 1;

@@ -78,6 +78,7 @@
 %token END_OF_FILE
 %token UNTERMINATED_COMMENT
 %token LEXICAL_ERROR
+%token ERRO_HASH
 
 %start program
 
@@ -151,7 +152,7 @@ parametersAux:
 ;
 
 parametersAuxB: 
-        type pointer ID expressionAux {}
+        type pointer ID expressionAux {char a[20];strcpy(a,$3);printf("%s",a);}
     |   type pointer ID expressionAux COMMA parametersAuxB {}
 ;
 
@@ -310,17 +311,17 @@ atribExpressionAuxB:
 ;
 
 primaryExpression:
-        ID {}
-    |   number {}
-    |   CHARACTER {}
-    |   STRING {}
-    |   L_PAREN expression R_PAREN {}
+        ID {$$ = $1;}
+    |   number {$$ = $1;}
+    |   CHARACTER {$$ = $1;}
+    |   STRING {$$ = $1;}
+    |   L_PAREN expression R_PAREN {$$ = $1;}
 ;
 
 number:
-        NUM_INTEGER {}
-    |   NUM_HEXA {}
-    |   NUM_OCTAL {}
+        NUM_INTEGER {$$ = $1;}
+    |   NUM_HEXA {$$ = $1;}
+    |   NUM_OCTAL {$$ = $1;}
 ;
 
 %%
@@ -358,7 +359,22 @@ void yyerror(char *s) {
         case UNTERMINATED_COMMENT:
 			printf("error:lexical:%d:%d: unterminated comment", totalLines, characters);
             break;
+        case ERRO_HASH:
+        		printf("error:semantic:%d:%d: variable ’%s’ already declared, previous declaration in line %d column %d\n",totalLines,characters-1,yytext,getLinha(hash,yytext),getColuna(hash,yytext));
+			while(lineNumber < totalLines) {
+                aux = fgetc(stdin);
+                if(aux == '\n')    lineNumber++;
+                if(aux == EOF)  break;
+            }
 
+            fgets(line, sizeof(line), stdin);
+            printf("%s", line);
+
+            for(i=1;i<characters-1;i++) {
+				printf(" ");
+            }
+			printf("^");
+			break;
 		default:
 			characters -= strlen(yytext);
 			printf("error:syntax:%d:%d: %s\n", totalLines, characters, yytext);

@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "sintatico.tab.h": "c"
+        "sintatico.tab.h": "c",
+        "stdio.h": "c"
     }
 }
