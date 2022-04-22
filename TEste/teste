@@ -1,0 +1,13 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "ast.h"
+#include "symbol.h"
+
+int main()
+{
+    int i;
+    int i;
+    printf("%d\n",i);
+    return 0;
+}

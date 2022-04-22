@@ -152,14 +152,14 @@ parametersAux:
 ;
 
 parametersAuxB: 
-        type pointer ID expressionAux {char a[20];strcpy(a,$3);printf("%s",a);}
+        type pointer ID expressionAux {}
     |   type pointer ID expressionAux COMMA parametersAuxB {}
 ;
 
 type:
         INT {
             
-            $$ =
+        
         }
     |   CHAR {tipo = 2;}
     |   VOID {tipo = 3;}

@@ -42,18 +42,6 @@ typedef struct control{
 	identi *hash[211];
 }controle;
 
-void printHash(Identificador hash){
-	controle *ctr = (controle*) hash;
-	int i = 0;
-	while(i < 211){
-		printf("%d:",i);
-		while(ctr->next != NULL){
-			printf("%s ",ctr->hash[i]->id);
-		}
-		printf("\n");
-	}
-}
-
 Identificador createControl(){
 	controle *ctr = (controle *)malloc(sizeof(controle));
 	clean(ctr);

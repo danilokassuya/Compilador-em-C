@@ -9,7 +9,7 @@
 	int totalLines = 1;
 	int characters = 1;
 	int lastLine;
-	extern tipo;
+	extern int tipo;
 	char identifier[200] = "";
 	char id[200];
 %}

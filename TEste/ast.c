@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <sintatico.tab.h>
 #include <string.h>
 #include "ast.h"
 #include "symbol.h"
@@ -199,3 +198,4 @@ int getValue(NO tree){//retorna valor
             //else
         }
 }
+

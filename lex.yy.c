@@ -556,7 +556,7 @@ char *yytext;
 	int totalLines = 1;
 	int characters = 1;
 	int lastLine;
-	extern tipo;
+	extern int tipo;
 	char identifier[200] = "";
 	char id[200];
 #line 563 "lex.yy.c"
@@ -2232,5 +2232,4 @@ void yyfree (void * ptr )
 #define YYTABLES_NAME "yytables"
 
 #line 104 "lexico.l"
-
 

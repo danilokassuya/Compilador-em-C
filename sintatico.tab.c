@@ -582,15 +582,15 @@ static const yytype_int16 yyrline[] =
        0,    88,    88,    89,    93,    94,    98,    99,   100,   104,
      108,   109,   113,   114,   118,   122,   123,   127,   128,   132,
      133,   137,   138,   142,   145,   149,   150,   151,   155,   156,
-     160,   161,   162,   166,   170,   171,   175,   176,   177,   178,
-     179,   180,   181,   182,   183,   184,   185,   186,   187,   191,
-     192,   196,   197,   201,   202,   203,   207,   208,   213,   214,
-     218,   219,   223,   224,   228,   229,   233,   234,   238,   239,
-     243,   244,   248,   249,   253,   254,   255,   256,   260,   261,
-     262,   266,   267,   268,   272,   273,   274,   275,   279,   280,
-     284,   285,   286,   287,   288,   289,   290,   291,   292,   296,
-     297,   298,   299,   300,   304,   305,   309,   310,   314,   315,
-     316,   317,   318,   322,   323,   324
+     160,   164,   165,   169,   173,   174,   178,   179,   180,   181,
+     182,   183,   184,   185,   186,   187,   188,   189,   190,   194,
+     195,   199,   200,   204,   205,   206,   210,   211,   216,   217,
+     221,   222,   226,   227,   231,   232,   236,   237,   241,   242,
+     246,   247,   251,   252,   256,   257,   258,   259,   263,   264,
+     265,   269,   270,   271,   275,   276,   277,   278,   282,   283,
+     287,   288,   289,   290,   291,   292,   293,   294,   295,   299,
+     300,   301,   302,   303,   307,   308,   312,   313,   317,   318,
+     319,   320,   321,   325,   326,   327
 };
 #endif
 
@@ -1714,7 +1714,7 @@ yyreduce:
 
   case 28:
 #line 155 "sintatico.y"
-                                      {char a[20];strcpy(a,yyvsp[-1]);printf("%s",a);}
+                                      {}
 #line 1719 "sintatico.tab.c"
     break;
 
@@ -1726,516 +1726,519 @@ yyreduce:
 
   case 30:
 #line 160 "sintatico.y"
-            {tipo = 1;}
-#line 1731 "sintatico.tab.c"
+            {
+            
+        
+        }
+#line 1734 "sintatico.tab.c"
     break;
 
   case 31:
-#line 161 "sintatico.y"
+#line 164 "sintatico.y"
              {tipo = 2;}
-#line 1737 "sintatico.tab.c"
+#line 1740 "sintatico.tab.c"
     break;
 
   case 32:
-#line 162 "sintatico.y"
+#line 165 "sintatico.y"
              {tipo = 3;}
-#line 1743 "sintatico.tab.c"
+#line 1746 "sintatico.tab.c"
     break;
 
   case 33:
-#line 166 "sintatico.y"
+#line 169 "sintatico.y"
                                                  {}
-#line 1749 "sintatico.tab.c"
+#line 1752 "sintatico.tab.c"
     break;
 
   case 34:
-#line 170 "sintatico.y"
+#line 173 "sintatico.y"
                               {}
-#line 1755 "sintatico.tab.c"
+#line 1758 "sintatico.tab.c"
     break;
 
   case 35:
-#line 171 "sintatico.y"
+#line 174 "sintatico.y"
                      {}
-#line 1761 "sintatico.tab.c"
+#line 1764 "sintatico.tab.c"
     break;
 
   case 36:
-#line 175 "sintatico.y"
+#line 178 "sintatico.y"
                                                             {}
-#line 1767 "sintatico.tab.c"
+#line 1770 "sintatico.tab.c"
     break;
 
   case 37:
-#line 176 "sintatico.y"
+#line 179 "sintatico.y"
                                             {}
-#line 1773 "sintatico.tab.c"
+#line 1776 "sintatico.tab.c"
     break;
 
   case 38:
-#line 177 "sintatico.y"
+#line 180 "sintatico.y"
                                                        {}
-#line 1779 "sintatico.tab.c"
+#line 1782 "sintatico.tab.c"
     break;
 
   case 39:
-#line 178 "sintatico.y"
+#line 181 "sintatico.y"
                                                {}
-#line 1785 "sintatico.tab.c"
+#line 1788 "sintatico.tab.c"
     break;
 
   case 40:
-#line 179 "sintatico.y"
+#line 182 "sintatico.y"
                                                                                                    {}
-#line 1791 "sintatico.tab.c"
+#line 1794 "sintatico.tab.c"
     break;
 
   case 41:
-#line 180 "sintatico.y"
+#line 183 "sintatico.y"
                                                 {}
-#line 1797 "sintatico.tab.c"
+#line 1800 "sintatico.tab.c"
     break;
 
   case 42:
-#line 181 "sintatico.y"
+#line 184 "sintatico.y"
                                                                  {}
-#line 1803 "sintatico.tab.c"
+#line 1806 "sintatico.tab.c"
     break;
 
   case 43:
-#line 182 "sintatico.y"
+#line 185 "sintatico.y"
                                                                     {}
-#line 1809 "sintatico.tab.c"
+#line 1812 "sintatico.tab.c"
     break;
 
   case 44:
-#line 183 "sintatico.y"
+#line 186 "sintatico.y"
                                                   {}
-#line 1815 "sintatico.tab.c"
+#line 1818 "sintatico.tab.c"
     break;
 
   case 45:
-#line 184 "sintatico.y"
+#line 187 "sintatico.y"
                                         {}
-#line 1821 "sintatico.tab.c"
+#line 1824 "sintatico.tab.c"
     break;
 
   case 46:
-#line 185 "sintatico.y"
+#line 188 "sintatico.y"
                              {}
-#line 1827 "sintatico.tab.c"
+#line 1830 "sintatico.tab.c"
     break;
 
   case 47:
-#line 186 "sintatico.y"
+#line 189 "sintatico.y"
                   {}
-#line 1833 "sintatico.tab.c"
+#line 1836 "sintatico.tab.c"
     break;
 
   case 48:
-#line 187 "sintatico.y"
+#line 190 "sintatico.y"
               {}
-#line 1839 "sintatico.tab.c"
+#line 1842 "sintatico.tab.c"
     break;
 
   case 49:
-#line 191 "sintatico.y"
+#line 194 "sintatico.y"
                         {}
-#line 1845 "sintatico.tab.c"
+#line 1848 "sintatico.tab.c"
     break;
 
   case 50:
-#line 192 "sintatico.y"
+#line 195 "sintatico.y"
                                          {}
-#line 1851 "sintatico.tab.c"
+#line 1854 "sintatico.tab.c"
     break;
 
   case 51:
-#line 196 "sintatico.y"
+#line 199 "sintatico.y"
                               {}
-#line 1857 "sintatico.tab.c"
+#line 1860 "sintatico.tab.c"
     break;
 
   case 52:
-#line 197 "sintatico.y"
+#line 200 "sintatico.y"
                                                  {}
-#line 1863 "sintatico.tab.c"
+#line 1866 "sintatico.tab.c"
     break;
 
   case 53:
-#line 201 "sintatico.y"
+#line 204 "sintatico.y"
                {}
-#line 1869 "sintatico.tab.c"
+#line 1872 "sintatico.tab.c"
     break;
 
   case 54:
-#line 202 "sintatico.y"
+#line 205 "sintatico.y"
                    {}
-#line 1875 "sintatico.tab.c"
+#line 1878 "sintatico.tab.c"
     break;
 
   case 55:
-#line 203 "sintatico.y"
+#line 206 "sintatico.y"
                      {}
-#line 1881 "sintatico.tab.c"
+#line 1884 "sintatico.tab.c"
     break;
 
   case 56:
-#line 207 "sintatico.y"
+#line 210 "sintatico.y"
                   {}
-#line 1887 "sintatico.tab.c"
+#line 1890 "sintatico.tab.c"
     break;
 
   case 57:
-#line 208 "sintatico.y"
+#line 211 "sintatico.y"
                                                                              {}
-#line 1893 "sintatico.tab.c"
+#line 1896 "sintatico.tab.c"
     break;
 
   case 58:
-#line 213 "sintatico.y"
+#line 216 "sintatico.y"
                    {}
-#line 1899 "sintatico.tab.c"
+#line 1902 "sintatico.tab.c"
     break;
 
   case 59:
-#line 214 "sintatico.y"
+#line 217 "sintatico.y"
                                         {}
-#line 1905 "sintatico.tab.c"
+#line 1908 "sintatico.tab.c"
     break;
 
   case 60:
-#line 218 "sintatico.y"
+#line 221 "sintatico.y"
                        {}
-#line 1911 "sintatico.tab.c"
+#line 1914 "sintatico.tab.c"
     break;
 
   case 61:
-#line 219 "sintatico.y"
+#line 222 "sintatico.y"
            {}
-#line 1917 "sintatico.tab.c"
+#line 1920 "sintatico.tab.c"
     break;
 
   case 62:
-#line 223 "sintatico.y"
+#line 226 "sintatico.y"
                           {}
-#line 1923 "sintatico.tab.c"
+#line 1926 "sintatico.tab.c"
     break;
 
   case 63:
-#line 224 "sintatico.y"
+#line 227 "sintatico.y"
             {}
-#line 1929 "sintatico.tab.c"
+#line 1932 "sintatico.tab.c"
     break;
 
   case 64:
-#line 228 "sintatico.y"
+#line 231 "sintatico.y"
                             {}
-#line 1935 "sintatico.tab.c"
+#line 1938 "sintatico.tab.c"
     break;
 
   case 65:
-#line 229 "sintatico.y"
+#line 232 "sintatico.y"
             {}
-#line 1941 "sintatico.tab.c"
+#line 1944 "sintatico.tab.c"
     break;
 
   case 66:
-#line 233 "sintatico.y"
+#line 236 "sintatico.y"
                                            {}
-#line 1947 "sintatico.tab.c"
+#line 1950 "sintatico.tab.c"
     break;
 
   case 67:
-#line 234 "sintatico.y"
+#line 237 "sintatico.y"
                            {}
-#line 1953 "sintatico.tab.c"
+#line 1956 "sintatico.tab.c"
     break;
 
   case 68:
-#line 238 "sintatico.y"
+#line 241 "sintatico.y"
                                                            {}
-#line 1959 "sintatico.tab.c"
+#line 1962 "sintatico.tab.c"
     break;
 
   case 69:
-#line 239 "sintatico.y"
+#line 242 "sintatico.y"
                              {}
-#line 1965 "sintatico.tab.c"
+#line 1968 "sintatico.tab.c"
     break;
 
   case 70:
-#line 243 "sintatico.y"
+#line 246 "sintatico.y"
               {}
-#line 1971 "sintatico.tab.c"
+#line 1974 "sintatico.tab.c"
     break;
 
   case 71:
-#line 244 "sintatico.y"
+#line 247 "sintatico.y"
                   {}
-#line 1977 "sintatico.tab.c"
+#line 1980 "sintatico.tab.c"
     break;
 
   case 72:
-#line 248 "sintatico.y"
+#line 251 "sintatico.y"
                         {}
-#line 1983 "sintatico.tab.c"
+#line 1986 "sintatico.tab.c"
     break;
 
   case 73:
-#line 249 "sintatico.y"
+#line 252 "sintatico.y"
                                                            {}
-#line 1989 "sintatico.tab.c"
+#line 1992 "sintatico.tab.c"
     break;
 
   case 74:
-#line 253 "sintatico.y"
+#line 256 "sintatico.y"
                   {}
-#line 1995 "sintatico.tab.c"
+#line 1998 "sintatico.tab.c"
     break;
 
   case 75:
-#line 254 "sintatico.y"
+#line 257 "sintatico.y"
                    {}
-#line 2001 "sintatico.tab.c"
+#line 2004 "sintatico.tab.c"
     break;
 
   case 76:
-#line 255 "sintatico.y"
+#line 258 "sintatico.y"
                      {}
-#line 2007 "sintatico.tab.c"
+#line 2010 "sintatico.tab.c"
     break;
 
   case 77:
-#line 256 "sintatico.y"
+#line 259 "sintatico.y"
                       {}
-#line 2013 "sintatico.tab.c"
+#line 2016 "sintatico.tab.c"
     break;
 
   case 78:
-#line 260 "sintatico.y"
+#line 263 "sintatico.y"
                           {}
-#line 2019 "sintatico.tab.c"
+#line 2022 "sintatico.tab.c"
     break;
 
   case 79:
-#line 261 "sintatico.y"
+#line 264 "sintatico.y"
                                                   {}
-#line 2025 "sintatico.tab.c"
+#line 2028 "sintatico.tab.c"
     break;
 
   case 80:
-#line 262 "sintatico.y"
+#line 265 "sintatico.y"
                                                   {}
-#line 2031 "sintatico.tab.c"
+#line 2034 "sintatico.tab.c"
     break;
 
   case 81:
-#line 266 "sintatico.y"
+#line 269 "sintatico.y"
                            {}
-#line 2037 "sintatico.tab.c"
+#line 2040 "sintatico.tab.c"
     break;
 
   case 82:
-#line 267 "sintatico.y"
+#line 270 "sintatico.y"
                                                    {}
-#line 2043 "sintatico.tab.c"
+#line 2046 "sintatico.tab.c"
     break;
 
   case 83:
-#line 268 "sintatico.y"
+#line 271 "sintatico.y"
                                                   {}
-#line 2049 "sintatico.tab.c"
+#line 2052 "sintatico.tab.c"
     break;
 
   case 84:
-#line 272 "sintatico.y"
+#line 275 "sintatico.y"
                        {}
-#line 2055 "sintatico.tab.c"
+#line 2058 "sintatico.tab.c"
     break;
 
   case 85:
-#line 273 "sintatico.y"
+#line 276 "sintatico.y"
                                               {}
-#line 2061 "sintatico.tab.c"
+#line 2064 "sintatico.tab.c"
     break;
 
   case 86:
-#line 274 "sintatico.y"
+#line 277 "sintatico.y"
                                                    {}
-#line 2067 "sintatico.tab.c"
+#line 2070 "sintatico.tab.c"
     break;
 
   case 87:
-#line 275 "sintatico.y"
+#line 278 "sintatico.y"
                                                     {}
-#line 2073 "sintatico.tab.c"
+#line 2076 "sintatico.tab.c"
     break;
 
   case 88:
-#line 279 "sintatico.y"
+#line 282 "sintatico.y"
                         {}
-#line 2079 "sintatico.tab.c"
+#line 2082 "sintatico.tab.c"
     break;
 
   case 89:
-#line 280 "sintatico.y"
+#line 283 "sintatico.y"
                                                     {}
-#line 2085 "sintatico.tab.c"
+#line 2088 "sintatico.tab.c"
     break;
 
   case 90:
-#line 284 "sintatico.y"
+#line 287 "sintatico.y"
                           {}
-#line 2091 "sintatico.tab.c"
+#line 2094 "sintatico.tab.c"
     break;
 
   case 91:
-#line 285 "sintatico.y"
+#line 288 "sintatico.y"
                             {}
-#line 2097 "sintatico.tab.c"
+#line 2100 "sintatico.tab.c"
     break;
 
   case 92:
-#line 286 "sintatico.y"
+#line 289 "sintatico.y"
                             {}
-#line 2103 "sintatico.tab.c"
+#line 2106 "sintatico.tab.c"
     break;
 
   case 93:
-#line 287 "sintatico.y"
+#line 290 "sintatico.y"
                                    {}
-#line 2109 "sintatico.tab.c"
+#line 2112 "sintatico.tab.c"
     break;
 
   case 94:
-#line 288 "sintatico.y"
+#line 291 "sintatico.y"
                                 {}
-#line 2115 "sintatico.tab.c"
+#line 2118 "sintatico.tab.c"
     break;
 
   case 95:
-#line 289 "sintatico.y"
+#line 292 "sintatico.y"
                             {}
-#line 2121 "sintatico.tab.c"
+#line 2124 "sintatico.tab.c"
     break;
 
   case 96:
-#line 290 "sintatico.y"
+#line 293 "sintatico.y"
                              {}
-#line 2127 "sintatico.tab.c"
+#line 2130 "sintatico.tab.c"
     break;
 
   case 97:
-#line 291 "sintatico.y"
+#line 294 "sintatico.y"
                                    {}
-#line 2133 "sintatico.tab.c"
+#line 2136 "sintatico.tab.c"
     break;
 
   case 98:
-#line 292 "sintatico.y"
+#line 295 "sintatico.y"
                            {}
-#line 2139 "sintatico.tab.c"
+#line 2142 "sintatico.tab.c"
     break;
 
   case 99:
-#line 296 "sintatico.y"
+#line 299 "sintatico.y"
                           {}
-#line 2145 "sintatico.tab.c"
+#line 2148 "sintatico.tab.c"
     break;
 
   case 100:
-#line 297 "sintatico.y"
+#line 300 "sintatico.y"
                                                                        {}
-#line 2151 "sintatico.tab.c"
+#line 2154 "sintatico.tab.c"
     break;
 
   case 101:
-#line 298 "sintatico.y"
+#line 301 "sintatico.y"
                               {}
-#line 2157 "sintatico.tab.c"
+#line 2160 "sintatico.tab.c"
     break;
 
   case 102:
-#line 299 "sintatico.y"
+#line 302 "sintatico.y"
                               {}
-#line 2163 "sintatico.tab.c"
+#line 2166 "sintatico.tab.c"
     break;
 
   case 103:
-#line 300 "sintatico.y"
+#line 303 "sintatico.y"
                                                              {}
-#line 2169 "sintatico.tab.c"
+#line 2172 "sintatico.tab.c"
     break;
 
   case 104:
-#line 304 "sintatico.y"
+#line 307 "sintatico.y"
                             {}
-#line 2175 "sintatico.tab.c"
+#line 2178 "sintatico.tab.c"
     break;
 
   case 105:
-#line 305 "sintatico.y"
+#line 308 "sintatico.y"
         {}
-#line 2181 "sintatico.tab.c"
+#line 2184 "sintatico.tab.c"
     break;
 
   case 106:
-#line 309 "sintatico.y"
+#line 312 "sintatico.y"
                                                   {}
-#line 2187 "sintatico.tab.c"
+#line 2190 "sintatico.tab.c"
     break;
 
   case 108:
-#line 314 "sintatico.y"
+#line 317 "sintatico.y"
            {yyval = yyvsp[0];}
-#line 2193 "sintatico.tab.c"
+#line 2196 "sintatico.tab.c"
     break;
 
   case 109:
-#line 315 "sintatico.y"
+#line 318 "sintatico.y"
                {yyval = yyvsp[0];}
-#line 2199 "sintatico.tab.c"
+#line 2202 "sintatico.tab.c"
     break;
 
   case 110:
-#line 316 "sintatico.y"
+#line 319 "sintatico.y"
                   {yyval = yyvsp[0];}
-#line 2205 "sintatico.tab.c"
+#line 2208 "sintatico.tab.c"
     break;
 
   case 111:
-#line 317 "sintatico.y"
+#line 320 "sintatico.y"
                {yyval = yyvsp[0];}
-#line 2211 "sintatico.tab.c"
+#line 2214 "sintatico.tab.c"
     break;
 
   case 112:
-#line 318 "sintatico.y"
+#line 321 "sintatico.y"
                                    {yyval = yyvsp[-2];}
-#line 2217 "sintatico.tab.c"
+#line 2220 "sintatico.tab.c"
     break;
 
   case 113:
-#line 322 "sintatico.y"
+#line 325 "sintatico.y"
                     {yyval = yyvsp[0];}
-#line 2223 "sintatico.tab.c"
+#line 2226 "sintatico.tab.c"
     break;
 
   case 114:
-#line 323 "sintatico.y"
+#line 326 "sintatico.y"
                  {yyval = yyvsp[0];}
-#line 2229 "sintatico.tab.c"
+#line 2232 "sintatico.tab.c"
     break;
 
   case 115:
-#line 324 "sintatico.y"
+#line 327 "sintatico.y"
                   {yyval = yyvsp[0];}
-#line 2235 "sintatico.tab.c"
+#line 2238 "sintatico.tab.c"
     break;
 
 
-#line 2239 "sintatico.tab.c"
+#line 2242 "sintatico.tab.c"
 
       default: break;
     }
@@ -2467,7 +2470,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 327 "sintatico.y"
+#line 330 "sintatico.y"
 
 
 void yyerror(char *s) {
