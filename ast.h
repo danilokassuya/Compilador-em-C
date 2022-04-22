@@ -2,9 +2,10 @@
 #define _AST_H
 
 typedef void *NO;
+
 NO createProgram();
 
-NO createFunction();
+NO createFunction(NO globalSymbolTable);
 
 NO createPar();
 
@@ -12,14 +13,14 @@ void insertPar();
 
 NO createExpression();
 
-void insertEsquerda(arvore tree,int value);
+void insertEsquerda(NO tree,int value);
 
-void insertDireita(arvore tree,int value);
+void insertDireita(NO tree,int value);
 
-NO getDireito(arvore tree);
+NO getDireito(NO tree);
 
-NO getEsqeurdo(arvore tree);
+NO getEsqeurdo(NO tree);
 
-int getValue(arvore tree);
+int getValue(NO tree);
 
 #endif

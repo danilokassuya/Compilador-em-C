@@ -48,8 +48,21 @@ Identificador createControl(){
 	return ctr;
 }
 
+Identificador createControlFun(NO globalSymbolTable){
+	controle *ctr = (controle *)malloc(sizeof(controle));
+	controle *ctraux = (controle*) globalSymbolTable;
+	clean(ctr);
+	int i = 0;
+	while(i<211){
+		i++;
+		ctr->hash[i] = ctraux->hash[i];
+	}
+	return ctr;
+}
+
 int insertConstante(Identificador ctr, char string[],int tipo,int totalline,int character){
 	if(tipo != 0){
+		printf("string type is not compatible with define");
 		return 0;//Erro constante precisa ser inteiro
 		//"string type is not compatible with define"
 	}
@@ -95,11 +108,13 @@ int insertConstante(Identificador ctr, char string[],int tipo,int totalline,int 
 			}
 			h = h->i;
 		}
+		h = haux;
+		haux = haux->i;
 		h->i = (identi *)malloc(sizeof(identi));
 		h = h->i;
 		strcpy(h->id, string);
 		h->type = 3;
-		h->i = NULL;
+		h->i = haux;
 		h->tipo = tipo;
 		h->linha = totalline;
 		h->coluna = character;

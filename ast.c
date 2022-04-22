@@ -7,16 +7,13 @@
 
 typedef struct program /* estrutura para programa */
 {
-    //tabela de símbolos global
     struct Identificador *globalSymbolTable;
-    //Criar variáveis para outras
-    //informações que sejam necessárias
-    //lista de funções
     struct function *lista_de_funcoes;
 }pro;
 
 typedef struct parametro{
     char nome[100];
+    int tipo;
     struct parametro* prox;
 }par;
 
@@ -86,15 +83,15 @@ typedef struct No{
 
 NO createProgram(){
     pro *no = (pro*)malloc(sizeof(pro));
-    no->lista_de_funcoes = createFunction();
     no->globalSymbolTable = createControl();
+    no->lista_de_funcoes = createFunction(no->globalSymbolTable);
     return no;
 }
 
-NO createFunction(){
+NO createFunction(NO globalSymbolTable){
     fun *no = (fun*)malloc(sizeof(fun));
-    no->parametro = createPar;
-    no->symbolTable = createControl;
+    no->parametro = createPar();
+    no->symbolTable = createControlFun(globalSymbolTable);
     no->next = NULL;
     no->lista_de_comandos = createComando();
     no->retorno = NULL;
@@ -114,12 +111,13 @@ NO createPar(){
     return no;
 }
 
-void insertPar(NO parametro,char nome[]){
+void insertPar(NO parametro,char nome[],int tipo){
     par *no = (par*)parametro;
     while(no->prox != NULL){
         no = no->prox;
     }
     strcpy(no->nome,nome);
+    no->tipo = tipo;
 }
 
 NO createExpression(){//Cria no

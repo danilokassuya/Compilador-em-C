@@ -157,7 +157,10 @@ parametersAuxB:
 ;
 
 type:
-        INT {tipo = 1;}
+        INT {
+            
+            $$ =
+        }
     |   CHAR {tipo = 2;}
     |   VOID {tipo = 3;}
 ;
