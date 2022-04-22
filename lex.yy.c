@@ -1135,7 +1135,7 @@ totalLines++;
 case 59:
 YY_RULE_SETUP
 #line 82 "lexico.l"
-characters += strlen(yytext); strcpy(id,yytext);hash = insert(hash,id,tipo,lastLine,characters);tipo = 0;return ID;
+characters += strlen(yytext); strcpy(id,yytext);int a = insert(hash,id,tipo,totalLines,characters-1);tipo = 0;if(a == 0) return ERRO_HASH;return ID;
 	YY_BREAK
 case 60:
 YY_RULE_SETUP

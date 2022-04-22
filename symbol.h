@@ -13,6 +13,7 @@ void addZ();
 Identificador createControl();
 
 Identificador createControlFun(NO globalSymbolTable);
+
 int getLinha(Identificador ctr, char string[]);
 
 int getColuna(Identificador ctr, char string[]);
