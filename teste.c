@@ -7,6 +7,9 @@
 void main()
 {
     NO teste = createProgram();
-    insertConstante(teste,"teste",0,5,5);
+    NO par = createPar();
+    insertPar(par,"a",1);
+    insertFunction(teste,par,1,"a",1);
+    printFunction(teste);
     printf("ok");
 }

@@ -9,6 +9,10 @@ NO getGlobalSymbolTableProgram(NO program);
 
 NO getLista_de_funcoesProgram(NO program);
 
+void printFunction(NO program);
+
+void printPar(NO program,char nome[]);
+
 NO createFunction(NO globalSymbolTable,NO parametros,int retorno,char nome[],int prototipo);
 
 NO insertFunction(NO program,NO parametros,int retorno,char nome[],int prototipo);
@@ -17,7 +21,7 @@ NO createComando();
 
 NO createPar();
 
-void insertPar();
+void insertPar(NO parametro,char nome[],int tipo);
 
 NO createExpression();
 

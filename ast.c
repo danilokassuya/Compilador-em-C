@@ -21,7 +21,7 @@ typedef struct parametro{
 typedef struct function /* estrutura para função */
 {
     //nome da função
-    char *nome;
+    char nome[100];
     //tabela de símbolos local
     struct Identificador *symbolTable;
     struct parametro* parametro;
@@ -98,6 +98,30 @@ NO getLista_de_funcoesProgram(NO program){
     return prog->lista_de_funcoes;
 }
 
+void printFunction(NO program){
+    fun *no = getLista_de_funcoesProgram(program);
+    while (no != NULL)
+    {
+        printf("%s ",no->nome);
+        no = no->next;
+    }
+    
+}
+
+void printPar(NO program,char nome[]){
+    fun *no = getLista_de_funcoesProgram(program);
+    while (strcmp(no->nome,nome) != 0)
+    {
+        no = no->next;
+    }
+    par *parametro = no->parametro;
+    while (parametro->prox != NULL)
+    {
+        printf("%s\n",no->parametro->nome);
+        parametro = parametro->prox;
+    }   
+}
+
 NO createFunction(NO globalSymbolTable,NO parametros,int retorno,char nome[],int prototipo){
     fun *no = (fun*)malloc(sizeof(fun));
     strcpy(no->nome,nome);
@@ -143,6 +167,7 @@ void insertPar(NO parametro,char nome[],int tipo){
     }
     strcpy(no->nome,nome);
     no->tipo = tipo;
+    no->prox = (par*)malloc(sizeof(par));
 }
 
 NO createExpression(){//Cria no

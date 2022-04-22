@@ -8,7 +8,7 @@
 
 typedef void *Identificador;
 
-void addZ();
+void printHash(Identificador hash);
 
 Identificador createControl();
 

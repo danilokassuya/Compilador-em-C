@@ -44,12 +44,16 @@ typedef struct control{
 
 void printHash(Identificador hash){
 	controle *ctr = (controle*) hash;
+	identi *h;
 	int i = 0;
 	while(i < 211){
 		printf("%d:",i);
-		while(ctr->next != NULL){
-			printf("%s ",ctr->hash[i]->id);
+		h = ctr->hash[i];
+		while(h != NULL){
+			printf("%s ",h->id);
+			h = h->i;
 		}
+		i++;
 		printf("\n");
 	}
 }
@@ -62,12 +66,12 @@ Identificador createControl(){
 
 Identificador createControlFun(NO globalSymbolTable){
 	controle *ctr = (controle *)malloc(sizeof(controle));
-	controle *ctraux = (controle*) globalSymbolTable;
+	controle *ctraux = (controle*)globalSymbolTable;
 	clean(ctr);
 	int i = 0;
 	while(i<211){
-		i++;
 		ctr->hash[i] = ctraux->hash[i];
+		i++;
 	}
 	return ctr;
 }
