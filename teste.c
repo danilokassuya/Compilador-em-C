@@ -7,9 +7,8 @@
 void main()
 {
     NO teste = createProgram();
-    NO par = createPar();
-    insertPar(par,"a",1);
-    insertFunction(teste,par,1,"a",1);
-    printFunction(teste);
+    NO cons = createConstante(1,1);
+    insertConstante(getGlobalSymbolTableProgram(teste),cons);
+    printHash(getGlobalSymbolTableProgram(teste));
     printf("ok");
 }

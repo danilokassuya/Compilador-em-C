@@ -1,8 +1,8 @@
 %{
     #include<stdio.h>
     #include<string.h>
+    #include "ast.h"
     #include "symbol.h"
-    Identificador hash;
     extern char* yytext;
     extern int yylex();
     extern int characters;
@@ -84,18 +84,29 @@
 
 %%
 
+start:
+        program {
+            createProgram();
+            return 0;
+        }
+
 program: 
-        declarations programAux END_OF_FILE    { printf("SUCCESSFUL COMPILATION."); return 0; }
-    |   function programAux END_OF_FILE        { printf("SUCCESSFUL COMPILATION."); return 0; }
+        declarations programAux END_OF_FILE    { 
+            
+            printf("SUCCESSFUL COMPILATION.");}
+    |   function programAux END_OF_FILE        { printf("SUCCESSFUL COMPILATION.");}
 ;
 
 programAux: 
-        program {}
+        program {} 
     |   {}
 ;
 
 declarations: 
-        NUMBER_SIGN DEFINE ID expression {}
+        NUMBER_SIGN DEFINE ID expression {//# DEFINE NOME/ID 
+            setConstanteNome($4,$3);
+            insertConstante(Identificador ctr, char string[],$4)
+        }
     |   varDeclaration {}
     |   protoDeclaration {}
 ;
@@ -158,7 +169,7 @@ parametersAuxB:
 
 type:
         INT {
-            
+            $$ =
         
         }
     |   CHAR {tipo = 2;}
@@ -238,13 +249,17 @@ and:
 ;
 
 equalityExpression:
-        relationalExpression comparison equalityExpression {}
+        relationalExpression comparison equalityExpression {
+            NO no = createExpression(1,$2);
+            insertEsquerda($2,$1);
+            insertDireita($2,$3);
+        }
     |   relationalExpression {}
 ;
 
 comparison:
-        EQUAL {}
-    |   NOT_EQUAL {}
+        EQUAL { $$ = createExpression(1,$1);}
+    |   NOT_EQUAL {$$ = $1}
 ;
 
 relationalExpression:

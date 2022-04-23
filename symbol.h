@@ -18,13 +18,17 @@ int getLinha(Identificador ctr, char string[]);
 
 int getColuna(Identificador ctr, char string[]);
 
-int insert(Identificador ctr, char string[],int type,int totalline,int character);
+Identificador createConstante(int totalline,int character);
 
-int insertConstante(Identificador ctr, char string[],int tipo,int totalline,int character);
+void setConstanteTipo(Identificador constante,int tipo);
+
+void setConstanteNome(Identificador constante,char nome[]);
+
+int insertConstante(Identificador ctr, Identificador consatnte);
 
 void constanteSetValor(Identificador ctr, char string[],char valor[]);
 
-void constanteSetValor(Identificador ctr, char string[],char valor[]);
+int insertVariavel(Identificador ctr, char nome[],int tipo, int dimensao,int local, int isParametro, int isStarted,int totalline,int character);
 
 Identificador clean(Identificador ctr);
 

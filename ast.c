@@ -1,9 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include <sintatico.tab.h>
 #include <string.h>
 #include "ast.h"
-#include "symbol.h"
 
 typedef struct program /* estrutura para programa */
 {
@@ -66,17 +63,15 @@ char = 2
 */
 typedef struct No{
     /*
-    operando = 0
-    soma = 1
-    subtração = 2
-    etc*/
-    int exp;//Qual tipo de expressão é esse nó
-    /*
     void = 0
     int = 1
     char = 2
-    */
-    int type;//Se for operando
+    soma = 3
+    subtração = 4
+    igual = 5
+    não igual = 6
+    etc*/
+    int exp;//Qual tipo de expressão é esse nó
     struct No *direito;
     struct No *esquerdo;
 }node;
@@ -170,17 +165,17 @@ void insertPar(NO parametro,char nome[],int tipo){
     no->prox = (par*)malloc(sizeof(par));
 }
 
-NO createExpression(){//Cria no
+NO createExpression(int tipo, int valor){//Cria no
     node *no = (node*)malloc(sizeof(node));
+    no->exp = valor;
     no->esquerdo = NULL;
     no->direito = NULL;
     return no;
 }
 
-void insertEsquerda(NO tree,int exp){//Insere na esquerda
+void insertEsquerda(NO tree,NO aux){//Insere na esquerda
     node *no = (node*)tree;
-    node *noaux = (node*)malloc(sizeof(node));
-    exp = exp;
+    node *noaux = (node*)aux;
     no->esquerdo = noaux;
 }
 
@@ -199,28 +194,4 @@ NO getDireito(NO tree){//retorna no direito
 NO getEsqeurdo(NO tree){//retorna no esquerdo
     node *no = (node*)tree;
     return no->esquerdo;
-}
-
-int getValue(NO tree){//retorna valor
-    node *no = (node*)tree;
-        if(no->exp = 0){//Caso operando
-            return no->type;//retorna o tipo
-        }
-        else{//Caso alguma expressão
-            int value1;
-            int value2;
-            value1 = getValue(no->esquerdo);
-            value2 = getValue(no->direito);
-            if(no->exp == 1){//Se for uma soma
-                /*
-                Analisa se os dois tipos são compativeis
-                */
-                /*if ()
-                {
-                    return value1;
-                }*/
-                
-            }
-            //else
-        }
 }

@@ -1,6 +1,10 @@
 #ifndef _AST_H
 #define _AST_H
 
+#include <stdio.h>
+#include <stdlib.h>
+#include "symbol.h"
+
 typedef void *NO;
 
 NO createProgram();
@@ -23,16 +27,14 @@ NO createPar();
 
 void insertPar(NO parametro,char nome[],int tipo);
 
-NO createExpression();
+NO createExpression(int tipo, int valor);
 
-void insertEsquerda(NO tree,int value);
+void insertEsquerda(NO tree,NO aux);
 
-void insertDireita(NO tree,int value);
+void insertDireita(NO tree,NO aux);
 
 NO getDireito(NO tree);
 
 NO getEsqeurdo(NO tree);
-
-int getValue(NO tree);
 
 #endif

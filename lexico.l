@@ -5,6 +5,7 @@
 	#include <sintatico.tab.h>
 	#include <string.h>
 	#include "symbol.h"	
+	#include "ast.h"
 	extern Identificador hash;
 	int totalLines = 1;
 	int characters = 1;
