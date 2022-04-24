@@ -2,10 +2,10 @@
 %option noyywrap
 
 %{
-	#include <sintatico.tab.h>
 	#include <string.h>
 	#include "symbol.h"	
 	#include "ast.h"
+	#include <sintatico.tab.h>
 	extern Identificador hash;
 	int totalLines = 1;
 	int characters = 1;
@@ -23,7 +23,7 @@
 <INITIAL>{
 " "						characters ++;
 "void"					characters += strlen(yytext); return VOID;
-"int"					characters += strlen(yytext); return INT;
+"int"					characters += strlen(yytext); yylval.str = strdup(yytext); return INT;
 "char"					characters += strlen(yytext); return CHAR;
 "return"				characters += strlen(yytext); return RETURN;
 "break"					characters += strlen(yytext); return BREAK;
@@ -79,12 +79,12 @@
 "exit"					characters += strlen(yytext); return EXIT;
 "/*" 					lastLine = totalLines; BEGIN(COMMENT);
 "//".*\n				totalLines++;
-[_a-zA-Z][_a-zA-Z0-9]*			characters += strlen(yytext); strcpy(id,yytext);int a = insert(hash,id,tipo,totalLines,characters-1);tipo = 0;if(a == 0) return ERRO_HASH;return ID;
-"0"[0-9]+				characters += strlen(yytext); return NUM_OCTAL;
-[0-9][0-9]*				characters += strlen(yytext); return NUM_INTEGER;
-"0"[x|X][a-fA-F0-9]*			characters += strlen(yytext); return NUM_HEXA;
+[_a-zA-Z][_a-zA-Z0-9]*			characters += strlen(yytext);yylval.str = strdup(yytext);return ID;
+"0"[0-9]+				characters += strlen(yytext); yylval.str = strdup(yytext); return NUM_OCTAL;
+[0-9][0-9]*				characters += strlen(yytext); yylval.str = strdup(yytext); return NUM_INTEGER;
+"0"[x|X][a-fA-F0-9]*			characters += strlen(yytext); yylval.str = strdup(yytext); return NUM_HEXA;
 \"(\\.|[^"\\])*\"			characters += strlen(yytext); return STRING;
-'([^'\\\n]|\\.)'			characters += strlen(yytext); return CHARACTER;
+'([^'\\\n]|\\.)'			characters += strlen(yytext); yylval.str = strdup(yytext);return CHARACTER;
 \t						characters += strlen(yytext);
 \r
 \n						totalLines++; characters = 1;

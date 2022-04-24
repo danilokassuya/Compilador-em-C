@@ -1,42 +1,5 @@
-#include <sintatico.tab.h>
-#include <string.h>
 #include "symbol.h"
-
-typedef struct identificador{
-	char id[100];//nome
-	struct identificador *i;//proximo
-    int linha;//linha da declaração
-    int coluna;//coluna da declaração
-	/*
-	variavel = 0
-	funcao = 1
-	prototipo = 2
-	constante = 3
-	*/
-	int type;//tipo do id
-
-	//variavel
-	/*
-	int = 0
-	char = 1
-	void = 2
-	*/
-	int tipo;
-	int size;
-	int local;
-	int isParameter;
-	int started;
-
-	//prototipo
-	struct NO* parametros;
-	//int tipo; //retorno
-
-	//constante
-	//int tipo;
-	char valor[100];
-
-    int pointer;//se é um ponteiro
-} identi;
+#include <sintatico.tab.h>
 
 typedef struct control{
 	identi *hash[211];
@@ -76,7 +39,7 @@ Identificador createControlFun(NO globalSymbolTable){
 	return ctr;
 }
 
-Identificador createConstante(int totalline,int character){
+Identificador createIdentificador(int totalline,int character){
 	identi *constante = (identi *)malloc(sizeof(identi));
 	constante->i = NULL;
 	constante->type = 3;
@@ -92,222 +55,95 @@ Identificador createConstante(int totalline,int character){
 	return constante;
 }
 
-void setConstanteTipo(Identificador constante,int tipo){
-	identi *cons = (identi *)constante;
-	cons->tipo = tipo;
+void setTipo(Identificador inde,int tipo){
+	identi *identifica = (identi *)inde;
+	identifica->tipo = tipo;
 }
 
-void setConstanteNome(Identificador constante,char nome[]){
-	identi *cons = (identi *)constante;
-	strcpy(cons->id, nome);
+void SetNome(Identificador inde,char nome[]){
+	identi *identifica = (identi *)inde;
+	strcpy(identifica->id, nome);
 }
 
-int insertConstante(Identificador ctr, Identificador consatnte){
-	identi *cons = (identi*) consatnte;
-	if(cons->tipo != 0){
+void setValor(Identificador inde,char valor[]){
+	identi *identifica = (identi *)inde;
+	strcpy(identifica->id, valor);
+}
+
+void setStarted(Identificador inde,int started){
+	identi *identifica = (identi *)inde;
+	identifica->started = started;
+}
+
+void setisParameter(Identificador inde,int isParameter){
+	identi *identifica = (identi *)inde;
+	identifica->isParameter = isParameter;
+}
+
+void setLocal(Identificador inde,int local){
+	identi *identifica = (identi *)inde;
+	identifica->local = local;
+}
+
+void setSize(Identificador inde,int size){
+	identi *identifica = (identi *)inde;
+	identifica->size = size;
+}
+
+void setType(Identificador inde,int type){
+	identi *identifica = (identi *)inde;
+	identifica->type = type;
+}
+
+void setPointer(Identificador inde,int pointer){
+	identi *identifica = (identi *)inde;
+	identifica->pointer = pointer;
+}
+
+int insert(Identificador ctr, Identificador inde){
+	identi *identifica = (identi*) inde;
+	if(identifica->tipo != 0){
 		printf("string type is not compatible with define");
 		return 0;//Erro constante precisa ser inteiro
 		//"string type is not compatible with define"
 	}
 	controle *hash = (controle*)ctr;
-	int size = strlen(cons->id);
+	int size = strlen(identifica->id);
 	int i = 0;
 	int buff = 0;
 	while(i < size ){
-		buff = buff + cons->id[i];
+		buff = buff + identifica->id[i];
 		i++;
 	}
 	i = buff%211;
 	identi *h = hash->hash[i];
 	identi *haux = h;
 	if(h == NULL){
-		hash->hash[i] = cons;
+		hash->hash[i] = identifica;
 	}
 	else{
 		while(h->i != NULL){
-			if(strcmp(cons->id, h->id) == 0 && h->type == 3){
+			if(strcmp(identifica->id, h->id) == 0 && h->type == 3){
 
-				printf("error:semantic:%d:%d: variable ’%s’ already declared, previous declaration in line %d column %d",cons->linha,cons->coluna,cons->id,h->linha,h->coluna);
+				printf("error:semantic:%d:%d: variable ’%s’ already declared, previous declaration in line %d column %d",identifica->linha,identifica->coluna,identifica->id,h->linha,h->coluna);
 
 				return 0;
 			}
-			if(strcmp(cons->id, h->id) == 0 && h->type != 3){
+			if(strcmp(identifica->id, h->id) == 0 && h->type != 3){
 
-				printf("%d: redefinition of identifier '%s'",cons->linha,cons->id);
+				printf("%d: redefinition of identifier '%s'",identifica->linha,identifica->id);
 
 				return 0;
 			}
 			h = h->i;
 		}
-		hash->hash[i] = cons;
+		hash->hash[i] = identifica;
 		hash->hash[i]->i = haux;
 		printf("%s\n",h->id);
 	}
 	return 1;
 }
 
-void constanteSetValor(Identificador ctr, char string[],char valor[]){
-	controle *hash = (controle*)ctr;
-	int size = strlen(string);
-	int i = 0;
-	int buff = 0;
-	while(i < size ){
-		buff = buff + string[i];
-		i++;
-	}
-	i = buff%211;
-	identi *h = hash->hash[i];
-	identi *haux = h;
-	while(h->i != NULL){
-		if(strcmp(string, h->id) == 0){
-			strcpy(h->valor, valor);
-			return ;
-		}
-		h = h->i;
-	}
-}
-
-int insertVariavel(Identificador ctr, char nome[],int tipo, int dimensao,int local, int isParametro, int isStarted,int totalline,int character){
-	controle *hash = (controle*)ctr;
-	int size = strlen(nome);
-	int i = 0;
-	int buff = 0;
-	while(i < size ){
-		buff = buff + nome[i];
-		i++;
-	}
-	i = buff%211;
-	identi *h = hash->hash[i];
-	identi *haux = h;
-	if(h == NULL){
-		hash->hash[i] = (identi *)malloc(sizeof(identi));
-		hash->hash[i]->i = NULL;
-		strcpy(hash->hash[i]->id, nome);
-		hash->hash[i]->type = 3;
-		hash->hash[i]->tipo = tipo;
-		hash->hash[i]->linha = totalline;
-		hash->hash[i]->coluna = character;
-		hash->hash[i]->parametros = NULL;
-		hash->hash[i]->size = dimensao;
-		hash->hash[i]->local = local;
-		hash->hash[i]->isParameter = isParametro;
-		hash->hash[i]->started = isStarted;
-		hash->hash[i]->pointer = -1;
-	}
-	else{
-		while(h->i != NULL){
-			if(strcmp(nome, h->id) == 0 && h->type == 3){
-
-				printf("error:semantic:%d:%d: variable '%s' already declared, previous declaration in line %d column %d",totalline,character,nome,h->linha,h->coluna);
-
-				return 0;
-			}
-			if(strcmp(nome, h->id) == 0 && h->type != 3){
-
-				printf("%d: redefinition of identifier '%s'",totalline,nome);
-
-				return 0;
-			}
-			h = h->i;
-		}
-		h = haux;
-		haux = haux->i;
-		h->i = (identi *)malloc(sizeof(identi));
-		h = h->i;
-		strcpy(h->id, nome);
-		h->type = 3;
-		h->i = haux;
-		h->tipo = tipo;
-		h->linha = totalline;
-		h->coluna = character;
-		h->parametros = NULL;
-		h->size = dimensao;
-		h->local = local;
-		h->isParameter = isParametro;
-		h->started = isStarted;
-		h->pointer = -1;
-	}
-	return 1;
-}
-
-/*
-int insertPrototipo(Identificador ctr, char string[],int tipo,int totalline,int character){
-	controle *hash = (controle*)ctr;
-	int size = strlen(string);
-	int i = 0;
-	int buff = 0;
-	while(i < size ){
-		buff = buff + string[i];
-		i++;
-	}
-	i = buff%211;
-	identi *h = hash->hash[i];
-	identi *haux = h;
-	if(h == NULL){
-		hash->hash[i] = (identi *)malloc(sizeof(identi));
-		hash->hash[i]->i = NULL;
-		strcpy(hash->hash[i]->id, string);
-		hash->hash[i]->type = 2;
-		strcpy(hash->hash[i]->valor, string);
-		hash->hash[i]->tipo = tipo;
-		hash->hash[i]->linha = totalline;
-		hash->hash[i]->coluna = character;
-		hash->hash[i]->parametros = createPar();
-		hash->hash[i]->size = 0;
-		hash->hash[i]->local = 0;
-		hash->hash[i]->isParameter = 0;
-		hash->hash[i]->started = 0;
-		hash->hash[i]->pointer = 0;
-	}
-	else{
-		while(h->i != NULL){
-			if(strcmp(string, h->id) == 0 && h->type == 2){
-
-				//printf("error:semantic:%d:%d: variable ’%s’ already declared, previous declaration in line %d column %d",totalline,character,string,h->linha,h->coluna);
-
-				return 0;
-			}
-			if(strcmp(string, h->id) == 0 && h->type != 2){
-
-				printf("%d: redefinition of identifier '%s'",totalline,string);
-
-				return 0;
-			}
-			h = h->i;
-		}
-		h->i = (identi *)malloc(sizeof(identi));
-		h = h->i;
-		strcpy(h->id, string);
-		h->type = 2;
-		h->i = NULL;
-		strcpy(h->valor, string);
-		h->tipo = tipo;
-		h->linha = totalline;
-		h->coluna = character;
-		h->parametros = createPar;
-		h->size = 0;
-		h->local = 0;
-		h->isParameter = 0;
-		h->started = 0;
-		h->pointer = 0;
-	}
-	return 1;
-}
-
-void prototipoSetParameter(Identificador ctr, char string[],char nome[]){
-	controle *hash = (controle*)ctr;
-	int size = strlen(string);
-	int i = 0;
-	int buff = 0;
-	while(i < size ){
-		buff = buff + string[i];
-		i++;
-	}
-	i = buff%211;
-	identi *h = hash->hash[i];
-	insertPar(h->parametros,nome);
-}
-*/
 int getLinha(Identificador ctr, char string[]){
 	controle *hash = (controle*)ctr;
 	int size = strlen(string);

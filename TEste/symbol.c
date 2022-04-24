@@ -1,4 +1,4 @@
-#include <sintatico.tab.h>
+
 #include <string.h>
 #include "symbol.h"
 
@@ -21,7 +21,7 @@ typedef struct identificador{
 	char = 1
 	void = 2
 	*/
-	int tipo;//retorno
+	int tipo;
 	int size;
 	int local;
 	int isParameter;
@@ -42,6 +42,22 @@ typedef struct control{
 	identi *hash[211];
 }controle;
 
+void printHash(Identificador hash){
+	controle *ctr = (controle*) hash;
+	identi *h;
+	int i = 0;
+	while(i < 211){
+		printf("%d:",i);
+		h = ctr->hash[i];
+		while(h != NULL){
+			printf("%s ",h->id);
+			h = h->i;
+		}
+		i++;
+		printf("\n");
+	}
+}
+
 Identificador createControl(){
 	controle *ctr = (controle *)malloc(sizeof(controle));
 	clean(ctr);
@@ -50,80 +66,74 @@ Identificador createControl(){
 
 Identificador createControlFun(NO globalSymbolTable){
 	controle *ctr = (controle *)malloc(sizeof(controle));
-	controle *ctraux = (controle*) globalSymbolTable;
+	controle *ctraux = (controle*)globalSymbolTable;
 	clean(ctr);
 	int i = 0;
 	while(i<211){
-		i++;
 		ctr->hash[i] = ctraux->hash[i];
+		i++;
 	}
 	return ctr;
 }
 
-int insertConstante(Identificador ctr, char string[],int tipo,int totalline,int character){
-	if(tipo != 0){
+Identificador createConstante(char string[],int tipo,int totalline,int character){
+	identi *constante = (identi *)malloc(sizeof(identi));
+	strcpy(constante->id, string);
+	constante->i = NULL;
+	strcpy(constante->id, string);
+	constante->type = 3;
+	constante->tipo = tipo;
+	constante->linha = totalline;
+	constante->coluna = character;
+	constante->parametros = NULL;
+	constante->size = -1;
+	constante->local = -1;
+	constante->isParameter = -1;
+	constante->started = -1;
+	constante->pointer = -1;
+	return constante;
+}
+
+int insertConstante(Identificador ctr, Identificador consatnte){
+	identi *cons = (identi*) consatnte;
+	if(cons->tipo != 0){
 		printf("string type is not compatible with define");
 		return 0;//Erro constante precisa ser inteiro
 		//"string type is not compatible with define"
 	}
 	controle *hash = (controle*)ctr;
-	int size = strlen(string);
+	int size = strlen(cons->id);
 	int i = 0;
 	int buff = 0;
 	while(i < size ){
-		buff = buff + string[i];
+		buff = buff + cons->id[i];
 		i++;
 	}
 	i = buff%211;
 	identi *h = hash->hash[i];
 	identi *haux = h;
 	if(h == NULL){
-		hash->hash[i] = (identi *)malloc(sizeof(identi));
-		hash->hash[i]->i = NULL;
-		strcpy(hash->hash[i]->id, string);
-		hash->hash[i]->type = 3;
-		hash->hash[i]->tipo = tipo;
-		hash->hash[i]->linha = totalline;
-		hash->hash[i]->coluna = character;
-		hash->hash[i]->parametros = NULL;
-		hash->hash[i]->size = 0;
-		hash->hash[i]->local = 0;
-		hash->hash[i]->isParameter = 0;
-		hash->hash[i]->started = 0;
-		hash->hash[i]->pointer = 0;
+		hash->hash[i] = cons;
 	}
 	else{
 		while(h->i != NULL){
-			if(strcmp(string, h->id) == 0 && h->type == 3){
+			if(strcmp(cons->id, h->id) == 0 && h->type == 3){
 
-				//printf("error:semantic:%d:%d: variable ’%s’ already declared, previous declaration in line %d column %d",totalline,character,string,h->linha,h->coluna);
+				printf("error:semantic:%d:%d: variable ’%s’ already declared, previous declaration in line %d column %d",cons->linha,cons->coluna,cons->id,h->linha,h->coluna);
 
 				return 0;
 			}
-			if(strcmp(string, h->id) == 0 && h->type != 3){
+			if(strcmp(cons->id, h->id) == 0 && h->type != 3){
 
-				printf("%d: redefinition of identifier '%s'",totalline,string);
+				printf("%d: redefinition of identifier '%s'",cons->linha,cons->id);
 
 				return 0;
 			}
 			h = h->i;
 		}
-		h = haux;
-		haux = haux->i;
-		h->i = (identi *)malloc(sizeof(identi));
-		h = h->i;
-		strcpy(h->id, string);
-		h->type = 3;
-		h->i = haux;
-		h->tipo = tipo;
-		h->linha = totalline;
-		h->coluna = character;
-		h->parametros = NULL;
-		h->size = 0;
-		h->local = 0;
-		h->isParameter = 0;
-		h->started = 0;
-		h->pointer = 0;
+		hash->hash[i] = cons;
+		hash->hash[i]->i = haux;
+		printf("%s\n",h->id);
 	}
 	return 1;
 }
@@ -148,6 +158,70 @@ void constanteSetValor(Identificador ctr, char string[],char valor[]){
 		h = h->i;
 	}
 }
+
+int insertVariavel(Identificador ctr, char nome[],int tipo, int dimensao,int local, int isParametro, int isStarted,int totalline,int character){
+	controle *hash = (controle*)ctr;
+	int size = strlen(nome);
+	int i = 0;
+	int buff = 0;
+	while(i < size ){
+		buff = buff + nome[i];
+		i++;
+	}
+	i = buff%211;
+	identi *h = hash->hash[i];
+	identi *haux = h;
+	if(h == NULL){
+		hash->hash[i] = (identi *)malloc(sizeof(identi));
+		hash->hash[i]->i = NULL;
+		strcpy(hash->hash[i]->id, nome);
+		hash->hash[i]->type = 3;
+		hash->hash[i]->tipo = tipo;
+		hash->hash[i]->linha = totalline;
+		hash->hash[i]->coluna = character;
+		hash->hash[i]->parametros = NULL;
+		hash->hash[i]->size = dimensao;
+		hash->hash[i]->local = local;
+		hash->hash[i]->isParameter = isParametro;
+		hash->hash[i]->started = isStarted;
+		hash->hash[i]->pointer = -1;
+	}
+	else{
+		while(h->i != NULL){
+			if(strcmp(nome, h->id) == 0 && h->type == 3){
+
+				printf("error:semantic:%d:%d: variable '%s' already declared, previous declaration in line %d column %d",totalline,character,nome,h->linha,h->coluna);
+
+				return 0;
+			}
+			if(strcmp(nome, h->id) == 0 && h->type != 3){
+
+				printf("%d: redefinition of identifier '%s'",totalline,nome);
+
+				return 0;
+			}
+			h = h->i;
+		}
+		h = haux;
+		haux = haux->i;
+		h->i = (identi *)malloc(sizeof(identi));
+		h = h->i;
+		strcpy(h->id, nome);
+		h->type = 3;
+		h->i = haux;
+		h->tipo = tipo;
+		h->linha = totalline;
+		h->coluna = character;
+		h->parametros = NULL;
+		h->size = dimensao;
+		h->local = local;
+		h->isParameter = isParametro;
+		h->started = isStarted;
+		h->pointer = -1;
+	}
+	return 1;
+}
+
 /*
 int insertPrototipo(Identificador ctr, char string[],int tipo,int totalline,int character){
 	controle *hash = (controle*)ctr;

@@ -120,7 +120,21 @@ extern int yydebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+union YYSTYPE
+{
+#line 16 "sintatico.y"
+
+    int inteiro;
+    char *str;
+    NO teste;
+    pro *programa;
+    node *no;
+    fun *function;
+
+#line 135 "sintatico.tab.h"
+
+};
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif

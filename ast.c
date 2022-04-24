@@ -1,80 +1,6 @@
+#include "ast.h"
 #include <sintatico.tab.h>
 #include <string.h>
-#include "ast.h"
-
-typedef struct program /* estrutura para programa */
-{
-    struct Identificador *globalSymbolTable;
-    struct function *lista_de_funcoes;
-}pro;
-
-typedef struct parametro{
-    char nome[100];
-    int tipo;
-    struct parametro* prox;
-}par;
-
-//Verificar se função ja existe ou se possui prototipo equivalente
-typedef struct function /* estrutura para função */
-{
-    //nome da função
-    char nome[100];
-    //tabela de símbolos local
-    struct Identificador *symbolTable;
-    struct parametro* parametro;
-    int retorno;
-    int prototipo;//Se é um protipo
-    struct cmd *lista_de_comandos;
-    // próxima função
-    struct function *next;
-}fun;
-
-
-typedef struct cmd /* comando genérico */
-{
-    //tipo de comando
-    /*
-    if = 3
-    while = 4
-    for = 5
-    do = 6
-    exp = 7
-    */
-    int cmd_type;
-    //comandos expressão/if/while/for
-    struct No *exp;
-    //comando if
-    struct cmd* then;
-    struct cmd* els;
-    //comando while
-    struct cmd* comandos;
-    //próximo comando
-    struct cmd* next;
-}cmd;
-/*
-soma = 1
-subtração = 2
-etc
-
-operando = 0
-void = 0
-int = 1
-char = 2
-*/
-typedef struct No{
-    /*
-    void = 0
-    int = 1
-    char = 2
-    soma = 3
-    subtração = 4
-    igual = 5
-    não igual = 6
-    etc*/
-    int exp;//Qual tipo de expressão é esse nó
-    struct No *direito;
-    struct No *esquerdo;
-}node;
 
 NO createProgram(){
     pro *no = (pro*)malloc(sizeof(pro));
@@ -91,6 +17,17 @@ NO getGlobalSymbolTableProgram(NO program){
 NO getLista_de_funcoesProgram(NO program){
     pro *prog = (pro*)program;
     return prog->lista_de_funcoes;
+}
+
+void setLista_de_funcoesProgram(NO program,NO funcao){
+    pro *prog = (pro*)program;
+    fun *func = (fun*) funcao;
+    fun *funcaux = prog->lista_de_funcoes;
+    while (funcaux != NULL)
+    {
+        funcaux  = funcaux->next;
+    }
+    funcaux = funcao;
 }
 
 void printFunction(NO program){
@@ -155,6 +92,27 @@ NO createPar(){
     return no;
 }
 
+void setParProx(NO parametro, NO parametros){
+    par *no = (par*)parametro;
+    no->prox = parametros;
+}
+
+void setParNome(NO parametro, char nome[]){
+    par *no = (par*)parametro;
+    strcpy(no->nome,nome);
+}
+
+
+void setParTipo(NO parametro, int tipo){
+    par *no = (par*)parametro;
+    no->tipo = tipo;
+}
+
+void setParPonteiro(NO parametro, int ponteiro){
+    par *no = (par*)parametro;
+    no->ponteiro = ponteiro;
+}
+
 void insertPar(NO parametro,char nome[],int tipo){
     par *no = (par*)parametro;
     while(no->prox != NULL){
@@ -165,9 +123,10 @@ void insertPar(NO parametro,char nome[],int tipo){
     no->prox = (par*)malloc(sizeof(par));
 }
 
-NO createExpression(int tipo, int valor){//Cria no
+NO createExpression(char nome[], int valor){//Cria no
     node *no = (node*)malloc(sizeof(node));
     no->exp = valor;
+    strcpy(no->nome,nome);
     no->esquerdo = NULL;
     no->direito = NULL;
     return no;
@@ -179,10 +138,9 @@ void insertEsquerda(NO tree,NO aux){//Insere na esquerda
     no->esquerdo = noaux;
 }
 
-void insertDireita(NO tree,int exp){//Insere na direita
+void insertDireita(NO tree,NO aux){//Insere na direita
     node *no = (node*)tree;
-    node *noaux = (node*)malloc(sizeof(node));
-    noaux->exp = exp;
+    node *noaux = (node*)aux;
     no->direito = noaux;
 }
 
