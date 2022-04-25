@@ -33,7 +33,7 @@ typedef struct identificador{
 	int started;
 
 	//prototipo
-	struct NO* parametros;
+	struct par* parametros;
 	//int tipo; //retorno
 
 	//constante
@@ -42,6 +42,10 @@ typedef struct identificador{
 
     int pointer;//se é um ponteiro
 } identi;
+
+typedef struct control{
+	identi *hash[211];
+}controle;
 
 typedef void *Identificador;
 

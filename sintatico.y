@@ -4,6 +4,7 @@
     #include "ast.h"
     #include "symbol.h"
     pro *programa = NULL;
+    int cont = 0;
     extern char* yytext;
     extern int yylex();
     extern int characters;
@@ -20,6 +21,7 @@
     pro *programa;
     node *no;
     fun *function;
+    cmd  *comando;
 }
 
 %token VOID
@@ -92,15 +94,13 @@
 %type<teste> comparison equalityExpression relationalExpression declarations expression 
 %type<teste> primaryExpression operator number postfixExpression conditionalExpression atribExpression programAux function parameters parametersAux parametersAuxB
 %type<inteiro> pointer type
-%type<function> program
+%type<comando> commands commandsList
+
 
 %start start
 
 %%
 start:program END_OF_FILE{
-        pro *programa = (pro*)malloc(sizeof(pro));
-        if($1)
-            programa->lista_de_funcoes = $1;
         printf("SUCCESSFUL COMPILATION.");
         return 0;
 }
@@ -110,19 +110,14 @@ start:program END_OF_FILE{
 program: 
         declarations programAux    { 
             printf("declarado\n");
-            $$ = $2;
         }
     |   function programAux        { 
             printf("função\n");
-            fun* func = $1;
-            if(func)
-                func->next = $2;
-            $$ = func;
         }
 ;
 
 programAux: 
-        program {$$ = $1;} 
+        program {} 
     |   {}
 ;
 
@@ -135,15 +130,25 @@ declarations:
 
 function: 
         type pointer ID parameters L_CURLY_BRACKET varAux commands R_CURLY_BRACKET {
+            cont++;
             fun* func = (fun*)malloc(sizeof(fun));
             strcpy(func->nome,$3);
-            func->symbolTable = (identi*)malloc(sizeof(identi));
-            func->parametro = (par*)malloc(sizeof(par));
+            func->symbolTable = (controle*)malloc(sizeof(controle));
+            int i = 0;
+            while(i< 211){
+                func->symbolTable->hash[i] = programa->globalSymbolTable->hash[i];
+                i++;
+            }   
+            func->parametro = $4;
             func->retorno = $1;
             func->prototipo = 0;
-            func->lista_de_comandos = (cmd*)malloc(sizeof(cmd));
+            func->lista_de_comandos = $7;
             func->next = NULL;
-            $$ = func;
+            fun *funclist = programa->lista_de_funcoes;
+            while(funclist != NULL){
+                funclist->next;
+            }
+            funclist = func;
         }
 ;
 
@@ -182,13 +187,30 @@ atribAux:
 ;
 
 protoDeclaration:
-        type pointer ID parameters SEMICOLON {}
+        type pointer ID parameters SEMICOLON {
+            fun* func = (fun*)malloc(sizeof(fun));
+            strcpy(func->nome,$3);
+            func->symbolTable = (controle*)malloc(sizeof(controle));
+            int i = 0;
+            while(i< 211){
+                func->symbolTable->hash[i] = programa->globalSymbolTable->hash[i];
+                i++;
+            }   
+            func->parametro = $4;
+            func->retorno = $1;
+            func->prototipo = 1;
+            func->lista_de_comandos = NULL;
+            func->next = NULL;
+            fun *funclist = programa->lista_de_funcoes;
+            while(funclist != NULL){
+                funclist->next;
+            }
+            funclist = func;
+        }
 ;
 
 parameters: L_PAREN parametersAux R_PAREN {
-            NO no = createPar();
-            no = $2;
-            $$ = no;
+            $$ = $2;
 }
 ;
 
@@ -244,24 +266,70 @@ block:
 ;
 
 commands:
-        commandsList commands {}
-    |   commandsList {}
+        commandsList commands {
+            cmd *command = $1;
+            command->next = $2;
+            $$ = command;
+        }
+    |   commandsList {
+            cmd *command = $1;
+            command->next = NULL;
+            $$ = command;
+    }
 ;
 
 commandsList:
-        DO block WHILE L_PAREN expression R_PAREN SEMICOLON {}
-    |   IF L_PAREN expression R_PAREN block {}
-    |   IF L_PAREN expression R_PAREN block ELSE block {}
-    |   WHILE L_PAREN expression R_PAREN block {}
-    |   FOR L_PAREN expressionAuxB SEMICOLON expressionAuxB SEMICOLON expressionAuxB R_PAREN block {}
+        DO block WHILE L_PAREN expression R_PAREN SEMICOLON {
+        cmd *command = (cmd*)malloc(sizeof(cmd));
+        command->type = 4;
+        command->exp = $5
+        command->while = $2
+        $$ = command;
+        }
+    |   IF L_PAREN expression R_PAREN block {
+        cmd *command = (cmd*)malloc(sizeof(cmd));
+        command->type = 1;
+        command->exp = $3
+        command->then = $5;
+        command->els = NULL;
+        $$ = command;
+    }
+    |   IF L_PAREN expression R_PAREN block ELSE block {
+        cmd *command = (cmd*)malloc(sizeof(cmd));
+        command->type = 1;
+        command->exp = $3
+        command->then = $5;
+        command->els = $7;
+        $$ = command;
+    }
+    |   WHILE L_PAREN expression R_PAREN block {
+        cmd *command = (cmd*)malloc(sizeof(cmd));
+        command->type = 2;
+        command->exp = $3
+        command->while = $5
+        $$ = command;
+    }
+    |   FOR L_PAREN expressionAuxB SEMICOLON expressionAuxB SEMICOLON expressionAuxB R_PAREN block {
+        cmd *command = (cmd*)malloc(sizeof(cmd));
+        command->type = 3;
+        command->for1 = $3
+        command->for2 = $5
+        command->for3 = $7
+        command->for = $9
+        $$ = command;
+    }
     |   PRINTF L_PAREN STRING R_PAREN SEMICOLON {}
     |   PRINTF L_PAREN STRING COMMA expression R_PAREN SEMICOLON {}
     |   SCANF L_PAREN STRING COMMA BITWISE_AND ID R_PAREN SEMICOLON {}
     |   EXIT L_PAREN expression R_PAREN SEMICOLON {}
     |   RETURN expressionAuxB SEMICOLON {}
     |   expression SEMICOLON {}
-    |   SEMICOLON {}
-    |   block {}
+    |   SEMICOLON {
+        cmd *command = (cmd*)malloc(sizeof(cmd));
+        command->type = 6;
+        $$ = command;
+    }
+    |   block {$$ = $1;}
 ;
 
 expression: 

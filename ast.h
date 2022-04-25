@@ -7,7 +7,7 @@
 
 typedef struct program /* estrutura para programa */
 {
-    struct identificador *globalSymbolTable;
+    struct control *globalSymbolTable;
     struct function *lista_de_funcoes;
 }pro;
 
@@ -24,7 +24,7 @@ typedef struct function /* estrutura para função */
     //nome da função
     char nome[100];
     //tabela de símbolos local
-    struct identificador *symbolTable;
+    struct control *symbolTable;
     struct parametro* parametro;
     int retorno;
     int prototipo;//Se é um protipo
@@ -38,11 +38,14 @@ typedef struct cmd /* comando genérico */
 {
     //tipo de comando
     /*
-    if = 3
-    while = 4
-    for = 5
-    do = 6
-    exp = 7
+    if = 1
+    while = 2
+    for = 3
+    do = 4
+    exp = 5
+    , = 6
+    bloco = 7
+    comando = 8
     */
     int cmd_type;
     //comandos expressão/if/while/for
@@ -51,9 +54,16 @@ typedef struct cmd /* comando genérico */
     struct cmd* then;
     struct cmd* els;
     //comando while
-    struct cmd* comandos;
+    struct cmd* while;
     //próximo comando
     struct cmd* next;
+    //comando for
+    struct cmd* for;
+    struct exp* for1;
+    struct exp* for2;
+    struct exp* for3;
+    //bloco
+    strcut cmd* bloco;
 }cmd;
 /*
 soma = 1

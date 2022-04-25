@@ -1,10 +1,6 @@
 #include "symbol.h"
 #include <sintatico.tab.h>
 
-typedef struct control{
-	identi *hash[211];
-}controle;
-
 void printHash(Identificador hash){
 	controle *ctr = (controle*) hash;
 	identi *h;
