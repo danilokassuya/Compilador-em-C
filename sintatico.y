@@ -91,17 +91,24 @@
 %token LEXICAL_ERROR
 %token ERRO_HASH
 
-%type<teste> comparison equalityExpression relationalExpression declarations expression 
-%type<teste> primaryExpression operator number postfixExpression conditionalExpression atribExpression programAux function parameters parametersAux parametersAuxB
+%type<teste> comparison equalityExpression declarations expression 
+%type<teste> primaryExpression operator number atribExpression programAux function parameters parametersAux parametersAuxB
 %type<inteiro> pointer type
-%type<comando> commands commandsList
+%type<no> expressionAuxB logicalAND logicalOR or and xor aditiveExpression conditionalExpression castExpression
+%type<no> relationalExpression shiftExpression multiplyExpression comparisonAux atribExpressionAux atribExpressionAuxB postfixExpression unaryExpression
+%type<comando> commands commandsList block 
 
 
 %start start
 
 %%
 start:program END_OF_FILE{
-        printf("SUCCESSFUL COMPILATION.");
+        printf("SUCCESSFUL COMPILATION.\n");
+        fun *function = programa->lista_de_funcoes;
+        while(function != NULL){
+            printf("%s\n",function->nome);
+            function = function->next;
+        }
         return 0;
 }
 ;
@@ -145,10 +152,15 @@ function:
             func->lista_de_comandos = $7;
             func->next = NULL;
             fun *funclist = programa->lista_de_funcoes;
-            while(funclist != NULL){
-                funclist->next;
+            if(funclist == NULL){
+                programa->lista_de_funcoes = func;
             }
-            funclist = func;
+            else{
+                while(funclist->next != NULL){
+                    funclist = funclist->next;
+                }
+                funclist->next = func;
+            }
         }
 ;
 
@@ -262,17 +274,21 @@ type:
 ;
 
 block:
-        L_CURLY_BRACKET commands R_CURLY_BRACKET {}
+        L_CURLY_BRACKET commands R_CURLY_BRACKET {$$ = $2;}
 ;
 
 commands:
         commandsList commands {
             cmd *command = $1;
+            if(command == NULL)
+                $$ = $2;
             command->next = $2;
             $$ = command;
         }
     |   commandsList {
             cmd *command = $1;
+            if(command == NULL)
+                $$ = NULL;
             command->next = NULL;
             $$ = command;
     }
@@ -282,14 +298,14 @@ commandsList:
         DO block WHILE L_PAREN expression R_PAREN SEMICOLON {
         cmd *command = (cmd*)malloc(sizeof(cmd));
         command->type = 4;
-        command->exp = $5
-        command->while = $2
+        command->exp = $5;
+        command->whil = $2;
         $$ = command;
         }
     |   IF L_PAREN expression R_PAREN block {
         cmd *command = (cmd*)malloc(sizeof(cmd));
         command->type = 1;
-        command->exp = $3
+        command->exp = $3;
         command->then = $5;
         command->els = NULL;
         $$ = command;
@@ -297,7 +313,7 @@ commandsList:
     |   IF L_PAREN expression R_PAREN block ELSE block {
         cmd *command = (cmd*)malloc(sizeof(cmd));
         command->type = 1;
-        command->exp = $3
+        command->exp = $3;
         command->then = $5;
         command->els = $7;
         $$ = command;
@@ -305,31 +321,57 @@ commandsList:
     |   WHILE L_PAREN expression R_PAREN block {
         cmd *command = (cmd*)malloc(sizeof(cmd));
         command->type = 2;
-        command->exp = $3
-        command->while = $5
+        command->exp = $3;
+        command->whil = $5;
         $$ = command;
     }
     |   FOR L_PAREN expressionAuxB SEMICOLON expressionAuxB SEMICOLON expressionAuxB R_PAREN block {
         cmd *command = (cmd*)malloc(sizeof(cmd));
         command->type = 3;
-        command->for1 = $3
-        command->for2 = $5
-        command->for3 = $7
-        command->for = $9
+        command->for1 = $3;
+        command->for2 = $5;
+        command->for3 = $7;
+        command->for0 = $9;
         $$ = command;
     }
-    |   PRINTF L_PAREN STRING R_PAREN SEMICOLON {}
-    |   PRINTF L_PAREN STRING COMMA expression R_PAREN SEMICOLON {}
-    |   SCANF L_PAREN STRING COMMA BITWISE_AND ID R_PAREN SEMICOLON {}
-    |   EXIT L_PAREN expression R_PAREN SEMICOLON {}
-    |   RETURN expressionAuxB SEMICOLON {}
-    |   expression SEMICOLON {}
-    |   SEMICOLON {
+    |   PRINTF L_PAREN STRING R_PAREN SEMICOLON {
+        $$ = NULL;
+    }
+    |   PRINTF L_PAREN STRING COMMA expression R_PAREN SEMICOLON {
         cmd *command = (cmd*)malloc(sizeof(cmd));
-        command->type = 6;
+        command->type = 10;
+        command->exp = $5;
         $$ = command;
     }
-    |   block {$$ = $1;}
+    |   SCANF L_PAREN STRING COMMA BITWISE_AND ID R_PAREN SEMICOLON {}
+    |   EXIT L_PAREN expression R_PAREN SEMICOLON {
+        cmd *command = (cmd*)malloc(sizeof(cmd));
+        command->type = 11;
+        command->exp = $3;
+        $$ = command;
+    }
+    |   RETURN expressionAuxB SEMICOLON {
+        //tipo de retorno
+        cmd *command = (cmd*)malloc(sizeof(cmd));
+        command->type = 9;
+        command->exp = $2;
+        $$ = command;
+    }
+    |   expression SEMICOLON {
+        cmd *command = (cmd*)malloc(sizeof(cmd));
+        command->type = 8;
+        command->exp = $1;
+        $$ = command;
+    }
+    |   SEMICOLON {
+        $$ = NULL;
+        /*cmd *command = (cmd*)malloc(sizeof(cmd));
+        command->type = 6;
+        $$ = command;*/
+    }
+    |   block {
+        $$ = $1;
+    }
 ;
 
 expression: 
@@ -339,53 +381,103 @@ expression:
 
 atribExpression:
         conditionalExpression {$$ = $1;}
-    |   unaryExpression operator atribExpression {}
+    |   unaryExpression operator atribExpression {
+        node *no = $2;
+        no->direito = $3;
+        no->esquerdo = $1;
+    }
 ;
 
 operator:
         ASSIGN {
-            NO no = createExpression("ASSIGN",7);
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 7;
+            no->direito = NULL;
+            no->esquerdo = NULL;
             $$ = no;
         }
     |   ADD_ASSIGN {
-            NO no = createExpression("ADD_ASSIGN",8);
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 8;
+            no->direito = NULL;
+            no->esquerdo = NULL;
             $$ = no;
         }
     |   MINUS_ASSIGN {
-            NO no = createExpression("MINUS_ASSIGN",8);
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 9;
+            no->direito = NULL;
+            no->esquerdo = NULL;
             $$ = no;
         }
 ;
 
 conditionalExpression:
-        logicalOR {}
-    |   logicalOR TERNARY_CONDITIONAL expression COLON conditionalExpression {}
+        logicalOR {$$ = $1;}
+    |   logicalOR TERNARY_CONDITIONAL expression COLON conditionalExpression {
+            node *no = $1;
+            no->exp = 28;
+            no->prox = $3;
+            node *noaux = $3;
+            noaux->prox = $5;
+            $$ = no;
+    }
 ;
 
 
 logicalOR: 
-        logicalAND {}
-    |   logicalAND LOGICAL_OR logicalOR {}
+        logicalAND {$$ = $1;}
+    |   logicalAND LOGICAL_OR logicalOR {
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 11;
+            no->direito = $3;
+            no->esquerdo = $1;
+            $$ = no;
+    }
 ;
 
 logicalAND: 
-        or LOGICAL_AND {}
-    |   or {}
+        or LOGICAL_AND logicalAND{
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 10;
+            no->direito = $3;
+            no->esquerdo = $1;
+            $$ = no;
+        }
+    |   or {$$ = $1;}
 ;
 
 or: 
-        xor BITWISE_OR or {}
-    |   xor {}
+        xor BITWISE_OR or {
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 12;
+            no->direito = $3;
+            no->esquerdo = $1;
+            $$ = no;
+        }
+    |   xor {$$ = $1;}
 ;
 
 xor: 
-        and BITWISE_XOR xor {}
-    |   and {}
+        and BITWISE_XOR xor {
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 13;
+            no->direito = $3;
+            no->esquerdo = $1;
+            $$ = no;
+        }
+    |   and {$$ = $1;}
 ;
 
 and: 
-        equalityExpression BITWISE_AND and {}
-    |   equalityExpression {}
+        equalityExpression BITWISE_AND and {
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 14;
+            no->direito = $3;
+            no->esquerdo = $1;
+            $$ = no;
+        }
+    |   equalityExpression {$$ = $1;}
 ;
 
 equalityExpression:
@@ -413,85 +505,232 @@ comparison:
 ;
 
 relationalExpression:
-        shiftExpression {}
-    |   shiftExpression comparisonAux relationalExpression {}
+        shiftExpression {$$ = $1;}
+    |   shiftExpression comparisonAux relationalExpression {
+            node* exp = $2;
+            exp->direito = $1;
+            exp->esquerdo = $3;
+            $$ = exp;
+    }
 ;
 
 comparisonAux:
-        LESS_THAN {}
-    |   LESS_EQUAL {}
-    |   GREATER_THAN {}
-    |   GREATER_EQUAL {}
+        LESS_THAN {
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 15;
+            no->direito = NULL;
+            no->esquerdo = NULL;
+            $$ = no;
+        }
+    |   LESS_EQUAL {
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 16;
+            no->direito = NULL;
+            no->esquerdo = NULL;
+            $$ = no;
+    }
+    |   GREATER_THAN {
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 17;
+            no->direito = NULL;
+            no->esquerdo = NULL;
+            $$ = no;
+    }
+    |   GREATER_EQUAL {
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 18;
+            no->direito = NULL;
+            no->esquerdo = NULL;
+            $$ = no;
+    }
 ;
 
 shiftExpression:
-        aditiveExpression {}        
-    |   aditiveExpression L_SHIFT shiftExpression {}
-    |   aditiveExpression R_SHIFT shiftExpression {}
+        aditiveExpression {$$ = $1;}        
+    |   aditiveExpression L_SHIFT shiftExpression {
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 19;
+            no->direito = $3;
+            no->esquerdo = $1;
+            $$ = no;
+    }
+    |   aditiveExpression R_SHIFT shiftExpression {
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 20;
+            no->direito = $3;
+            no->esquerdo = $1;
+            $$ = no;
+    }
 ;
 
 aditiveExpression:
-        multiplyExpression {}
-    |   multiplyExpression MINUS aditiveExpression {}
-    |   multiplyExpression PLUS aditiveExpression {}
+        multiplyExpression {$$ = $1;}
+    |   multiplyExpression MINUS aditiveExpression {
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 21;
+            no->direito = $3;
+            no->esquerdo = $1;
+            $$ = no;
+    }
+    |   multiplyExpression PLUS aditiveExpression {
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 22;
+            no->direito = $3;
+            no->esquerdo = $1;
+            $$ = no;
+    }
 ;
 
 multiplyExpression:
-        castExpression {}
-    |   castExpression DIV multiplyExpression {}
-    |   castExpression MULTIPLY multiplyExpression {}
-    |   castExpression REMAINDER multiplyExpression {}
+        castExpression {$$ = $1;}
+    |   castExpression DIV multiplyExpression {
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 23;
+            no->direito = $3;
+            no->esquerdo = $1;
+            $$ = no;
+    }
+    |   castExpression MULTIPLY multiplyExpression {
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 24;
+            no->direito = $3;
+            no->esquerdo = $1;
+            $$ = no;
+    }
+    |   castExpression REMAINDER multiplyExpression {
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 25;
+            no->direito = $3;
+            no->esquerdo = $1;
+            $$ = no;
+    }
 ;
 
 castExpression:
-        unaryExpression {}
-    |   L_PAREN type pointer R_PAREN castExpression {}
+        unaryExpression {$$ = $1;}
+    |   L_PAREN type pointer R_PAREN castExpression {
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 26;
+            no->direito = $5;
+            no->esquerdo = NULL;
+            $$ = no;
+    }
 ;
 
 unaryExpression:
-        postfixExpression {}
-    |   INC unaryExpression {}
-    |   DEC unaryExpression {}
-    |   BITWISE_AND castExpression {}
-    |   MULTIPLY castExpression {}
-    |   PLUS castExpression {}
-    |   MINUS castExpression {}
-    |   BITWISE_NOT castExpression {}
-    |   NOT castExpression {}
+        postfixExpression {$$ = $1;}
+    |   INC unaryExpression {
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 27;
+            no->direito = $2;
+            no->esquerdo = NULL;
+            $$ = no;
+    }
+    |   DEC unaryExpression {
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 28;
+            no->direito = $2;
+            no->esquerdo = NULL;
+            $$ = no;
+    }
+    |   BITWISE_AND castExpression {
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 29;
+            no->direito = $2;
+            no->esquerdo = NULL;
+            $$ = no;
+    }
+    |   MULTIPLY castExpression {
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 30;
+            no->direito = $2;
+            no->esquerdo = NULL;
+            $$ = no;
+    }
+    |   PLUS castExpression {
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 31;
+            no->direito = $2;
+            no->esquerdo = NULL;
+            $$ = no;
+    }
+    |   MINUS castExpression {
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 32;
+            no->direito = $2;
+            no->esquerdo = NULL;
+            $$ = no;
+    }
+    |   BITWISE_NOT castExpression {
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 33;
+            no->direito = $2;
+            no->esquerdo = NULL;
+            $$ = no;
+    }
+    |   NOT castExpression {
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 34;
+            no->direito = $2;
+            no->esquerdo = NULL;
+            $$ = no;
+    }
 ;
 
 postfixExpression:
         primaryExpression {
             $$ = $1;
         }
-    |   postfixExpression L_SQUARE_BRACKET expression R_SQUARE_BRACKET {}
+    |   postfixExpression L_SQUARE_BRACKET expression R_SQUARE_BRACKET {
+            //array
+
+    }
     |   postfixExpression INC {
-            NO no = createExpression("INC",12);
-            insertEsquerda(no,$1);
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 27;
+            no->direito = $1;
+            no->esquerdo = NULL;
             $$ = no;
         }
     |   postfixExpression DEC {
-            NO no = createExpression("DEC",13);
-            insertEsquerda(no,$1);
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 28;
+            no->direito = $1;
+            no->esquerdo = NULL;
             $$ = no;
         }
-    |   postfixExpression L_PAREN atribExpressionAux R_PAREN {}
+    |   postfixExpression L_PAREN atribExpressionAux R_PAREN {
+                //chamada função
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 35;
+            no->direito = $3;
+            no->esquerdo = NULL;
+            $$ = no;
+    }
 ;
 
 atribExpressionAux:
-        atribExpressionAuxB {}
-    |   {}
+        atribExpressionAuxB {$$ = $1;}
+    |   {$$ = NULL;}
 ;
 
 atribExpressionAuxB: 
-        atribExpression COMMA atribExpressionAuxB {}
-    |   atribExpression
+        atribExpression COMMA atribExpressionAuxB {
+            node *no = $1;
+            no->prox = $3;
+            $$ = no;
+        }
+    |   atribExpression {
+            node *no = $1;
+            no->prox = NULL;
+            $$  = no;
+    }
 ;
 
 primaryExpression:
         ID { 
             node* exp = (node*)malloc(sizeof(node));
-            exp->exp = 1;
+            exp->exp = 36;
             strcpy(exp->nome,$1);
             $$ = exp;   
         }
@@ -500,13 +739,14 @@ primaryExpression:
         }
     |   CHARACTER {
             node* exp = (node*)malloc(sizeof(node));
-            exp->exp = 11;
+            exp->exp = 2;
             strcpy(exp->nome,$1);
             $$ = exp; 
         }
     |   STRING {
+                //com ponteiro
             node* exp = (node*)malloc(sizeof(node));
-            exp->exp = 14;
+            exp->exp = 2;
             strcpy(exp->nome,$1);
             $$ = exp; 
     }
@@ -517,15 +757,27 @@ primaryExpression:
 
 number:
         NUM_INTEGER {
-            NO no = createExpression($1,8);
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 1;
+            no->direito = NULL;
+            no->esquerdo = NULL;
+            strcpy(no->nome,$1);
             $$ = no;
         }
     |   NUM_HEXA {
-            NO no = createExpression($1,9);
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 1;
+            no->direito = NULL;
+            no->esquerdo = NULL;
+            strcpy(no->nome,$1);
             $$ = no;
     }
     |   NUM_OCTAL {
-            NO no = createExpression($1,10);
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 1;
+            no->direito = NULL;
+            no->esquerdo = NULL;
+            strcpy(no->nome,$1);
             $$ = no;
     }
 ;
@@ -588,6 +840,8 @@ void yyerror(char *s) {
 
 int main() {
     programa = (pro*)malloc(sizeof(pro));
+    programa->globalSymbolTable = (controle*)malloc(sizeof(controle));
+    programa->lista_de_funcoes = NULL;
     yyparse();
     return 0;
 }

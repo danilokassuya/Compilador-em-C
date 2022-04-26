@@ -46,35 +46,28 @@ typedef struct cmd /* comando genérico */
     , = 6
     bloco = 7
     comando = 8
+    retorno = 9
+    printf = 10
+    exit = 11
     */
-    int cmd_type;
+    int type;
     //comandos expressão/if/while/for
     struct No *exp;
     //comando if
     struct cmd* then;
     struct cmd* els;
     //comando while
-    struct cmd* while;
+    struct cmd* whil;
     //próximo comando
     struct cmd* next;
     //comando for
-    struct cmd* for;
-    struct exp* for1;
-    struct exp* for2;
-    struct exp* for3;
+    struct cmd* for0;
+    struct No* for1;
+    struct No* for2;
+    struct No* for3;
     //bloco
-    strcut cmd* bloco;
+    struct cmd* bloco;
 }cmd;
-/*
-soma = 1
-subtração = 2
-etc
-
-operando = 0
-void = 0
-int = 1
-char = 2
-*/
 typedef struct No{
     /*
     void = 0
@@ -87,9 +80,37 @@ typedef struct No{
     atribuição = 7
     somaAtribuiçõa = 8
     menosAtribuição = 9
+    and = 10
+    or = 11
+    bitwise or = 12
+    bitwise xor = 13
+    bitwise and = 14
+    less than =  15
+    less equal = 16
+    greater than = 17
+    greater equal = 18
+    left shift = 19
+    right shift = 20
+    minus = 21
+    plus = 22
+    div = 23
+    multiply = 24
+    remainder = 25
+    cast = 26
+    inc = 27
+    dec = 28
+    bitwise and = 29
+    multiply = 30
+    plus = 31
+    minus = 32
+    bitwise not = 33
+    not = 34
+    chamada = 35
+    id  = 36
     etc*/
     int exp;//Qual tipo de expressão é esse nó
     char nome[100]; //nome do id
+    struct No *prox;
     struct No *direito;
     struct No *esquerdo;
 }node;
