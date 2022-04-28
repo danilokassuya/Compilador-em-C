@@ -53,8 +53,6 @@ void printHash(Identificador hash);
 
 Identificador createControl();
 
-Identificador createControlFun(Identificador globalSymbolTable);
-
 Identificador createIdentificador(int totalline,int character);
 
 int insert(Identificador ctr, Identificador consatnte);

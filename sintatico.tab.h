@@ -119,17 +119,19 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 17 "sintatico.y" /* yacc.c:1909  */
+#line 19 "sintatico.y" /* yacc.c:1909  */
 
     int inteiro;
     char *str;
-    NO teste;
     pro *programa;
     node *no;
     fun *function;
     cmd  *comando;
+    int var[2];
+    par *para;
+    identi *id;
 
-#line 133 "sintatico.tab.h" /* yacc.c:1909  */
+#line 135 "sintatico.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

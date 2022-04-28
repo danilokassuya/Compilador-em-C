@@ -79,7 +79,7 @@
 "exit"					characters += strlen(yytext); return EXIT;
 "/*" 					lastLine = totalLines; BEGIN(COMMENT);
 "//".*\n				totalLines++;
-[_a-zA-Z][_a-zA-Z0-9]*			characters += strlen(yytext);yylval.str = strdup(yytext);return ID;
+[_a-zA-Z][_a-zA-Z0-9]*			identi *ide = (identi*)malloc(sizeof(identi)); ide->linha = totalLines; ide->coluna = characters,strcpy(ide->nome,yytext);characters += strlen(yytext);return ID;
 "0"[0-9]+				characters += strlen(yytext); yylval.str = strdup(yytext); return NUM_OCTAL;
 [0-9][0-9]*				characters += strlen(yytext); yylval.str = strdup(yytext); return NUM_INTEGER;
 "0"[x|X][a-fA-F0-9]*			characters += strlen(yytext); yylval.str = strdup(yytext); return NUM_HEXA;

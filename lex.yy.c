@@ -1136,7 +1136,7 @@ totalLines++;
 case 59:
 YY_RULE_SETUP
 #line 83 "lexico.l"
-characters += strlen(yytext);yylval.str = strdup(yytext);return ID;
+identi *ide = (identi*)malloc(sizeof(identi)); ide->linha = totalLines; ide->coluna = characters,strcpy(ide->nome,yytext);characters += strlen(yytext);return ID;
 	YY_BREAK
 case 60:
 YY_RULE_SETUP

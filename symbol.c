@@ -23,18 +23,6 @@ Identificador createControl(){
 	return ctr;
 }
 
-Identificador createControlFun(NO globalSymbolTable){
-	controle *ctr = (controle *)malloc(sizeof(controle));
-	controle *ctraux = (controle*)globalSymbolTable;
-	clean(ctr);
-	int i = 0;
-	while(i<211){
-		ctr->hash[i] = ctraux->hash[i];
-		i++;
-	}
-	return ctr;
-}
-
 Identificador createIdentificador(int totalline,int character){
 	identi *constante = (identi *)malloc(sizeof(identi));
 	constante->i = NULL;

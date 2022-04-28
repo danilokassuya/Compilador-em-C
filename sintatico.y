@@ -9,6 +9,8 @@
     extern int yylex();
     extern int characters;
     extern int totalLines;
+    int linhaaux;
+    int colunaaux;
     extern int lastLine;
     extern char id[200];
     int tipo = 0;
@@ -17,11 +19,13 @@
 %union{
     int inteiro;
     char *str;
-    NO teste;
     pro *programa;
     node *no;
     fun *function;
     cmd  *comando;
+    int var[2];
+    par *para;
+    identi *id;
 }
 
 %token VOID
@@ -79,7 +83,7 @@
 %token SCANF
 %token DEFINE
 %token EXIT
-%token <str>ID
+%token <id>ID
 %token <str>NUM_OCTAL
 %token <str>NUM_INTEGER
 %token <str>NUM_HEXA
@@ -90,13 +94,12 @@
 %token UNTERMINATED_COMMENT
 %token LEXICAL_ERROR
 %token ERRO_HASH
-
-%type<teste> comparison equalityExpression declarations expression 
-%type<teste> primaryExpression operator number atribExpression programAux function parameters parametersAux parametersAuxB
+ 
 %type<inteiro> pointer type
-%type<no> expressionAuxB logicalAND logicalOR or and xor aditiveExpression conditionalExpression castExpression
-%type<no> relationalExpression shiftExpression multiplyExpression comparisonAux atribExpressionAux atribExpressionAuxB postfixExpression unaryExpression
+%type<no> expressionAuxB logicalAND logicalOR or and xor aditiveExpression conditionalExpression castExpression comparison primaryExpression equalityExpression operator number atribExpression atribAux  
+%type<no> relationalExpression shiftExpression multiplyExpression comparisonAux atribExpressionAux atribExpressionAuxB postfixExpression unaryExpression expression expressionAux varAux varDeclaration varDeclarationAux
 %type<comando> commands commandsList block 
+%type<para> parameters parametersAux parametersAuxB
 
 
 %start start
@@ -131,7 +134,9 @@ programAux:
 declarations: 
         NUMBER_SIGN DEFINE ID expression {//# DEFINE NOME/ID 
         }
-    |   varDeclaration {}
+    |   varDeclaration {
+        programa->exp = $1;
+    }
     |   protoDeclaration {}
 ;
 
@@ -157,6 +162,14 @@ function:
             }
             else{
                 while(funclist->next != NULL){
+                    if(strcmp(funclist->nome,$3) ==  0){
+                        printf("Erro\n");
+                        return 0;
+                    }
+                    funclist = funclist->next;
+                }
+                funclist = programa->lista_de_funcoes;
+                while(funclist->next != NULL){
                     funclist = funclist->next;
                 }
                 funclist->next = func;
@@ -170,38 +183,74 @@ pointer:
 ;
 
 varAux: 
-        varDeclaration varAux {}
-    |   {}
+        varDeclaration varAux {
+            node *no = $1;
+            if(no != NULL)
+                no->prox = $2;
+            $$ = no;
+        }
+    |   {$$ = NULL;}
 ;
 
 varDeclaration: 
-        type varDeclarationAux SEMICOLON {}
+        type varDeclarationAux SEMICOLON {
+            $$ = $2;
+        }
 ;
 
 varDeclarationAux: 
-        pointer ID expressionAux atribAux {}
-    |   pointer ID expressionAux atribAux COMMA varDeclarationAux {}
+        pointer ID expressionAux atribAux {
+            identi *ide = $2;
+            node *no = $4;
+            if(no != NULL){
+                no->esquerdo = $3;
+                $$ = no;
+            }
+            else{
+                no = $3;
+                $$ = no;
+            }
+        }
+    |   pointer ID expressionAux atribAux COMMA varDeclarationAux {
+            node *no = $4;
+            if(no != NULL){
+                no->esquerdo = $3;
+                no->prox = $6;
+                $$ = no;
+            }
+            else{
+                no = $3;
+                no->prox = $6;
+                $$ = no;
+            }
+    }
 ;
 
 expressionAux: 
-        L_SQUARE_BRACKET expression R_SQUARE_BRACKET {}
-    |   {}
+        L_SQUARE_BRACKET expression R_SQUARE_BRACKET {$$ = $2;}
+    |   {$$ = NULL;}
 ;
 
 expressionAuxB:
-        expression {}
-    |   {}
+        expression {$$ = $1;}
+    |   {$$ = NULL;}
 ;
 
 atribAux: 
-        ASSIGN atribExpression {}
-    |   {}
+        ASSIGN atribExpression {
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 7;
+            no->direito = $2;
+            $$ = no;
+        }
+    |   {$$ = NULL;}
 ;
 
 protoDeclaration:
         type pointer ID parameters SEMICOLON {
+            identi *ide = $3;
             fun* func = (fun*)malloc(sizeof(fun));
-            strcpy(func->nome,$3);
+            strcpy(func->nome,ide->nome);
             func->symbolTable = (controle*)malloc(sizeof(controle));
             int i = 0;
             while(i< 211){
@@ -214,10 +263,22 @@ protoDeclaration:
             func->lista_de_comandos = NULL;
             func->next = NULL;
             fun *funclist = programa->lista_de_funcoes;
-            while(funclist != NULL){
-                funclist->next;
+            if(funclist == NULL){
+                programa->lista_de_funcoes = func;
             }
-            funclist = func;
+            else{
+                while(funclist->next != NULL){
+                    if(strcmp(funclist->nome,$3) ==  0){
+                        printf("Erro\n"); 
+                    }
+                    funclist = funclist->next;
+                }
+                funclist = programa->lista_de_funcoes;
+                while(funclist->next != NULL){
+                    funclist = funclist->next;
+                }
+                funclist->next = func;
+            }
         }
 ;
 
@@ -228,15 +289,17 @@ parameters: L_PAREN parametersAux R_PAREN {
 
 parametersAux: 
         type pointer ID expressionAux {
+            identi *ide = $3;
             par* parametro = (par*)malloc(sizeof(par));
-            strcpy(parametro->nome,$3);
+            strcpy(parametro->nome,ide->nome);
             parametro->tipo = $1;
             parametro->ponteiro = $2;
             $$ = parametro;
         }
     |   type pointer ID expressionAux COMMA parametersAuxB {
+            identi *ide = $3;
             par* parametro = (par*)malloc(sizeof(par));
-            strcpy(parametro->nome,$3);
+            strcpy(parametro->nome,ide->nome);
             parametro->tipo = $1;
             parametro->ponteiro = $2;
             parametro->prox = $6;
@@ -247,21 +310,22 @@ parametersAux:
 
 parametersAuxB: 
         type pointer ID expressionAux {
-            NO no = createPar();
-            char a[100];
-            strcpy(a,$3);
-            setParNome(no,a);
-            setParTipo(no,$1);
-            setParPonteiro(no,$2);
-            $$ = no;
+            identi *ide = $3;
+            par * parametro = (par*)malloc(sizeof(par*));
+            strcpy(parametro->nome,ide->nome);
+            parametro->tipo = $1;
+            parametro->ponteiro = $2;
+            parametro->prox = NULL;
+            $$ = parametro;
         }
     |   type pointer ID expressionAux COMMA parametersAuxB {
-            NO no = createPar();
-            setParNome(no,$3);
-            setParTipo(no,$1);
-            setParPonteiro(no,$2);
-            setParProx(no,$6);
-            $$ = no;
+            identi *ide = $3;
+            par * parametro = (par*)malloc(sizeof(par*));
+            strcpy(parametro->nome,ide->nome);
+            parametro->tipo = $1;
+            parametro->ponteiro = $2;
+            parametro->prox = $6;
+            $$ = parametro;
     }
 ;
 
@@ -343,7 +407,9 @@ commandsList:
         command->exp = $5;
         $$ = command;
     }
-    |   SCANF L_PAREN STRING COMMA BITWISE_AND ID R_PAREN SEMICOLON {}
+    |   SCANF L_PAREN STRING COMMA BITWISE_AND ID R_PAREN SEMICOLON {
+
+    }
     |   EXIT L_PAREN expression R_PAREN SEMICOLON {
         cmd *command = (cmd*)malloc(sizeof(cmd));
         command->type = 11;
@@ -365,9 +431,6 @@ commandsList:
     }
     |   SEMICOLON {
         $$ = NULL;
-        /*cmd *command = (cmd*)malloc(sizeof(cmd));
-        command->type = 6;
-        $$ = command;*/
     }
     |   block {
         $$ = $1;
@@ -376,7 +439,11 @@ commandsList:
 
 expression: 
         atribExpression {$$ = $1;}
-    |   atribExpression COMMA expression {}
+    |   atribExpression COMMA expression {
+        node *no = $1;
+        no->prox = $3;
+        $$ = no;
+    }
 ;
 
 atribExpression:
@@ -729,9 +796,10 @@ atribExpressionAuxB:
 
 primaryExpression:
         ID { 
+            identi *ide = $1;
             node* exp = (node*)malloc(sizeof(node));
             exp->exp = 36;
-            strcpy(exp->nome,$1);
+            strcpy(exp->nome,ide->nome);
             $$ = exp;   
         }
     |   number {
@@ -840,8 +908,9 @@ void yyerror(char *s) {
 
 int main() {
     programa = (pro*)malloc(sizeof(pro));
-    programa->globalSymbolTable = (controle*)malloc(sizeof(controle));
+    programa->globalSymbolTable = createControl();
     programa->lista_de_funcoes = NULL;
+    programa->exp = NULL;
     yyparse();
     return 0;
 }
