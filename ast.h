@@ -30,6 +30,7 @@ typedef struct function /* estrutura para função */
     int retorno;
     int prototipo;//Se é um protipo
     struct cmd *lista_de_comandos;
+    struct No *exp;
     // próxima função
     struct function *next;
 }fun;
@@ -51,6 +52,7 @@ typedef struct cmd /* comando genérico */
     printf = 10
     exit = 11
     scan = 12
+    delcaração = 13
     */
     int type;
     //comandos expressão/if/while/for

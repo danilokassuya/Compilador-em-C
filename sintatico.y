@@ -26,6 +26,7 @@
     int var[2];
     par *para;
     identi *id;
+    ret *re;
 }
 
 %token VOID
@@ -97,9 +98,10 @@
  
 %type<inteiro> pointer type
 %type<no> expressionAuxB logicalAND logicalOR or and xor aditiveExpression conditionalExpression castExpression comparison primaryExpression equalityExpression operator number atribExpression atribAux  
-%type<no> relationalExpression shiftExpression multiplyExpression comparisonAux atribExpressionAux atribExpressionAuxB postfixExpression unaryExpression expression expressionAux varAux varDeclaration varDeclarationAux
+%type<no> relationalExpression shiftExpression multiplyExpression comparisonAux atribExpressionAux atribExpressionAuxB postfixExpression unaryExpression expression expressionAux
 %type<comando> commands commandsList block 
 %type<para> parameters parametersAux parametersAuxB
+%type<re> varDeclarationAux varDeclaration varAux
 
 
 %start start
@@ -112,6 +114,8 @@ start:program END_OF_FILE{
             printf("%s\n",function->nome);
             function = function->next;
         }
+        printf("start\n");
+        printHash(programa);
         return 0;
 }
 ;
@@ -135,22 +139,40 @@ declarations:
         NUMBER_SIGN DEFINE ID expression {//# DEFINE NOME/ID 
         }
     |   varDeclaration {
-        programa->exp = $1;
+        ret* retorno = $1;
+        identi *id = retorno->identidade;
+        printf("a:%s\n\n",id->id);
+        programa->exp = retorno->node;
     }
     |   protoDeclaration {}
 ;
 
 function: 
         type pointer ID parameters L_CURLY_BRACKET varAux commands R_CURLY_BRACKET {
-            cont++;
             fun* func = (fun*)malloc(sizeof(fun));
-            strcpy(func->nome,$3);
             func->symbolTable = (controle*)malloc(sizeof(controle));
+            identi *ide = $3;
+            strcpy(func->nome,ide->id);
+            ret* retorno = $6;
+            node *no = retorno->node;
             int i = 0;
             while(i< 211){
                 func->symbolTable->hash[i] = programa->globalSymbolTable->hash[i];
                 i++;
             }   
+            if(retorno != NULL){
+                insert(func,retorno->identidade);
+                retorno = retorno->prox;
+                while(retorno != NULL){
+                    insert(func,retorno->identidade);
+                    if(retorno->node != NULL)
+                        no->prox = retorno->node;
+                        no = retorno->node;
+                    retorno = retorno->prox;
+                }
+            }
+            cont++;
+            func->exp = no;
             func->parametro = $4;
             func->retorno = $1;
             func->prototipo = 0;
@@ -162,7 +184,7 @@ function:
             }
             else{
                 while(funclist->next != NULL){
-                    if(strcmp(funclist->nome,$3) ==  0){
+                    if(strcmp(funclist->nome,ide->id) ==  0){
                         printf("Erro\n");
                         return 0;
                     }
@@ -184,17 +206,23 @@ pointer:
 
 varAux: 
         varDeclaration varAux {
-            node *no = $1;
-            if(no != NULL)
-                no->prox = $2;
-            $$ = no;
+            ret* retorno = $1;
+            node *no = retorno->node;
+            identi *id = retorno->identidade;
+            printf("a:%s\n",id->id);
+            retorno->prox = $2;
+            $$ = retorno;
         }
     |   {$$ = NULL;}
 ;
 
 varDeclaration: 
         type varDeclarationAux SEMICOLON {
-            $$ = $2;
+            ret *retorno = $2;
+            identi *ide = retorno->identidade;
+            ide->type = 0;
+            ide->tipo = $1;
+            $$ = retorno;
         }
 ;
 
@@ -202,27 +230,34 @@ varDeclarationAux:
         pointer ID expressionAux atribAux {
             identi *ide = $2;
             node *no = $4;
+            ret *retorno = (ret*)malloc(sizeof(ret));
             if(no != NULL){
                 no->esquerdo = $3;
-                $$ = no;
             }
             else{
                 no = $3;
-                $$ = no;
             }
+            retorno->identidade = ide;
+            retorno->node = no;
+            $$ = retorno;
         }
     |   pointer ID expressionAux atribAux COMMA varDeclarationAux {
+            identi *ide = $2;
             node *no = $4;
             if(no != NULL){
                 no->esquerdo = $3;
-                no->prox = $6;
-                $$ = no;
+                ret *retorno = $6;
+                no->prox = retorno->node;
             }
             else{
                 no = $3;
-                no->prox = $6;
-                $$ = no;
+                ret *retorno = $6;
+                no->prox = retorno->node;
             }
+            ret *retorno = (ret*)malloc(sizeof(ret));
+            retorno->identidade = ide;
+            retorno->node = no;
+            $$ = retorno;
     }
 ;
 
@@ -250,7 +285,7 @@ protoDeclaration:
         type pointer ID parameters SEMICOLON {
             identi *ide = $3;
             fun* func = (fun*)malloc(sizeof(fun));
-            strcpy(func->nome,ide->nome);
+            strcpy(func->nome,ide->id);
             func->symbolTable = (controle*)malloc(sizeof(controle));
             int i = 0;
             while(i< 211){
@@ -268,8 +303,9 @@ protoDeclaration:
             }
             else{
                 while(funclist->next != NULL){
-                    if(strcmp(funclist->nome,$3) ==  0){
+                    if(strcmp(funclist->nome,ide->id) ==  0){
                         printf("Erro\n"); 
+                        return 0;
                     }
                     funclist = funclist->next;
                 }
@@ -291,7 +327,7 @@ parametersAux:
         type pointer ID expressionAux {
             identi *ide = $3;
             par* parametro = (par*)malloc(sizeof(par));
-            strcpy(parametro->nome,ide->nome);
+            strcpy(parametro->nome,ide->id);
             parametro->tipo = $1;
             parametro->ponteiro = $2;
             $$ = parametro;
@@ -299,7 +335,7 @@ parametersAux:
     |   type pointer ID expressionAux COMMA parametersAuxB {
             identi *ide = $3;
             par* parametro = (par*)malloc(sizeof(par));
-            strcpy(parametro->nome,ide->nome);
+            strcpy(parametro->nome,ide->id);
             parametro->tipo = $1;
             parametro->ponteiro = $2;
             parametro->prox = $6;
@@ -312,7 +348,7 @@ parametersAuxB:
         type pointer ID expressionAux {
             identi *ide = $3;
             par * parametro = (par*)malloc(sizeof(par*));
-            strcpy(parametro->nome,ide->nome);
+            strcpy(parametro->nome,ide->id);
             parametro->tipo = $1;
             parametro->ponteiro = $2;
             parametro->prox = NULL;
@@ -321,7 +357,7 @@ parametersAuxB:
     |   type pointer ID expressionAux COMMA parametersAuxB {
             identi *ide = $3;
             par * parametro = (par*)malloc(sizeof(par*));
-            strcpy(parametro->nome,ide->nome);
+            strcpy(parametro->nome,ide->id);
             parametro->tipo = $1;
             parametro->ponteiro = $2;
             parametro->prox = $6;
@@ -331,10 +367,10 @@ parametersAuxB:
 
 type:
         INT {
-            $$ = 1;
+            $$ = 0;
         }
-    |   CHAR {tipo = 2;}
-    |   VOID {tipo = 3;}
+    |   CHAR {tipo = 1;}
+    |   VOID {tipo = 2;}
 ;
 
 block:
@@ -799,7 +835,7 @@ primaryExpression:
             identi *ide = $1;
             node* exp = (node*)malloc(sizeof(node));
             exp->exp = 36;
-            strcpy(exp->nome,ide->nome);
+            strcpy(exp->nome,ide->id);
             $$ = exp;   
         }
     |   number {

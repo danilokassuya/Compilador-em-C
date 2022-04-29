@@ -1,9 +1,10 @@
 #include "symbol.h"
 #include <sintatico.tab.h>
 
-void printHash(Identificador hash){
-	controle *ctr = (controle*) hash;
+void printHash(Identificador prog){
+	pro *programa = (pro*) prog;
 	identi *h;
+	controle *ctr = programa->globalSymbolTable;
 	int i = 0;
 	while(i < 211){
 		printf("%d:",i);
@@ -15,6 +16,23 @@ void printHash(Identificador hash){
 		i++;
 		printf("\n");
 	}
+	fun *listFun = programa->lista_de_funcoes;
+	while(listFun != NULL){
+		ctr = listFun->symbolTable;
+		int i = 0;
+		printf("a%s\n",listFun->nome);
+		while(i < 211){
+			printf("%d:",i);
+			h = ctr->hash[i];
+			while(h != NULL){
+				printf("%s ",h->id);
+				h = h->i;
+			}
+			i++;
+			printf("\n");
+		}
+		listFun = listFun->next;
+	}
 }
 
 Identificador createControl(){
@@ -22,21 +40,21 @@ Identificador createControl(){
 	clean(ctr);
 	return ctr;
 }
-
-Identificador createIdentificador(int totalline,int character){
-	identi *constante = (identi *)malloc(sizeof(identi));
-	constante->i = NULL;
-	constante->type = 3;
-	constante->tipo = -1;
-	constante->linha = totalline;
-	constante->coluna = character;
-	constante->parametros = NULL;
-	constante->size = -1;
-	constante->local = -1;
-	constante->isParameter = -1;
-	constante->started = -1;
-	constante->pointer = -1;
-	return constante;
+Identificador createIdenti(int totalLines,int characters,char name[]){
+	identi *ide = (identi*)malloc(sizeof(identi));
+	ide->i = NULL;
+	ide->type = 3;
+	ide->tipo = -1;
+	ide->linha = totalLines;
+	ide->coluna = characters;
+	strcpy(ide->id,name);
+	ide->parametros = NULL;
+	ide->size = -1;
+	ide->local = -1;
+	ide->isParameter = -1;
+	ide->started = -1;
+	ide->pointer = -1;
+	return ide;
 }
 
 void setTipo(Identificador inde,int tipo){
@@ -84,14 +102,15 @@ void setPointer(Identificador inde,int pointer){
 	identifica->pointer = pointer;
 }
 
-int insert(Identificador ctr, Identificador inde){
+int insert(Identificador funcao, Identificador inde){
 	identi *identifica = (identi*) inde;
-	if(identifica->tipo != 0){
-		printf("string type is not compatible with define");
-		return 0;//Erro constante precisa ser inteiro
-		//"string type is not compatible with define"
-	}
-	controle *hash = (controle*)ctr;
+	fun *func = (fun*) funcao;
+	if(identifica->type == 3)
+		if(identifica->tipo != 0){
+			printf("string type is not compatible with define\n");
+			return 0;
+		}
+	controle *hash = func->symbolTable;
 	int size = strlen(identifica->id);
 	int i = 0;
 	int buff = 0;
@@ -102,18 +121,21 @@ int insert(Identificador ctr, Identificador inde){
 	i = buff%211;
 	identi *h = hash->hash[i];
 	identi *haux = h;
+	printf("%s",func->nome);
 	if(h == NULL){
+		printf("okaa\n");
 		hash->hash[i] = identifica;
 	}
 	else{
+		printf("in:%s\n",hash->hash[i]->id);
 		while(h->i != NULL){
-			if(strcmp(identifica->id, h->id) == 0 && h->type == 3){
+			if(strcmp(identifica->id, h->id) == 0){
 
 				printf("error:semantic:%d:%d: variable ’%s’ already declared, previous declaration in line %d column %d",identifica->linha,identifica->coluna,identifica->id,h->linha,h->coluna);
 
 				return 0;
 			}
-			if(strcmp(identifica->id, h->id) == 0 && h->type != 3){
+			if(strcmp(identifica->id, h->id) == 0){
 
 				printf("%d: redefinition of identifier '%s'",identifica->linha,identifica->id);
 
@@ -121,6 +143,7 @@ int insert(Identificador ctr, Identificador inde){
 			}
 			h = h->i;
 		}
+		printf("ok\n");
 		hash->hash[i] = identifica;
 		hash->hash[i]->i = haux;
 		printf("%s\n",h->id);

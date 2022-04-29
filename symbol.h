@@ -39,7 +39,6 @@ typedef struct identificador{
 	//constante
 	//int tipo;
 	char valor[100];
-
     int pointer;//se é um ponteiro
 } identi;
 
@@ -47,15 +46,21 @@ typedef struct control{
 	identi *hash[211];
 }controle;
 
+typedef struct retorno{
+	identi *identidade;
+	struct No *node;
+	struct retorno *prox;
+}ret;
+
 typedef void *Identificador;
 
-void printHash(Identificador hash);
+void printHash(Identificador prog);
 
 Identificador createControl();
 
-Identificador createIdentificador(int totalline,int character);
+Identificador createIdenti(int totalLines,int characters,char name[]);
 
-int insert(Identificador ctr, Identificador consatnte);
+int insert(Identificador funcao, Identificador inde);
 
 void setTipo(Identificador inde,int tipo);
 
