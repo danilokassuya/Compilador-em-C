@@ -128,13 +128,33 @@ int insert(Identificador funcao, Identificador inde){
 	}
 	else{
 		printf("in:%s\n",hash->hash[i]->id);
-		while(h->i != NULL){
+		do{
+			printf("%s %s",identifica->id,h->id);
 			if(strcmp(identifica->id, h->id) == 0){
+				int i;
+				int lineNumber = 1;
+				char line[1024];
+				char aux;
+				int characters = h->coluna;
+				FILE* file = fseek(stdin, 0, SEEK_SET);
+				characters -= strlen("i");
+				printf("error:semantic:%d:%d: variable ’%s’ already declared, previous declaration in line %d column %d\n",identifica->linha,identifica->coluna,identifica->id,h->linha,h->coluna);
+				
+				while(lineNumber < h->linha) {
+					aux = fgetc(stdin);
+					if(aux == '\n')    lineNumber++;
+					if(aux == EOF)  break;
+				}
+				fgets(line, sizeof(line), stdin);
+				printf("%s", line);
 
-				printf("error:semantic:%d:%d: variable ’%s’ already declared, previous declaration in line %d column %d",identifica->linha,identifica->coluna,identifica->id,h->linha,h->coluna);
+				for(i=1;i<characters;i++) {
+					printf(" ");
+				}
+				printf("^");
 
 				return 0;
-			}
+			}while(h->i != NULL);
 			if(strcmp(identifica->id, h->id) == 0){
 
 				printf("%d: redefinition of identifier '%s'",identifica->linha,identifica->id);
@@ -142,7 +162,7 @@ int insert(Identificador funcao, Identificador inde){
 				return 0;
 			}
 			h = h->i;
-		}
+		}while(h != NULL);
 		printf("ok\n");
 		hash->hash[i] = identifica;
 		hash->hash[i]->i = haux;

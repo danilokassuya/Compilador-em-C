@@ -602,17 +602,17 @@ static const yytype_int8 yytranslate[] =
 static const yytype_int16 yyrline[] =
 {
        0,   110,   110,   125,   128,   134,   135,   139,   141,   147,
-     151,   203,   204,   208,   216,   220,   230,   244,   265,   266,
-     270,   271,   275,   281,   285,   321,   327,   335,   344,   348,
-     357,   369,   372,   373,   377,   381,   388,   398,   405,   413,
-     421,   428,   437,   440,   446,   449,   455,   462,   468,   471,
-     477,   478,   486,   487,   495,   502,   509,   519,   520,   532,
-     533,   543,   550,   554,   561,   565,   572,   576,   583,   587,
-     593,   597,   602,   611,   612,   621,   628,   635,   642,   652,
-     653,   660,   670,   671,   678,   688,   689,   696,   703,   713,
-     714,   724,   725,   732,   739,   746,   753,   760,   767,   774,
-     784,   787,   791,   798,   805,   816,   817,   821,   826,   834,
-     841,   844,   850,   857,   863,   871,   879
+     151,   205,   206,   210,   218,   222,   232,   246,   267,   268,
+     272,   273,   277,   283,   287,   323,   329,   337,   346,   350,
+     359,   371,   374,   375,   379,   383,   390,   400,   407,   415,
+     423,   430,   439,   442,   448,   451,   457,   464,   470,   473,
+     479,   480,   488,   489,   497,   504,   511,   521,   522,   534,
+     535,   545,   552,   556,   563,   567,   574,   578,   585,   589,
+     595,   599,   604,   613,   614,   623,   630,   637,   644,   654,
+     655,   662,   672,   673,   680,   690,   691,   698,   705,   715,
+     716,   726,   727,   734,   741,   748,   755,   762,   769,   776,
+     786,   789,   793,   800,   807,   818,   819,   823,   828,   836,
+     843,   846,   852,   859,   865,   873,   881
 };
 #endif
 
@@ -1665,10 +1665,12 @@ yyreduce:
                 i++;
             }   
             if(retorno != NULL){
-                insert(func,retorno->identidade);
+                if(insert(func,retorno->identidade) == 0)
+                    return 0;
                 retorno = retorno->prox;
                 while(retorno != NULL){
-                    insert(func,retorno->identidade);
+                    if(insert(func,retorno->identidade) == 0)
+                        return 0;
                     if(retorno->node != NULL)
                         no->prox = retorno->node;
                         no = retorno->node;
@@ -1701,23 +1703,23 @@ yyreduce:
                 funclist->next = func;
             }
         }
-#line 1705 "sintatico.tab.c"
+#line 1707 "sintatico.tab.c"
     break;
 
   case 11:
-#line 203 "sintatico.y"
+#line 205 "sintatico.y"
                          {(yyval.inteiro) = (yyvsp[0].inteiro)+1;}
-#line 1711 "sintatico.tab.c"
+#line 1713 "sintatico.tab.c"
     break;
 
   case 12:
-#line 204 "sintatico.y"
+#line 206 "sintatico.y"
         {(yyval.inteiro) = 1;}
-#line 1717 "sintatico.tab.c"
+#line 1719 "sintatico.tab.c"
     break;
 
   case 13:
-#line 208 "sintatico.y"
+#line 210 "sintatico.y"
                               {
             ret* retorno = (yyvsp[-1].re);
             node *no = retorno->node;
@@ -1726,17 +1728,17 @@ yyreduce:
             retorno->prox = (yyvsp[0].re);
             (yyval.re) = retorno;
         }
-#line 1730 "sintatico.tab.c"
+#line 1732 "sintatico.tab.c"
     break;
 
   case 14:
-#line 216 "sintatico.y"
+#line 218 "sintatico.y"
         {(yyval.re) = NULL;}
-#line 1736 "sintatico.tab.c"
+#line 1738 "sintatico.tab.c"
     break;
 
   case 15:
-#line 220 "sintatico.y"
+#line 222 "sintatico.y"
                                          {
             ret *retorno = (yyvsp[-1].re);
             identi *ide = retorno->identidade;
@@ -1744,11 +1746,11 @@ yyreduce:
             ide->tipo = (yyvsp[-2].inteiro);
             (yyval.re) = retorno;
         }
-#line 1748 "sintatico.tab.c"
+#line 1750 "sintatico.tab.c"
     break;
 
   case 16:
-#line 230 "sintatico.y"
+#line 232 "sintatico.y"
                                           {
             identi *ide = (yyvsp[-2].id);
             node *no = (yyvsp[0].no);
@@ -1763,11 +1765,11 @@ yyreduce:
             retorno->node = no;
             (yyval.re) = retorno;
         }
-#line 1767 "sintatico.tab.c"
+#line 1769 "sintatico.tab.c"
     break;
 
   case 17:
-#line 244 "sintatico.y"
+#line 246 "sintatico.y"
                                                                   {
             identi *ide = (yyvsp[-4].id);
             node *no = (yyvsp[-2].no);
@@ -1786,52 +1788,52 @@ yyreduce:
             retorno->node = no;
             (yyval.re) = retorno;
     }
-#line 1790 "sintatico.tab.c"
+#line 1792 "sintatico.tab.c"
     break;
 
   case 18:
-#line 265 "sintatico.y"
+#line 267 "sintatico.y"
                                                      {(yyval.no) = (yyvsp[-1].no);}
-#line 1796 "sintatico.tab.c"
+#line 1798 "sintatico.tab.c"
     break;
 
   case 19:
-#line 266 "sintatico.y"
+#line 268 "sintatico.y"
         {(yyval.no) = NULL;}
-#line 1802 "sintatico.tab.c"
+#line 1804 "sintatico.tab.c"
     break;
 
   case 20:
-#line 270 "sintatico.y"
+#line 272 "sintatico.y"
                    {(yyval.no) = (yyvsp[0].no);}
-#line 1808 "sintatico.tab.c"
+#line 1810 "sintatico.tab.c"
     break;
 
   case 21:
-#line 271 "sintatico.y"
+#line 273 "sintatico.y"
         {(yyval.no) = NULL;}
-#line 1814 "sintatico.tab.c"
+#line 1816 "sintatico.tab.c"
     break;
 
   case 22:
-#line 275 "sintatico.y"
+#line 277 "sintatico.y"
                                {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 7;
             no->direito = (yyvsp[0].no);
             (yyval.no) = no;
         }
-#line 1825 "sintatico.tab.c"
+#line 1827 "sintatico.tab.c"
     break;
 
   case 23:
-#line 281 "sintatico.y"
+#line 283 "sintatico.y"
         {(yyval.no) = NULL;}
-#line 1831 "sintatico.tab.c"
+#line 1833 "sintatico.tab.c"
     break;
 
   case 24:
-#line 285 "sintatico.y"
+#line 287 "sintatico.y"
                                              {
             identi *ide = (yyvsp[-2].id);
             fun* func = (fun*)malloc(sizeof(fun));
@@ -1866,19 +1868,19 @@ yyreduce:
                 funclist->next = func;
             }
         }
-#line 1870 "sintatico.tab.c"
+#line 1872 "sintatico.tab.c"
     break;
 
   case 25:
-#line 321 "sintatico.y"
+#line 323 "sintatico.y"
                                           {
             (yyval.para) = (yyvsp[-1].para);
 }
-#line 1878 "sintatico.tab.c"
+#line 1880 "sintatico.tab.c"
     break;
 
   case 26:
-#line 327 "sintatico.y"
+#line 329 "sintatico.y"
                                       {
             identi *ide = (yyvsp[-1].id);
             par* parametro = (par*)malloc(sizeof(par));
@@ -1887,11 +1889,11 @@ yyreduce:
             parametro->ponteiro = (yyvsp[-2].inteiro);
             (yyval.para) = parametro;
         }
-#line 1891 "sintatico.tab.c"
+#line 1893 "sintatico.tab.c"
     break;
 
   case 27:
-#line 335 "sintatico.y"
+#line 337 "sintatico.y"
                                                            {
             identi *ide = (yyvsp[-3].id);
             par* parametro = (par*)malloc(sizeof(par));
@@ -1901,17 +1903,17 @@ yyreduce:
             parametro->prox = (yyvsp[0].para);
             (yyval.para) = parametro;
     }
-#line 1905 "sintatico.tab.c"
+#line 1907 "sintatico.tab.c"
     break;
 
   case 28:
-#line 344 "sintatico.y"
+#line 346 "sintatico.y"
         {    }
-#line 1911 "sintatico.tab.c"
+#line 1913 "sintatico.tab.c"
     break;
 
   case 29:
-#line 348 "sintatico.y"
+#line 350 "sintatico.y"
                                       {
             identi *ide = (yyvsp[-1].id);
             par * parametro = (par*)malloc(sizeof(par*));
@@ -1921,11 +1923,11 @@ yyreduce:
             parametro->prox = NULL;
             (yyval.para) = parametro;
         }
-#line 1925 "sintatico.tab.c"
+#line 1927 "sintatico.tab.c"
     break;
 
   case 30:
-#line 357 "sintatico.y"
+#line 359 "sintatico.y"
                                                            {
             identi *ide = (yyvsp[-3].id);
             par * parametro = (par*)malloc(sizeof(par*));
@@ -1935,37 +1937,37 @@ yyreduce:
             parametro->prox = (yyvsp[0].para);
             (yyval.para) = parametro;
     }
-#line 1939 "sintatico.tab.c"
+#line 1941 "sintatico.tab.c"
     break;
 
   case 31:
-#line 369 "sintatico.y"
+#line 371 "sintatico.y"
             {
             (yyval.inteiro) = 0;
         }
-#line 1947 "sintatico.tab.c"
+#line 1949 "sintatico.tab.c"
     break;
 
   case 32:
-#line 372 "sintatico.y"
+#line 374 "sintatico.y"
              {tipo = 1;}
-#line 1953 "sintatico.tab.c"
+#line 1955 "sintatico.tab.c"
     break;
 
   case 33:
-#line 373 "sintatico.y"
+#line 375 "sintatico.y"
              {tipo = 2;}
-#line 1959 "sintatico.tab.c"
+#line 1961 "sintatico.tab.c"
     break;
 
   case 34:
-#line 377 "sintatico.y"
+#line 379 "sintatico.y"
                                                  {(yyval.comando) = (yyvsp[-1].comando);}
-#line 1965 "sintatico.tab.c"
+#line 1967 "sintatico.tab.c"
     break;
 
   case 35:
-#line 381 "sintatico.y"
+#line 383 "sintatico.y"
                               {
             cmd *command = (yyvsp[-1].comando);
             if(command == NULL)
@@ -1973,11 +1975,11 @@ yyreduce:
             command->next = (yyvsp[0].comando);
             (yyval.comando) = command;
         }
-#line 1977 "sintatico.tab.c"
+#line 1979 "sintatico.tab.c"
     break;
 
   case 36:
-#line 388 "sintatico.y"
+#line 390 "sintatico.y"
                      {
             cmd *command = (yyvsp[0].comando);
             if(command == NULL)
@@ -1985,11 +1987,11 @@ yyreduce:
             command->next = NULL;
             (yyval.comando) = command;
     }
-#line 1989 "sintatico.tab.c"
+#line 1991 "sintatico.tab.c"
     break;
 
   case 37:
-#line 398 "sintatico.y"
+#line 400 "sintatico.y"
                                                             {
         cmd *command = (cmd*)malloc(sizeof(cmd));
         command->type = 4;
@@ -1997,11 +1999,11 @@ yyreduce:
         command->whil = (yyvsp[-5].comando);
         (yyval.comando) = command;
         }
-#line 2001 "sintatico.tab.c"
+#line 2003 "sintatico.tab.c"
     break;
 
   case 38:
-#line 405 "sintatico.y"
+#line 407 "sintatico.y"
                                             {
         cmd *command = (cmd*)malloc(sizeof(cmd));
         command->type = 1;
@@ -2010,11 +2012,11 @@ yyreduce:
         command->els = NULL;
         (yyval.comando) = command;
     }
-#line 2014 "sintatico.tab.c"
+#line 2016 "sintatico.tab.c"
     break;
 
   case 39:
-#line 413 "sintatico.y"
+#line 415 "sintatico.y"
                                                        {
         cmd *command = (cmd*)malloc(sizeof(cmd));
         command->type = 1;
@@ -2023,11 +2025,11 @@ yyreduce:
         command->els = (yyvsp[0].comando);
         (yyval.comando) = command;
     }
-#line 2027 "sintatico.tab.c"
+#line 2029 "sintatico.tab.c"
     break;
 
   case 40:
-#line 421 "sintatico.y"
+#line 423 "sintatico.y"
                                                {
         cmd *command = (cmd*)malloc(sizeof(cmd));
         command->type = 2;
@@ -2035,11 +2037,11 @@ yyreduce:
         command->whil = (yyvsp[0].comando);
         (yyval.comando) = command;
     }
-#line 2039 "sintatico.tab.c"
+#line 2041 "sintatico.tab.c"
     break;
 
   case 41:
-#line 428 "sintatico.y"
+#line 430 "sintatico.y"
                                                                                                    {
         cmd *command = (cmd*)malloc(sizeof(cmd));
         command->type = 3;
@@ -2049,49 +2051,49 @@ yyreduce:
         command->for0 = (yyvsp[0].comando);
         (yyval.comando) = command;
     }
-#line 2053 "sintatico.tab.c"
+#line 2055 "sintatico.tab.c"
     break;
 
   case 42:
-#line 437 "sintatico.y"
+#line 439 "sintatico.y"
                                                 {
         (yyval.comando) = NULL;
     }
-#line 2061 "sintatico.tab.c"
+#line 2063 "sintatico.tab.c"
     break;
 
   case 43:
-#line 440 "sintatico.y"
+#line 442 "sintatico.y"
                                                                  {
         cmd *command = (cmd*)malloc(sizeof(cmd));
         command->type = 10;
         command->exp = (yyvsp[-2].no);
         (yyval.comando) = command;
     }
-#line 2072 "sintatico.tab.c"
+#line 2074 "sintatico.tab.c"
     break;
 
   case 44:
-#line 446 "sintatico.y"
+#line 448 "sintatico.y"
                                                                     {
 
     }
-#line 2080 "sintatico.tab.c"
+#line 2082 "sintatico.tab.c"
     break;
 
   case 45:
-#line 449 "sintatico.y"
+#line 451 "sintatico.y"
                                                   {
         cmd *command = (cmd*)malloc(sizeof(cmd));
         command->type = 11;
         command->exp = (yyvsp[-2].no);
         (yyval.comando) = command;
     }
-#line 2091 "sintatico.tab.c"
+#line 2093 "sintatico.tab.c"
     break;
 
   case 46:
-#line 455 "sintatico.y"
+#line 457 "sintatico.y"
                                         {
         //tipo de retorno
         cmd *command = (cmd*)malloc(sizeof(cmd));
@@ -2099,70 +2101,70 @@ yyreduce:
         command->exp = (yyvsp[-1].no);
         (yyval.comando) = command;
     }
-#line 2103 "sintatico.tab.c"
+#line 2105 "sintatico.tab.c"
     break;
 
   case 47:
-#line 462 "sintatico.y"
+#line 464 "sintatico.y"
                              {
         cmd *command = (cmd*)malloc(sizeof(cmd));
         command->type = 8;
         command->exp = (yyvsp[-1].no);
         (yyval.comando) = command;
     }
-#line 2114 "sintatico.tab.c"
+#line 2116 "sintatico.tab.c"
     break;
 
   case 48:
-#line 468 "sintatico.y"
+#line 470 "sintatico.y"
                   {
         (yyval.comando) = NULL;
     }
-#line 2122 "sintatico.tab.c"
+#line 2124 "sintatico.tab.c"
     break;
 
   case 49:
-#line 471 "sintatico.y"
+#line 473 "sintatico.y"
               {
         (yyval.comando) = (yyvsp[0].comando);
     }
-#line 2130 "sintatico.tab.c"
+#line 2132 "sintatico.tab.c"
     break;
 
   case 50:
-#line 477 "sintatico.y"
+#line 479 "sintatico.y"
                         {(yyval.no) = (yyvsp[0].no);}
-#line 2136 "sintatico.tab.c"
+#line 2138 "sintatico.tab.c"
     break;
 
   case 51:
-#line 478 "sintatico.y"
+#line 480 "sintatico.y"
                                          {
         node *no = (yyvsp[-2].no);
         no->prox = (yyvsp[0].no);
         (yyval.no) = no;
     }
-#line 2146 "sintatico.tab.c"
+#line 2148 "sintatico.tab.c"
     break;
 
   case 52:
-#line 486 "sintatico.y"
+#line 488 "sintatico.y"
                               {(yyval.no) = (yyvsp[0].no);}
-#line 2152 "sintatico.tab.c"
+#line 2154 "sintatico.tab.c"
     break;
 
   case 53:
-#line 487 "sintatico.y"
+#line 489 "sintatico.y"
                                                  {
         node *no = (yyvsp[-1].no);
         no->direito = (yyvsp[0].no);
         no->esquerdo = (yyvsp[-2].no);
     }
-#line 2162 "sintatico.tab.c"
+#line 2164 "sintatico.tab.c"
     break;
 
   case 54:
-#line 495 "sintatico.y"
+#line 497 "sintatico.y"
                {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 7;
@@ -2170,11 +2172,11 @@ yyreduce:
             no->esquerdo = NULL;
             (yyval.no) = no;
         }
-#line 2174 "sintatico.tab.c"
+#line 2176 "sintatico.tab.c"
     break;
 
   case 55:
-#line 502 "sintatico.y"
+#line 504 "sintatico.y"
                    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 8;
@@ -2182,11 +2184,11 @@ yyreduce:
             no->esquerdo = NULL;
             (yyval.no) = no;
         }
-#line 2186 "sintatico.tab.c"
+#line 2188 "sintatico.tab.c"
     break;
 
   case 56:
-#line 509 "sintatico.y"
+#line 511 "sintatico.y"
                      {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 9;
@@ -2194,17 +2196,17 @@ yyreduce:
             no->esquerdo = NULL;
             (yyval.no) = no;
         }
-#line 2198 "sintatico.tab.c"
+#line 2200 "sintatico.tab.c"
     break;
 
   case 57:
-#line 519 "sintatico.y"
+#line 521 "sintatico.y"
                   {(yyval.no) = (yyvsp[0].no);}
-#line 2204 "sintatico.tab.c"
+#line 2206 "sintatico.tab.c"
     break;
 
   case 58:
-#line 520 "sintatico.y"
+#line 522 "sintatico.y"
                                                                              {
             node *no = (yyvsp[-4].no);
             no->exp = 28;
@@ -2213,17 +2215,17 @@ yyreduce:
             noaux->prox = (yyvsp[0].no);
             (yyval.no) = no;
     }
-#line 2217 "sintatico.tab.c"
+#line 2219 "sintatico.tab.c"
     break;
 
   case 59:
-#line 532 "sintatico.y"
+#line 534 "sintatico.y"
                    {(yyval.no) = (yyvsp[0].no);}
-#line 2223 "sintatico.tab.c"
+#line 2225 "sintatico.tab.c"
     break;
 
   case 60:
-#line 533 "sintatico.y"
+#line 535 "sintatico.y"
                                         {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 11;
@@ -2231,11 +2233,11 @@ yyreduce:
             no->esquerdo = (yyvsp[-2].no);
             (yyval.no) = no;
     }
-#line 2235 "sintatico.tab.c"
+#line 2237 "sintatico.tab.c"
     break;
 
   case 61:
-#line 543 "sintatico.y"
+#line 545 "sintatico.y"
                                  {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 10;
@@ -2243,17 +2245,17 @@ yyreduce:
             no->esquerdo = (yyvsp[-2].no);
             (yyval.no) = no;
         }
-#line 2247 "sintatico.tab.c"
+#line 2249 "sintatico.tab.c"
     break;
 
   case 62:
-#line 550 "sintatico.y"
+#line 552 "sintatico.y"
            {(yyval.no) = (yyvsp[0].no);}
-#line 2253 "sintatico.tab.c"
+#line 2255 "sintatico.tab.c"
     break;
 
   case 63:
-#line 554 "sintatico.y"
+#line 556 "sintatico.y"
                           {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 12;
@@ -2261,17 +2263,17 @@ yyreduce:
             no->esquerdo = (yyvsp[-2].no);
             (yyval.no) = no;
         }
-#line 2265 "sintatico.tab.c"
+#line 2267 "sintatico.tab.c"
     break;
 
   case 64:
-#line 561 "sintatico.y"
+#line 563 "sintatico.y"
             {(yyval.no) = (yyvsp[0].no);}
-#line 2271 "sintatico.tab.c"
+#line 2273 "sintatico.tab.c"
     break;
 
   case 65:
-#line 565 "sintatico.y"
+#line 567 "sintatico.y"
                             {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 13;
@@ -2279,17 +2281,17 @@ yyreduce:
             no->esquerdo = (yyvsp[-2].no);
             (yyval.no) = no;
         }
-#line 2283 "sintatico.tab.c"
+#line 2285 "sintatico.tab.c"
     break;
 
   case 66:
-#line 572 "sintatico.y"
+#line 574 "sintatico.y"
             {(yyval.no) = (yyvsp[0].no);}
-#line 2289 "sintatico.tab.c"
+#line 2291 "sintatico.tab.c"
     break;
 
   case 67:
-#line 576 "sintatico.y"
+#line 578 "sintatico.y"
                                            {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 14;
@@ -2297,72 +2299,72 @@ yyreduce:
             no->esquerdo = (yyvsp[-2].no);
             (yyval.no) = no;
         }
-#line 2301 "sintatico.tab.c"
+#line 2303 "sintatico.tab.c"
     break;
 
   case 68:
-#line 583 "sintatico.y"
+#line 585 "sintatico.y"
                            {(yyval.no) = (yyvsp[0].no);}
-#line 2307 "sintatico.tab.c"
+#line 2309 "sintatico.tab.c"
     break;
 
   case 69:
-#line 587 "sintatico.y"
+#line 589 "sintatico.y"
                                                            {
             node* exp = (yyvsp[-1].no);
             exp->direito = (yyvsp[-2].no);
             exp->esquerdo = (yyvsp[0].no);
             (yyval.no) = exp;
         }
-#line 2318 "sintatico.tab.c"
+#line 2320 "sintatico.tab.c"
     break;
 
   case 70:
-#line 593 "sintatico.y"
+#line 595 "sintatico.y"
                              {(yyval.no) = (yyvsp[0].no);}
-#line 2324 "sintatico.tab.c"
+#line 2326 "sintatico.tab.c"
     break;
 
   case 71:
-#line 597 "sintatico.y"
+#line 599 "sintatico.y"
               { 
             node* exp = (node*)malloc(sizeof(node));
             exp->exp = 3;
             strcpy(exp->nome,"EQUAL");
             (yyval.no) = exp;}
-#line 2334 "sintatico.tab.c"
+#line 2336 "sintatico.tab.c"
     break;
 
   case 72:
-#line 602 "sintatico.y"
+#line 604 "sintatico.y"
                   {
             node* exp = (node*)malloc(sizeof(node));
             exp->exp = 4;
             strcpy(exp->nome,"NOT_EQUAL");
             (yyval.no) = exp;
     }
-#line 2345 "sintatico.tab.c"
+#line 2347 "sintatico.tab.c"
     break;
 
   case 73:
-#line 611 "sintatico.y"
+#line 613 "sintatico.y"
                         {(yyval.no) = (yyvsp[0].no);}
-#line 2351 "sintatico.tab.c"
+#line 2353 "sintatico.tab.c"
     break;
 
   case 74:
-#line 612 "sintatico.y"
+#line 614 "sintatico.y"
                                                            {
             node* exp = (yyvsp[-1].no);
             exp->direito = (yyvsp[-2].no);
             exp->esquerdo = (yyvsp[0].no);
             (yyval.no) = exp;
     }
-#line 2362 "sintatico.tab.c"
+#line 2364 "sintatico.tab.c"
     break;
 
   case 75:
-#line 621 "sintatico.y"
+#line 623 "sintatico.y"
                   {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 15;
@@ -2370,11 +2372,11 @@ yyreduce:
             no->esquerdo = NULL;
             (yyval.no) = no;
         }
-#line 2374 "sintatico.tab.c"
+#line 2376 "sintatico.tab.c"
     break;
 
   case 76:
-#line 628 "sintatico.y"
+#line 630 "sintatico.y"
                    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 16;
@@ -2382,11 +2384,11 @@ yyreduce:
             no->esquerdo = NULL;
             (yyval.no) = no;
     }
-#line 2386 "sintatico.tab.c"
+#line 2388 "sintatico.tab.c"
     break;
 
   case 77:
-#line 635 "sintatico.y"
+#line 637 "sintatico.y"
                      {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 17;
@@ -2394,11 +2396,11 @@ yyreduce:
             no->esquerdo = NULL;
             (yyval.no) = no;
     }
-#line 2398 "sintatico.tab.c"
+#line 2400 "sintatico.tab.c"
     break;
 
   case 78:
-#line 642 "sintatico.y"
+#line 644 "sintatico.y"
                       {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 18;
@@ -2406,17 +2408,17 @@ yyreduce:
             no->esquerdo = NULL;
             (yyval.no) = no;
     }
-#line 2410 "sintatico.tab.c"
+#line 2412 "sintatico.tab.c"
     break;
 
   case 79:
-#line 652 "sintatico.y"
+#line 654 "sintatico.y"
                           {(yyval.no) = (yyvsp[0].no);}
-#line 2416 "sintatico.tab.c"
+#line 2418 "sintatico.tab.c"
     break;
 
   case 80:
-#line 653 "sintatico.y"
+#line 655 "sintatico.y"
                                                   {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 19;
@@ -2424,11 +2426,11 @@ yyreduce:
             no->esquerdo = (yyvsp[-2].no);
             (yyval.no) = no;
     }
-#line 2428 "sintatico.tab.c"
+#line 2430 "sintatico.tab.c"
     break;
 
   case 81:
-#line 660 "sintatico.y"
+#line 662 "sintatico.y"
                                                   {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 20;
@@ -2436,17 +2438,17 @@ yyreduce:
             no->esquerdo = (yyvsp[-2].no);
             (yyval.no) = no;
     }
-#line 2440 "sintatico.tab.c"
+#line 2442 "sintatico.tab.c"
     break;
 
   case 82:
-#line 670 "sintatico.y"
+#line 672 "sintatico.y"
                            {(yyval.no) = (yyvsp[0].no);}
-#line 2446 "sintatico.tab.c"
+#line 2448 "sintatico.tab.c"
     break;
 
   case 83:
-#line 671 "sintatico.y"
+#line 673 "sintatico.y"
                                                    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 21;
@@ -2454,11 +2456,11 @@ yyreduce:
             no->esquerdo = (yyvsp[-2].no);
             (yyval.no) = no;
     }
-#line 2458 "sintatico.tab.c"
+#line 2460 "sintatico.tab.c"
     break;
 
   case 84:
-#line 678 "sintatico.y"
+#line 680 "sintatico.y"
                                                   {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 22;
@@ -2466,17 +2468,17 @@ yyreduce:
             no->esquerdo = (yyvsp[-2].no);
             (yyval.no) = no;
     }
-#line 2470 "sintatico.tab.c"
+#line 2472 "sintatico.tab.c"
     break;
 
   case 85:
-#line 688 "sintatico.y"
+#line 690 "sintatico.y"
                        {(yyval.no) = (yyvsp[0].no);}
-#line 2476 "sintatico.tab.c"
+#line 2478 "sintatico.tab.c"
     break;
 
   case 86:
-#line 689 "sintatico.y"
+#line 691 "sintatico.y"
                                               {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 23;
@@ -2484,11 +2486,11 @@ yyreduce:
             no->esquerdo = (yyvsp[-2].no);
             (yyval.no) = no;
     }
-#line 2488 "sintatico.tab.c"
+#line 2490 "sintatico.tab.c"
     break;
 
   case 87:
-#line 696 "sintatico.y"
+#line 698 "sintatico.y"
                                                    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 24;
@@ -2496,11 +2498,11 @@ yyreduce:
             no->esquerdo = (yyvsp[-2].no);
             (yyval.no) = no;
     }
-#line 2500 "sintatico.tab.c"
+#line 2502 "sintatico.tab.c"
     break;
 
   case 88:
-#line 703 "sintatico.y"
+#line 705 "sintatico.y"
                                                     {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 25;
@@ -2508,17 +2510,17 @@ yyreduce:
             no->esquerdo = (yyvsp[-2].no);
             (yyval.no) = no;
     }
-#line 2512 "sintatico.tab.c"
+#line 2514 "sintatico.tab.c"
     break;
 
   case 89:
-#line 713 "sintatico.y"
+#line 715 "sintatico.y"
                         {(yyval.no) = (yyvsp[0].no);}
-#line 2518 "sintatico.tab.c"
+#line 2520 "sintatico.tab.c"
     break;
 
   case 90:
-#line 714 "sintatico.y"
+#line 716 "sintatico.y"
                                                     {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 26;
@@ -2526,17 +2528,17 @@ yyreduce:
             no->esquerdo = NULL;
             (yyval.no) = no;
     }
-#line 2530 "sintatico.tab.c"
+#line 2532 "sintatico.tab.c"
     break;
 
   case 91:
-#line 724 "sintatico.y"
+#line 726 "sintatico.y"
                           {(yyval.no) = (yyvsp[0].no);}
-#line 2536 "sintatico.tab.c"
+#line 2538 "sintatico.tab.c"
     break;
 
   case 92:
-#line 725 "sintatico.y"
+#line 727 "sintatico.y"
                             {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 27;
@@ -2544,11 +2546,11 @@ yyreduce:
             no->esquerdo = NULL;
             (yyval.no) = no;
     }
-#line 2548 "sintatico.tab.c"
+#line 2550 "sintatico.tab.c"
     break;
 
   case 93:
-#line 732 "sintatico.y"
+#line 734 "sintatico.y"
                             {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 28;
@@ -2556,11 +2558,11 @@ yyreduce:
             no->esquerdo = NULL;
             (yyval.no) = no;
     }
-#line 2560 "sintatico.tab.c"
+#line 2562 "sintatico.tab.c"
     break;
 
   case 94:
-#line 739 "sintatico.y"
+#line 741 "sintatico.y"
                                    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 29;
@@ -2568,11 +2570,11 @@ yyreduce:
             no->esquerdo = NULL;
             (yyval.no) = no;
     }
-#line 2572 "sintatico.tab.c"
+#line 2574 "sintatico.tab.c"
     break;
 
   case 95:
-#line 746 "sintatico.y"
+#line 748 "sintatico.y"
                                 {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 30;
@@ -2580,11 +2582,11 @@ yyreduce:
             no->esquerdo = NULL;
             (yyval.no) = no;
     }
-#line 2584 "sintatico.tab.c"
+#line 2586 "sintatico.tab.c"
     break;
 
   case 96:
-#line 753 "sintatico.y"
+#line 755 "sintatico.y"
                             {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 31;
@@ -2592,11 +2594,11 @@ yyreduce:
             no->esquerdo = NULL;
             (yyval.no) = no;
     }
-#line 2596 "sintatico.tab.c"
+#line 2598 "sintatico.tab.c"
     break;
 
   case 97:
-#line 760 "sintatico.y"
+#line 762 "sintatico.y"
                              {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 32;
@@ -2604,11 +2606,11 @@ yyreduce:
             no->esquerdo = NULL;
             (yyval.no) = no;
     }
-#line 2608 "sintatico.tab.c"
+#line 2610 "sintatico.tab.c"
     break;
 
   case 98:
-#line 767 "sintatico.y"
+#line 769 "sintatico.y"
                                    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 33;
@@ -2616,11 +2618,11 @@ yyreduce:
             no->esquerdo = NULL;
             (yyval.no) = no;
     }
-#line 2620 "sintatico.tab.c"
+#line 2622 "sintatico.tab.c"
     break;
 
   case 99:
-#line 774 "sintatico.y"
+#line 776 "sintatico.y"
                            {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 34;
@@ -2628,28 +2630,28 @@ yyreduce:
             no->esquerdo = NULL;
             (yyval.no) = no;
     }
-#line 2632 "sintatico.tab.c"
+#line 2634 "sintatico.tab.c"
     break;
 
   case 100:
-#line 784 "sintatico.y"
+#line 786 "sintatico.y"
                           {
             (yyval.no) = (yyvsp[0].no);
         }
-#line 2640 "sintatico.tab.c"
+#line 2642 "sintatico.tab.c"
     break;
 
   case 101:
-#line 787 "sintatico.y"
+#line 789 "sintatico.y"
                                                                        {
             //array
 
     }
-#line 2649 "sintatico.tab.c"
+#line 2651 "sintatico.tab.c"
     break;
 
   case 102:
-#line 791 "sintatico.y"
+#line 793 "sintatico.y"
                               {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 27;
@@ -2657,11 +2659,11 @@ yyreduce:
             no->esquerdo = NULL;
             (yyval.no) = no;
         }
-#line 2661 "sintatico.tab.c"
+#line 2663 "sintatico.tab.c"
     break;
 
   case 103:
-#line 798 "sintatico.y"
+#line 800 "sintatico.y"
                               {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 28;
@@ -2669,11 +2671,11 @@ yyreduce:
             no->esquerdo = NULL;
             (yyval.no) = no;
         }
-#line 2673 "sintatico.tab.c"
+#line 2675 "sintatico.tab.c"
     break;
 
   case 104:
-#line 805 "sintatico.y"
+#line 807 "sintatico.y"
                                                              {
                 //chamada função
             node *no = (node*)malloc(sizeof(node));
@@ -2682,43 +2684,43 @@ yyreduce:
             no->esquerdo = NULL;
             (yyval.no) = no;
     }
-#line 2686 "sintatico.tab.c"
+#line 2688 "sintatico.tab.c"
     break;
 
   case 105:
-#line 816 "sintatico.y"
+#line 818 "sintatico.y"
                             {(yyval.no) = (yyvsp[0].no);}
-#line 2692 "sintatico.tab.c"
+#line 2694 "sintatico.tab.c"
     break;
 
   case 106:
-#line 817 "sintatico.y"
+#line 819 "sintatico.y"
         {(yyval.no) = NULL;}
-#line 2698 "sintatico.tab.c"
+#line 2700 "sintatico.tab.c"
     break;
 
   case 107:
-#line 821 "sintatico.y"
+#line 823 "sintatico.y"
                                                   {
             node *no = (yyvsp[-2].no);
             no->prox = (yyvsp[0].no);
             (yyval.no) = no;
         }
-#line 2708 "sintatico.tab.c"
+#line 2710 "sintatico.tab.c"
     break;
 
   case 108:
-#line 826 "sintatico.y"
+#line 828 "sintatico.y"
                         {
             node *no = (yyvsp[0].no);
             no->prox = NULL;
             (yyval.no)  = no;
     }
-#line 2718 "sintatico.tab.c"
+#line 2720 "sintatico.tab.c"
     break;
 
   case 109:
-#line 834 "sintatico.y"
+#line 836 "sintatico.y"
            { 
             identi *ide = (yyvsp[0].id);
             node* exp = (node*)malloc(sizeof(node));
@@ -2726,30 +2728,30 @@ yyreduce:
             strcpy(exp->nome,ide->id);
             (yyval.no) = exp;   
         }
-#line 2730 "sintatico.tab.c"
+#line 2732 "sintatico.tab.c"
     break;
 
   case 110:
-#line 841 "sintatico.y"
+#line 843 "sintatico.y"
                {
             (yyval.no) = (yyvsp[0].no); 
         }
-#line 2738 "sintatico.tab.c"
+#line 2740 "sintatico.tab.c"
     break;
 
   case 111:
-#line 844 "sintatico.y"
+#line 846 "sintatico.y"
                   {
             node* exp = (node*)malloc(sizeof(node));
             exp->exp = 2;
             strcpy(exp->nome,(yyvsp[0].str));
             (yyval.no) = exp; 
         }
-#line 2749 "sintatico.tab.c"
+#line 2751 "sintatico.tab.c"
     break;
 
   case 112:
-#line 850 "sintatico.y"
+#line 852 "sintatico.y"
                {
                 //com ponteiro
             node* exp = (node*)malloc(sizeof(node));
@@ -2757,19 +2759,19 @@ yyreduce:
             strcpy(exp->nome,(yyvsp[0].str));
             (yyval.no) = exp; 
     }
-#line 2761 "sintatico.tab.c"
+#line 2763 "sintatico.tab.c"
     break;
 
   case 113:
-#line 857 "sintatico.y"
+#line 859 "sintatico.y"
                                    {
             (yyval.no) = (yyvsp[-1].no); 
     }
-#line 2769 "sintatico.tab.c"
+#line 2771 "sintatico.tab.c"
     break;
 
   case 114:
-#line 863 "sintatico.y"
+#line 865 "sintatico.y"
                     {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 1;
@@ -2778,11 +2780,11 @@ yyreduce:
             strcpy(no->nome,(yyvsp[0].str));
             (yyval.no) = no;
         }
-#line 2782 "sintatico.tab.c"
+#line 2784 "sintatico.tab.c"
     break;
 
   case 115:
-#line 871 "sintatico.y"
+#line 873 "sintatico.y"
                  {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 1;
@@ -2791,11 +2793,11 @@ yyreduce:
             strcpy(no->nome,(yyvsp[0].str));
             (yyval.no) = no;
     }
-#line 2795 "sintatico.tab.c"
+#line 2797 "sintatico.tab.c"
     break;
 
   case 116:
-#line 879 "sintatico.y"
+#line 881 "sintatico.y"
                   {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 1;
@@ -2804,11 +2806,11 @@ yyreduce:
             strcpy(no->nome,(yyvsp[0].str));
             (yyval.no) = no;
     }
-#line 2808 "sintatico.tab.c"
+#line 2810 "sintatico.tab.c"
     break;
 
 
-#line 2812 "sintatico.tab.c"
+#line 2814 "sintatico.tab.c"
 
       default: break;
     }
@@ -3040,7 +3042,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 889 "sintatico.y"
+#line 891 "sintatico.y"
 
 
 void yyerror(char *s) {

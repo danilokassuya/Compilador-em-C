@@ -1136,7 +1136,7 @@ totalLines++;
 case 59:
 YY_RULE_SETUP
 #line 83 "lexico.l"
-yylval.id = createIdenti(totalLines,characters,yytext);characters += strlen(yytext);return ID;
+characters += strlen(yytext);yylval.id = createIdenti(totalLines,characters,yytext);return ID;
 	YY_BREAK
 case 60:
 YY_RULE_SETUP

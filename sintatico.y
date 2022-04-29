@@ -161,10 +161,12 @@ function:
                 i++;
             }   
             if(retorno != NULL){
-                insert(func,retorno->identidade);
+                if(insert(func,retorno->identidade) == 0)
+                    return 0;
                 retorno = retorno->prox;
                 while(retorno != NULL){
-                    insert(func,retorno->identidade);
+                    if(insert(func,retorno->identidade) == 0)
+                        return 0;
                     if(retorno->node != NULL)
                         no->prox = retorno->node;
                         no = retorno->node;
