@@ -57,6 +57,7 @@ int verifica(NO programa){
     while(func != NULL){
         retornoValido = 0;
         strcpy(funcaoAtual,func->nome);
+        printf("FuncaoAtual:%s",funcaoAtual);
         printExp(func->exp,0);
         printf("\n");
         if(verificarExp(func->exp,programa) == -1){
@@ -68,6 +69,11 @@ int verifica(NO programa){
             if(verificaCMD(programa,command) == -1)
                 return -1;
             command = command->next;
+        }
+        if(retornoValido == 0 && func->retorno != 2 && func->prototipo == 0){
+            printf("error:semantic:%d:%d: no return statement in function returning non-void\n",getLinhaFun(programa,funcaoAtual),getColunaFun(programa,funcaoAtual));
+            printLinhaErro(getLinhaFun(programa,funcaoAtual),getColunaFun(programa,funcaoAtual),funcaoAtual);
+            return -1;
         }
         func = func->next;
     }
@@ -145,23 +151,25 @@ int verificaCMD(NO programa,NO comm){
     }
     else if(command->type == 9){
         tipo = verificarExp(command->exp,programa);
+        retornoValido = 1;
+        printf("tipo:%d %d\n",tipo,getRetorno(programa,funcaoAtual));
         if(tipo == -1){
             printf("Erro\n");
             return -1;
         }
         if(tipo != getRetorno(programa,funcaoAtual)){
             if(getRetorno(programa,funcaoAtual) == 2){
-                printf("return with a value, in function returning void\n");
+                printf("error:semantic:%d:%d: return with a value, in function returning void\n",getLinhaFun(programa,funcaoAtual),getColunaFun(programa,funcaoAtual));
                 printLinhaErro(getLinhaFun(programa,funcaoAtual),getColunaFun(programa,funcaoAtual),funcaoAtual);
                 return -1;
             }
             if(tipo == 2){  
-                printf("return with no value, in function returning non-void\n");
+                printf("error:semantic:%d:%d: return with no value, in function returning non-void\n",command->linha,command->coluna);
                 printLinhaErro(command->linha,command->coluna,"return");
                 return -1;
             }
         }
-        else retornoValido = 1;
+
     }
     else if(command->type == 5){
         tipo = verificarExp(command->exp,programa);
@@ -175,10 +183,12 @@ int verificaCMD(NO programa,NO comm){
 }
 
 int verificarExp(NO no,NO programa){
+    identi *h;
     node *exp = (node*)no;
     if(exp == NULL){
         return -2;
     }
+    printf("exp:%d\n",exp->exp);
     int pointer1;
     int pointer2;
     if(exp->direito != NULL){ 
@@ -194,57 +204,100 @@ int verificarExp(NO no,NO programa){
     int tipo1;
     int tipo2;
     if(exp->prox != NULL){
-        if(verifica(exp->prox) == -1)
-            return -1;
-    }
-    tipo1 = verificarExp(exp->direito,programa);
-    tipo2 = verificarExp(exp->esquerdo,programa);
-    if(tipo1 == 36){
-        tipo1 = searchHash(funcaoAtual,exp->direito->nome,programa);
-        if(tipo1 == -1){
-            printf("error:semantic:%d:%d: '%s' undeclared\n",exp->direito->linha,exp->direito->coluna,exp->direito->nome);
-            printLinhaErro(exp->direito->linha,exp->direito->coluna,exp->direito->nome);
+        printf("um prox\n");
+        printExp(exp->prox,0);
+        printf("\n");
+        if(verificarExp(exp->prox,programa) == -1){
+            printf("deu ruim\n");
             return -1;
         }
+        else printf("ok\n");
+    }
+
+    tipo1 = verificarExp(exp->direito,programa);
+    tipo2 = verificarExp(exp->esquerdo,programa);
+    if(tipo1 == -1 || tipo2 == -1)
+        return -1;
+    if(tipo1 == 36){
+        printf("outro erro\n");
+        return -1;
     }
     if(tipo2 == 36){
-        tipo2 = searchHash(funcaoAtual,exp->esquerdo->nome,programa);
-        if(tipo2 == -1){
-            printf("error:semantic:%d:%d: '%s' undeclared\n",exp->esquerdo->linha,exp->esquerdo->coluna,exp->esquerdo->nome);
-            printLinhaErro(exp->esquerdo->linha,exp->esquerdo->coluna,exp->esquerdo->nome);
+        printf("outro erro\n");
+        return -1;
+    }
+    if(exp->exp == 37){
+        h = getIdenti(funcaoAtual,exp->nome,programa);
+        printf("%d",exp->direito->valor);
+        h->tamanho = exp->direito->valor;
+        if(h->tamanho < 0){
+            printf("error:semantic:%d:%d: size of array '%s is negative\n",exp->linha,exp->coluna,exp->nome);
+            printLinhaErro(exp->linha,exp->coluna,exp->nome);
             return -1;
+        }
+        if(h->tamanho == 0){
+            printf("Erro\n");
         }
     }
     if(tipo1 == -2 && tipo2 == -2){
+        if(exp->exp == 36 || exp->exp == 37){
+            tipo1 = searchHash(funcaoAtual,exp->nome,programa);
+            if(tipo1 == -1){
+                printf("error:semantic:%d:%d: '%s' undeclared\n",exp->linha,exp->coluna,exp->nome);
+                printLinhaErro(exp->linha,exp->coluna,exp->nome);
+                return -1;
+            }
+            return tipo1;
+        }
         return exp->exp;
     }
-    
-    if(exp->exp == 27){
-        exp->direito->value = exp->direito->value + 1;
+    if(exp->exp == 22){
+        exp->valor  = exp->direito->valor + exp->esquerdo->valor;
+        if(pointer1 > 0 && pointer2 > 0)
+            printf("error:semantic:%d:%d: invalid operands to binary '+' (have '%s%s'",exp->linha,exp->coluna,tradutor(tipo1),pointer(pointer1));
+            printf(" and '%s%s)\n",tradutor(tipo2),pointer(pointer2));
+            printLinhaErro(exp->linha,exp->coluna,exp->nome);
+        printf("valor:%d\n",exp->valor);
+        if(tipo1 == 1 && tipo2 == 1){
+            return 1;
+        }
+        return 0;
+    }
+
+    if(exp->exp == 27 || exp->exp == 28 ){
         return tipo1;
     }
     if(exp->exp == 7){
         printf("%d %d\n",pointer1,pointer2);
         if(pointer1 != 0 || pointer2 != 0){
             if(exp->esquerdo->declaration == 1)
-                printf("incompatible types in initialization when assigning to type '%s' from type '%s'\n",tradutor(tipo1),tradutor(tipo2));
+                printf("incompatible types in initialization when assigning to type '%s%s' from type '%s%s'\n",tradutor(tipo1),pointer(pointer1),tradutor(tipo2),pointer(pointer2));
             else 
-                printf("incompatible types when assigning to type '%s' from type '%s'\n",tradutor(tipo1),tradutor(tipo2));
+                printf("incompatible types when assigning to type '%s%s' from type '%s%s'\n",tradutor(tipo1),tradutor(tipo2));
             printLinhaErro(exp->linha,exp->coluna,exp->nome);
         }
-        else
+        else{
+            h = getIdenti(funcaoAtual,exp->esquerdo->nome,programa);
+            h->value = exp->direito->valor;
+            exp->esquerdo->valor = exp->direito->valor;
+            printf("aaaa%s = %d\n",h->id,exp->direito->valor);
             return 0;
+        }
     }
     else if(exp->exp == 15){
-        if(pointer1 == 0 && pointer2 == 0)
+        if((pointer1 == 0 && pointer2 == 0) || (pointer1 == pointer2 && tipo1 == tipo2))
             return 0;
         else if((pointer1 > 0 && pointer2 == 0) || (pointer1 == 0 && pointer2 > 0)){
-            printf("warning:%d:%d: comparison between '%s%s' and '%s%s' operator '%s'\n",exp->linha,exp->coluna,tradutor(tipo1),pointer(pointer1),tradutor(tipo2),pointer(pointer2),tradutor(exp->exp));
+            printf("warning:%d:%d: comparison between '%s%s'",exp->linha,exp->coluna,tradutor(tipo1),pointer(pointer1));
+            printf(" and '%s%s' operator '%s'\n",tradutor(tipo2),pointer(pointer2),tradutor(exp->exp));
             printLinhaErro(exp->linha,exp->coluna,exp->nome);
+            return 0;
         }
         else if(pointer1 != pointer2 || tipo1 != tipo2){
-            printf("error:semantic:%d:%d: comparison between '%s%s' and '%s%s' operator '%s'\n",exp->linha,exp->coluna,tradutor(tipo1),pointer(pointer1),tradutor(tipo2),pointer(pointer2),tradutor(exp->exp)); 
+            printf("error:semantic:%d:%d: comparison between '%s%s'",exp->linha,exp->coluna,tradutor(tipo1),pointer(pointer1)); 
+            printf(" and '%s%s' operator '%s'\n",tradutor(tipo2),pointer(pointer2),tradutor(exp->exp));
             printLinhaErro(exp->linha,exp->coluna,exp->nome);
+            return -1;
         }
         
         
@@ -376,6 +429,7 @@ char* tradutor(int simbol){
 }
 
 char* pointer(int pointers){
+    strcpy(a,"");
     while(pointers > 0){
         strcat(a,"*");
         pointers = pointers - 1;

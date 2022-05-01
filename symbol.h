@@ -27,13 +27,13 @@ typedef struct identificador{
 	void = 2
 	*/
 	int tipo;
-	int size;
+	int tamanho;
 	int isParameter;
 	int started;
 	char string[100];
 	//constante
 	//int tipo;
-	char valor[100];
+	int value;
     int pointer;//se é um ponteiro
 } identi;
 
@@ -63,13 +63,13 @@ void SetNome(Identificador inde,char nome[]);
 
 void setValor(Identificador inde,char valor[]);
 
+void setValue(Identificador inde,int value);
+
 void setStarted(Identificador inde,int started);
 
 void setisParameter(Identificador inde,int isParameter);
 
 void setLocal(Identificador inde,int local);
-
-void setSize(Identificador inde,int size);
 
 void setType(Identificador inde,int type);
 
@@ -82,6 +82,8 @@ int getLinha(char funcao[], char variavel[], Identificador programa);
 int getColuna(char funcao[], char variavel[], Identificador programa);
 
 int getPointer(char funcao[], char variavel[], Identificador programa);
+
+identi *getIdenti(char funcao[], char variavel[], Identificador programa);
 
 int searchHash(char funcao[], char variavel[], Identificador programa);
 

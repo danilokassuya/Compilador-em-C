@@ -110,12 +110,12 @@
 start:program END_OF_FILE{
         printf("SUCCESSFUL COMPILATION.\n");
         fun *function = programa->lista_de_funcoes;
-        while(function != NULL){
+        /*while(function != NULL){
             printf("%s\n",function->nome);
             function = function->next;
-        }
-        printf("start\n");
-        //printHash(programa);
+        }*/
+        //printf("start\n");
+        printHash(programa);
         //printAST(programa);
         verifica(programa);
         return 0;
@@ -201,6 +201,7 @@ function:
             strcpy(func->nome,ide->id);
             ret* retorno = $6;
             node *no = retorno->node;
+            node *noaux = retorno->node;
             int i = 0;
             identi *parametro = $4;
             identi *parametroaux;
@@ -225,14 +226,17 @@ function:
                 while(retorno != NULL){
                     if(insert(func->symbolTable,retorno->identidade) == 0)
                         return 0;
-                    if(retorno->node != NULL)
+                    if(retorno->node != NULL){
+                        while(no->prox != NULL)
+                            no = no->prox;
                         no->prox = retorno->node;
-                        no = retorno->node;
+                        no = no->prox;
+                    }
                     retorno = retorno->prox;
                 }
             }
             cont++;
-            func->exp = no;
+            func->exp = noaux;
             identi *param = $4;
             par *para = (par*)malloc(sizeof(par));
             while(param != NULL){
@@ -577,7 +581,6 @@ commandsList:
         command->coluna = lc->coluna;       
         if($2  != NULL){
             command->exp = $2;
-            printf("%d\n",command->exp->exp);
         }
         else {
             node *no = (node*)malloc(sizeof(node));
@@ -1117,6 +1120,7 @@ number:
             no->exp = 0;
             no->direito = NULL;
             no->esquerdo = NULL;
+            no->valor = atoi(lico->nome);
             strcpy(no->nome,lico->nome);
             no->linha = lico->linha;
             no->coluna = lico->coluna;
@@ -1128,6 +1132,7 @@ number:
             no->exp = 0;
             no->direito = NULL;
             no->esquerdo = NULL;
+            no->valor = atoi(lico->nome);
             strcpy(no->nome,lico->nome);
             no->linha = lico->linha;
             no->coluna = lico->coluna;
@@ -1139,6 +1144,7 @@ number:
             no->exp = 0;
             no->direito = NULL;
             no->esquerdo = NULL;
+            no->valor = atoi(lico->nome);
             strcpy(no->nome,lico->nome);
             no->linha = lico->linha;
             no->coluna = lico->coluna;

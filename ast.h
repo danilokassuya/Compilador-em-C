@@ -83,8 +83,8 @@ typedef struct No{
     int = 0
     char = 1
     void = 2
-    soma = 3
-    subtração = 4
+    soma = 3//
+    subtração = 4//
     igual = 5
     não igual = 6
     atribuição = 7
@@ -102,7 +102,7 @@ typedef struct No{
     left shift = 19
     right shift = 20
     minus = 21
-    plus = 22
+    plusbinario = 22
     div = 23
     multiply = 24
     remainder = 25
@@ -111,8 +111,8 @@ typedef struct No{
     dec = 28
     bitwise and = 29
     multiply = 30
-    plus = 31
-    minus = 32
+    plusunario = 31
+    minusunario = 32
     bitwise not = 33
     not = 34
     chamada = 35
@@ -120,12 +120,14 @@ typedef struct No{
     array = 37
     define = 38
     string = 39
+    int pointer = 40
+    char pointer = 41
     etc*/
     int linha;
     int declaration;
     int coluna;
+    int valor;  
     int exp;//Qual tipo de expressão é esse nó
-    int value;
     char nome[100]; //nome do id
     struct No *prox;
     struct No *direito;

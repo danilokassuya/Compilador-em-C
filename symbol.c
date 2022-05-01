@@ -48,7 +48,8 @@ Identificador createIdenti(int totalLines,int characters,char name[]){
 	ide->linha = totalLines;
 	ide->coluna = characters;
 	strcpy(ide->id,name);
-	ide->size = -1;
+	ide->tamanho = 1;
+	ide->value = 0;
 	ide->isParameter = 0;
 	ide->started = -1;
 	ide->pointer = 0;
@@ -70,6 +71,11 @@ void setValor(Identificador inde,char valor[]){
 	strcpy(identifica->id, valor);
 }
 
+void setValue(Identificador inde,int value){
+	identi *identifica = (identi *)inde;
+	identifica->value = value;
+}
+
 void setStarted(Identificador inde,int started){
 	identi *identifica = (identi *)inde;
 	identifica->started = started;
@@ -78,11 +84,6 @@ void setStarted(Identificador inde,int started){
 void setisParameter(Identificador inde,int isParameter){
 	identi *identifica = (identi *)inde;
 	identifica->isParameter = isParameter;
-}
-
-void setSize(Identificador inde,int size){
-	identi *identifica = (identi *)inde;
-	identifica->size = size;
 }
 
 void setType(Identificador inde,int type){
@@ -318,7 +319,6 @@ int getPointer(char funcao[], char variavel[], Identificador programa){
 	return -1;
 }
 
-
 Identificador clean(Identificador ctr){
 	int i = 0;
 	controle *hash = (controle*)ctr;
@@ -380,6 +380,46 @@ int searchHash(char funcao[], char variavel[], Identificador programa){
 	}
 
 	return -1;
+}
+
+identi *getIdenti(char funcao[], char variavel[], Identificador programa){
+	pro *prog = (pro*)programa;
+	if(strcmp(funcao,"Global") == 0){
+		controle *hash = prog->globalSymbolTable;
+		int size = strlen(variavel);
+		int i = 0;
+		int buff = 0;
+		while(i < size ){
+			buff = buff + variavel[i];
+			i++;
+		}
+		i = buff%211;
+		identi *h = hash->hash[i];
+		while(strcmp(h->id, variavel) != 0){
+			h = h->i;
+		}
+		return h;
+	}
+	else{
+		fun *func = prog->lista_de_funcoes;
+		while(strcmp(func->nome,funcao) != 0){
+			func = func->next;
+		}
+		controle *hash = func->symbolTable;
+		int size = strlen(variavel);
+		int i = 0;
+		int buff = 0;
+		while(i < size ){
+			buff = buff + variavel[i];
+			i++;
+		}
+		i = buff%211;
+		identi *h = hash->hash[i];
+		while(strcmp(h->id, variavel) != 0){
+			h = h->i;
+		}
+		return h;
+	}
 }
 
 int exist(Identificador ctr, char string[]){

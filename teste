@@ -8,14 +8,15 @@ return 0;
 }
 int teste();
 int teste1(){
-    int a;
+    int a = 0;
+    int b[-1];
     int ab;
     int ba;
     int c;
-    if(a < 0){
+    if(a < b){
         a++;
     }
-    return "a";
+    return 0;
 }
 
 int teste2(int d){
