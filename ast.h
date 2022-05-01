@@ -14,8 +14,6 @@ typedef struct program /* estrutura para programa */
 
 typedef struct parametro{
     char nome[100];
-    int tipo;
-    int ponteiro;
     struct parametro* prox;
 }par;
 
@@ -28,6 +26,9 @@ typedef struct function /* estrutura para função */
     struct control *symbolTable;
     struct parametro* parametro;
     int retorno;
+    int pointer;
+    int linha;
+    int coluna;
     int prototipo;//Se é um protipo
     struct cmd *lista_de_comandos;
     struct No *exp;
@@ -71,12 +72,17 @@ typedef struct cmd /* comando genérico */
     struct No* for3;
     //bloco
     struct cmd* bloco;
+    //print/scan
+    char string[100];
+    int linha;
+    int coluna;
+    struct identificador* identi;
 }cmd;
 typedef struct No{
     /*
-    void = 0
-    int = 1
-    char = 2
+    int = 0
+    char = 1
+    void = 2
     soma = 3
     subtração = 4
     igual = 5
@@ -111,12 +117,49 @@ typedef struct No{
     not = 34
     chamada = 35
     id  = 36
+    array = 37
+    define = 38
+    string = 39
     etc*/
+    int linha;
+    int declaration;
+    int coluna;
     int exp;//Qual tipo de expressão é esse nó
+    int value;
     char nome[100]; //nome do id
     struct No *prox;
     struct No *direito;
     struct No *esquerdo;
 }node;
+
+typedef struct lc{
+    int linha;
+    int coluna;
+    char nome[100];
+}lc;
+
+typedef void *NO;
+
+NO createLC(int totalLines,int characters,char name[]);
+
+void printAST(NO programa);
+
+void printExp(NO exp,int space);
+
+int verifica(NO programa);
+
+int verificaCMD(NO programa,NO comm);
+
+int verificarExp(NO no,NO programa);
+
+char* tradutor(int simbol);
+
+char *pointer(int pointers);
+
+int getRetorno(NO programa,char funcao[]);
+
+int getLinhaFun(NO programa,char funcao[]);
+
+int getColunaFun(NO programa,char funcao[]);
 
 #endif

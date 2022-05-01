@@ -1,9 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.5.1.  */
+/* A Bison parser, made by GNU Bison 3.0.4.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2020 Free Software Foundation,
-   Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -41,14 +40,11 @@
    define necessary library symbols; they are noted "INFRINGES ON
    USER NAME SPACE" below.  */
 
-/* Undocumented macros, especially those whose name start with YY_,
-   are private implementation details.  Do not rely on them.  */
-
 /* Identify Bison output.  */
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.5.1"
+#define YYBISON_VERSION "3.0.4"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -65,8 +61,8 @@
 
 
 
-/* First part of user prologue.  */
-#line 1 "sintatico.y"
+/* Copy the first part of user declarations.  */
+#line 1 "sintatico.y" /* yacc.c:339  */
 
     #include<stdio.h>
     #include<string.h>
@@ -85,26 +81,13 @@
     int tipo = 0;
     void yyerror(char *s);
 
-#line 89 "sintatico.tab.c"
+#line 85 "sintatico.tab.c" /* yacc.c:339  */
 
-# ifndef YY_CAST
-#  ifdef __cplusplus
-#   define YY_CAST(Type, Val) static_cast<Type> (Val)
-#   define YY_REINTERPRET_CAST(Type, Val) reinterpret_cast<Type> (Val)
-#  else
-#   define YY_CAST(Type, Val) ((Type) (Val))
-#   define YY_REINTERPRET_CAST(Type, Val) ((Type) (Val))
-#  endif
-# endif
 # ifndef YY_NULLPTR
-#  if defined __cplusplus
-#   if 201103L <= __cplusplus
-#    define YY_NULLPTR nullptr
-#   else
-#    define YY_NULLPTR 0
-#   endif
+#  if defined __cplusplus && 201103L <= __cplusplus
+#   define YY_NULLPTR nullptr
 #  else
-#   define YY_NULLPTR ((void*)0)
+#   define YY_NULLPTR 0
 #  endif
 # endif
 
@@ -116,8 +99,8 @@
 # define YYERROR_VERBOSE 0
 #endif
 
-/* Use api.header.include to #include this header
-   instead of duplicating it here.  */
+/* In a future release of Bison, this section will be replaced
+   by #include "sintatico.tab.h".  */
 #ifndef YY_YY_SINTATICO_TAB_H_INCLUDED
 # define YY_YY_SINTATICO_TAB_H_INCLUDED
 /* Debug traces.  */
@@ -204,9 +187,10 @@ extern int yydebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
+
 union YYSTYPE
 {
-#line 19 "sintatico.y"
+#line 19 "sintatico.y" /* yacc.c:355  */
 
     int inteiro;
     char *str;
@@ -215,13 +199,13 @@ union YYSTYPE
     fun *function;
     cmd  *comando;
     int var[2];
-    par *para;
     identi *id;
     ret *re;
+    lc *lc; 
 
-#line 223 "sintatico.tab.c"
-
+#line 207 "sintatico.tab.c" /* yacc.c:355  */
 };
+
 typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
@@ -234,81 +218,36 @@ int yyparse (void);
 
 #endif /* !YY_YY_SINTATICO_TAB_H_INCLUDED  */
 
+/* Copy the second part of user declarations.  */
 
+#line 224 "sintatico.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
 #endif
 
-/* On compilers that do not define __PTRDIFF_MAX__ etc., make sure
-   <limits.h> and (if available) <stdint.h> are included
-   so that the code can choose integer types of a good width.  */
-
-#ifndef __PTRDIFF_MAX__
-# include <limits.h> /* INFRINGES ON USER NAME SPACE */
-# if defined __STDC_VERSION__ && 199901 <= __STDC_VERSION__
-#  include <stdint.h> /* INFRINGES ON USER NAME SPACE */
-#  define YY_STDINT_H
-# endif
+#ifdef YYTYPE_UINT8
+typedef YYTYPE_UINT8 yytype_uint8;
+#else
+typedef unsigned char yytype_uint8;
 #endif
 
-/* Narrow types that promote to a signed type and that can represent a
-   signed or unsigned integer of at least N bits.  In tables they can
-   save space and decrease cache pressure.  Promoting to a signed type
-   helps avoid bugs in integer arithmetic.  */
-
-#ifdef __INT_LEAST8_MAX__
-typedef __INT_LEAST8_TYPE__ yytype_int8;
-#elif defined YY_STDINT_H
-typedef int_least8_t yytype_int8;
+#ifdef YYTYPE_INT8
+typedef YYTYPE_INT8 yytype_int8;
 #else
 typedef signed char yytype_int8;
 #endif
 
-#ifdef __INT_LEAST16_MAX__
-typedef __INT_LEAST16_TYPE__ yytype_int16;
-#elif defined YY_STDINT_H
-typedef int_least16_t yytype_int16;
+#ifdef YYTYPE_UINT16
+typedef YYTYPE_UINT16 yytype_uint16;
 #else
-typedef short yytype_int16;
+typedef unsigned short int yytype_uint16;
 #endif
 
-#if defined __UINT_LEAST8_MAX__ && __UINT_LEAST8_MAX__ <= __INT_MAX__
-typedef __UINT_LEAST8_TYPE__ yytype_uint8;
-#elif (!defined __UINT_LEAST8_MAX__ && defined YY_STDINT_H \
-       && UINT_LEAST8_MAX <= INT_MAX)
-typedef uint_least8_t yytype_uint8;
-#elif !defined __UINT_LEAST8_MAX__ && UCHAR_MAX <= INT_MAX
-typedef unsigned char yytype_uint8;
+#ifdef YYTYPE_INT16
+typedef YYTYPE_INT16 yytype_int16;
 #else
-typedef short yytype_uint8;
-#endif
-
-#if defined __UINT_LEAST16_MAX__ && __UINT_LEAST16_MAX__ <= __INT_MAX__
-typedef __UINT_LEAST16_TYPE__ yytype_uint16;
-#elif (!defined __UINT_LEAST16_MAX__ && defined YY_STDINT_H \
-       && UINT_LEAST16_MAX <= INT_MAX)
-typedef uint_least16_t yytype_uint16;
-#elif !defined __UINT_LEAST16_MAX__ && USHRT_MAX <= INT_MAX
-typedef unsigned short yytype_uint16;
-#else
-typedef int yytype_uint16;
-#endif
-
-#ifndef YYPTRDIFF_T
-# if defined __PTRDIFF_TYPE__ && defined __PTRDIFF_MAX__
-#  define YYPTRDIFF_T __PTRDIFF_TYPE__
-#  define YYPTRDIFF_MAXIMUM __PTRDIFF_MAX__
-# elif defined PTRDIFF_MAX
-#  ifndef ptrdiff_t
-#   include <stddef.h> /* INFRINGES ON USER NAME SPACE */
-#  endif
-#  define YYPTRDIFF_T ptrdiff_t
-#  define YYPTRDIFF_MAXIMUM PTRDIFF_MAX
-# else
-#  define YYPTRDIFF_T long
-#  define YYPTRDIFF_MAXIMUM LONG_MAX
-# endif
+typedef short int yytype_int16;
 #endif
 
 #ifndef YYSIZE_T
@@ -316,27 +255,15 @@ typedef int yytype_uint16;
 #  define YYSIZE_T __SIZE_TYPE__
 # elif defined size_t
 #  define YYSIZE_T size_t
-# elif defined __STDC_VERSION__ && 199901 <= __STDC_VERSION__
+# elif ! defined YYSIZE_T
 #  include <stddef.h> /* INFRINGES ON USER NAME SPACE */
 #  define YYSIZE_T size_t
 # else
-#  define YYSIZE_T unsigned
+#  define YYSIZE_T unsigned int
 # endif
 #endif
 
-#define YYSIZE_MAXIMUM                                  \
-  YY_CAST (YYPTRDIFF_T,                                 \
-           (YYPTRDIFF_MAXIMUM < YY_CAST (YYSIZE_T, -1)  \
-            ? YYPTRDIFF_MAXIMUM                         \
-            : YY_CAST (YYSIZE_T, -1)))
-
-#define YYSIZEOF(X) YY_CAST (YYPTRDIFF_T, sizeof (X))
-
-/* Stored state numbers (used for stacks). */
-typedef yytype_uint8 yy_state_t;
-
-/* State numbers in computations.  */
-typedef int yy_state_fast_t;
+#define YYSIZE_MAXIMUM ((YYSIZE_T) -1)
 
 #ifndef YY_
 # if defined YYENABLE_NLS && YYENABLE_NLS
@@ -350,19 +277,30 @@ typedef int yy_state_fast_t;
 # endif
 #endif
 
-#ifndef YY_ATTRIBUTE_PURE
-# if defined __GNUC__ && 2 < __GNUC__ + (96 <= __GNUC_MINOR__)
-#  define YY_ATTRIBUTE_PURE __attribute__ ((__pure__))
+#ifndef YY_ATTRIBUTE
+# if (defined __GNUC__                                               \
+      && (2 < __GNUC__ || (__GNUC__ == 2 && 96 <= __GNUC_MINOR__)))  \
+     || defined __SUNPRO_C && 0x5110 <= __SUNPRO_C
+#  define YY_ATTRIBUTE(Spec) __attribute__(Spec)
 # else
-#  define YY_ATTRIBUTE_PURE
+#  define YY_ATTRIBUTE(Spec) /* empty */
 # endif
 #endif
 
+#ifndef YY_ATTRIBUTE_PURE
+# define YY_ATTRIBUTE_PURE   YY_ATTRIBUTE ((__pure__))
+#endif
+
 #ifndef YY_ATTRIBUTE_UNUSED
-# if defined __GNUC__ && 2 < __GNUC__ + (7 <= __GNUC_MINOR__)
-#  define YY_ATTRIBUTE_UNUSED __attribute__ ((__unused__))
+# define YY_ATTRIBUTE_UNUSED YY_ATTRIBUTE ((__unused__))
+#endif
+
+#if !defined _Noreturn \
+     && (!defined __STDC_VERSION__ || __STDC_VERSION__ < 201112)
+# if defined _MSC_VER && 1200 <= _MSC_VER
+#  define _Noreturn __declspec (noreturn)
 # else
-#  define YY_ATTRIBUTE_UNUSED
+#  define _Noreturn YY_ATTRIBUTE ((__noreturn__))
 # endif
 #endif
 
@@ -373,13 +311,13 @@ typedef int yy_state_fast_t;
 # define YYUSE(E) /* empty */
 #endif
 
-#if defined __GNUC__ && ! defined __ICC && 407 <= __GNUC__ * 100 + __GNUC_MINOR__
+#if defined __GNUC__ && 407 <= __GNUC__ * 100 + __GNUC_MINOR__
 /* Suppress an incorrect diagnostic about yylval being uninitialized.  */
-# define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN                            \
-    _Pragma ("GCC diagnostic push")                                     \
-    _Pragma ("GCC diagnostic ignored \"-Wuninitialized\"")              \
+# define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN \
+    _Pragma ("GCC diagnostic push") \
+    _Pragma ("GCC diagnostic ignored \"-Wuninitialized\"")\
     _Pragma ("GCC diagnostic ignored \"-Wmaybe-uninitialized\"")
-# define YY_IGNORE_MAYBE_UNINITIALIZED_END      \
+# define YY_IGNORE_MAYBE_UNINITIALIZED_END \
     _Pragma ("GCC diagnostic pop")
 #else
 # define YY_INITIAL_VALUE(Value) Value
@@ -392,20 +330,6 @@ typedef int yy_state_fast_t;
 # define YY_INITIAL_VALUE(Value) /* Nothing. */
 #endif
 
-#if defined __cplusplus && defined __GNUC__ && ! defined __ICC && 6 <= __GNUC__
-# define YY_IGNORE_USELESS_CAST_BEGIN                          \
-    _Pragma ("GCC diagnostic push")                            \
-    _Pragma ("GCC diagnostic ignored \"-Wuseless-cast\"")
-# define YY_IGNORE_USELESS_CAST_END            \
-    _Pragma ("GCC diagnostic pop")
-#endif
-#ifndef YY_IGNORE_USELESS_CAST_BEGIN
-# define YY_IGNORE_USELESS_CAST_BEGIN
-# define YY_IGNORE_USELESS_CAST_END
-#endif
-
-
-#define YY_ASSERT(E) ((void) (0 && (E)))
 
 #if ! defined yyoverflow || YYERROR_VERBOSE
 
@@ -482,17 +406,17 @@ void free (void *); /* INFRINGES ON USER NAME SPACE */
 /* A type that is properly aligned for any stack member.  */
 union yyalloc
 {
-  yy_state_t yyss_alloc;
+  yytype_int16 yyss_alloc;
   YYSTYPE yyvs_alloc;
 };
 
 /* The size of the maximum gap between one aligned stack and the next.  */
-# define YYSTACK_GAP_MAXIMUM (YYSIZEOF (union yyalloc) - 1)
+# define YYSTACK_GAP_MAXIMUM (sizeof (union yyalloc) - 1)
 
 /* The size of an array large to enough to hold all stacks, each with
    N elements.  */
 # define YYSTACK_BYTES(N) \
-     ((N) * (YYSIZEOF (yy_state_t) + YYSIZEOF (YYSTYPE)) \
+     ((N) * (sizeof (yytype_int16) + sizeof (YYSTYPE)) \
       + YYSTACK_GAP_MAXIMUM)
 
 # define YYCOPY_NEEDED 1
@@ -505,11 +429,11 @@ union yyalloc
 # define YYSTACK_RELOCATE(Stack_alloc, Stack)                           \
     do                                                                  \
       {                                                                 \
-        YYPTRDIFF_T yynewbytes;                                         \
+        YYSIZE_T yynewbytes;                                            \
         YYCOPY (&yyptr->Stack_alloc, Stack, yysize);                    \
         Stack = &yyptr->Stack_alloc;                                    \
-        yynewbytes = yystacksize * YYSIZEOF (*Stack) + YYSTACK_GAP_MAXIMUM; \
-        yyptr += yynewbytes / YYSIZEOF (*yyptr);                        \
+        yynewbytes = yystacksize * sizeof (*Stack) + YYSTACK_GAP_MAXIMUM; \
+        yyptr += yynewbytes / sizeof (*yyptr);                          \
       }                                                                 \
     while (0)
 
@@ -521,12 +445,12 @@ union yyalloc
 # ifndef YYCOPY
 #  if defined __GNUC__ && 1 < __GNUC__
 #   define YYCOPY(Dst, Src, Count) \
-      __builtin_memcpy (Dst, Src, YY_CAST (YYSIZE_T, (Count)) * sizeof (*(Src)))
+      __builtin_memcpy (Dst, Src, (Count) * sizeof (*(Src)))
 #  else
 #   define YYCOPY(Dst, Src, Count)              \
       do                                        \
         {                                       \
-          YYPTRDIFF_T yyi;                      \
+          YYSIZE_T yyi;                         \
           for (yyi = 0; yyi < (Count); yyi++)   \
             (Dst)[yyi] = (Src)[yyi];            \
         }                                       \
@@ -549,18 +473,17 @@ union yyalloc
 /* YYNSTATES -- Number of states.  */
 #define YYNSTATES  229
 
+/* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
+   by yylex, with out-of-bounds checking.  */
 #define YYUNDEFTOK  2
 #define YYMAXUTOK   323
 
-
-/* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
-   as returned by yylex, with out-of-bounds checking.  */
 #define YYTRANSLATE(YYX)                                                \
-  (0 <= (YYX) && (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
+  ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
 
 /* YYTRANSLATE[TOKEN-NUM] -- Symbol number corresponding to TOKEN-NUM
-   as returned by yylex.  */
-static const yytype_int8 yytranslate[] =
+   as returned by yylex, without out-of-bounds checking.  */
+static const yytype_uint8 yytranslate[] =
 {
        0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -599,20 +522,20 @@ static const yytype_int8 yytranslate[] =
 
 #if YYDEBUG
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_int16 yyrline[] =
+static const yytype_uint16 yyrline[] =
 {
-       0,   110,   110,   125,   128,   134,   135,   139,   141,   147,
-     151,   205,   206,   210,   218,   222,   232,   246,   267,   268,
-     272,   273,   277,   283,   287,   323,   329,   337,   346,   350,
-     359,   371,   374,   375,   379,   383,   390,   400,   407,   415,
-     423,   430,   439,   442,   448,   451,   457,   464,   470,   473,
-     479,   480,   488,   489,   497,   504,   511,   521,   522,   534,
-     535,   545,   552,   556,   563,   567,   574,   578,   585,   589,
-     595,   599,   604,   613,   614,   623,   630,   637,   644,   654,
-     655,   662,   672,   673,   680,   690,   691,   698,   705,   715,
-     716,   726,   727,   734,   741,   748,   755,   762,   769,   776,
-     786,   789,   793,   800,   807,   818,   819,   823,   828,   836,
-     843,   846,   852,   859,   865,   873,   881
+       0,   110,   110,   127,   129,   134,   135,   139,   166,   193,
+     197,   274,   275,   279,   286,   290,   300,   327,   361,   362,
+     366,   367,   371,   378,   382,   430,   436,   445,   454,   458,
+     467,   479,   482,   483,   487,   491,   498,   508,   515,   523,
+     531,   538,   547,   550,   558,   566,   572,   591,   597,   600,
+     606,   607,   615,   616,   624,   635,   646,   660,   661,   673,
+     674,   687,   697,   701,   708,   712,   719,   723,   730,   734,
+     740,   744,   755,   770,   771,   780,   791,   802,   813,   827,
+     828,   839,   853,   854,   865,   879,   880,   891,   902,   916,
+     917,   927,   928,   939,   950,   961,   972,   983,   994,  1005,
+    1019,  1022,  1029,  1036,  1043,  1054,  1055,  1059,  1064,  1072,
+    1083,  1086,  1097,  1108,  1114,  1125,  1136
 };
 #endif
 
@@ -649,7 +572,7 @@ static const char *const yytname[] =
 # ifdef YYPRINT
 /* YYTOKNUM[NUM] -- (External) token number corresponding to the
    (internal) symbol number NUM (which must be that of a token).  */
-static const yytype_int16 yytoknum[] =
+static const yytype_uint16 yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
      265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
@@ -661,14 +584,14 @@ static const yytype_int16 yytoknum[] =
 };
 # endif
 
-#define YYPACT_NINF (-155)
+#define YYPACT_NINF -155
 
-#define yypact_value_is_default(Yyn) \
-  ((Yyn) == YYPACT_NINF)
+#define yypact_value_is_default(Yystate) \
+  (!!((Yystate) == (-155)))
 
-#define YYTABLE_NINF (-1)
+#define YYTABLE_NINF -1
 
-#define yytable_value_is_error(Yyn) \
+#define yytable_value_is_error(Yytable_value) \
   0
 
   /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
@@ -703,7 +626,7 @@ static const yytype_int16 yypact[] =
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
      Performed when YYTABLE does not specify something else to do.  Zero
      means the default is an error.  */
-static const yytype_int8 yydefact[] =
+static const yytype_uint8 yydefact[] =
 {
        0,    33,    31,    32,     0,     0,     0,     6,     6,     8,
        9,    12,     0,     1,     2,     5,     3,     4,    12,     0,
@@ -829,7 +752,7 @@ static const yytype_int16 yycheck[] =
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
-static const yytype_int8 yystos[] =
+static const yytype_uint8 yystos[] =
 {
        0,     3,     4,     5,    52,    70,    71,    73,    74,    77,
       82,    86,    56,     0,    65,    71,    72,    72,    20,    75,
@@ -857,7 +780,7 @@ static const yytype_int8 yystos[] =
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
-static const yytype_int8 yyr1[] =
+static const yytype_uint8 yyr1[] =
 {
        0,    69,    70,    71,    71,    72,    72,    73,    73,    73,
       74,    75,    75,    76,    76,    77,    78,    78,    79,    79,
@@ -874,7 +797,7 @@ static const yytype_int8 yyr1[] =
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
-static const yytype_int8 yyr2[] =
+static const yytype_uint8 yyr2[] =
 {
        0,     2,     2,     2,     2,     1,     0,     4,     1,     1,
        8,     2,     0,     2,     0,     3,     4,     6,     3,     0,
@@ -903,22 +826,22 @@ static const yytype_int8 yyr2[] =
 
 #define YYRECOVERING()  (!!yyerrstatus)
 
-#define YYBACKUP(Token, Value)                                    \
-  do                                                              \
-    if (yychar == YYEMPTY)                                        \
-      {                                                           \
-        yychar = (Token);                                         \
-        yylval = (Value);                                         \
-        YYPOPSTACK (yylen);                                       \
-        yystate = *yyssp;                                         \
-        goto yybackup;                                            \
-      }                                                           \
-    else                                                          \
-      {                                                           \
-        yyerror (YY_("syntax error: cannot back up")); \
-        YYERROR;                                                  \
-      }                                                           \
-  while (0)
+#define YYBACKUP(Token, Value)                                  \
+do                                                              \
+  if (yychar == YYEMPTY)                                        \
+    {                                                           \
+      yychar = (Token);                                         \
+      yylval = (Value);                                         \
+      YYPOPSTACK (yylen);                                       \
+      yystate = *yyssp;                                         \
+      goto yybackup;                                            \
+    }                                                           \
+  else                                                          \
+    {                                                           \
+      yyerror (YY_("syntax error: cannot back up")); \
+      YYERROR;                                                  \
+    }                                                           \
+while (0)
 
 /* Error token number */
 #define YYTERROR        1
@@ -958,39 +881,37 @@ do {                                                                      \
 } while (0)
 
 
-/*-----------------------------------.
-| Print this symbol's value on YYO.  |
-`-----------------------------------*/
+/*----------------------------------------.
+| Print this symbol's value on YYOUTPUT.  |
+`----------------------------------------*/
 
 static void
-yy_symbol_value_print (FILE *yyo, int yytype, YYSTYPE const * const yyvaluep)
+yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep)
 {
-  FILE *yyoutput = yyo;
-  YYUSE (yyoutput);
+  FILE *yyo = yyoutput;
+  YYUSE (yyo);
   if (!yyvaluep)
     return;
 # ifdef YYPRINT
   if (yytype < YYNTOKENS)
-    YYPRINT (yyo, yytoknum[yytype], *yyvaluep);
+    YYPRINT (yyoutput, yytoknum[yytype], *yyvaluep);
 # endif
-  YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
   YYUSE (yytype);
-  YY_IGNORE_MAYBE_UNINITIALIZED_END
 }
 
 
-/*---------------------------.
-| Print this symbol on YYO.  |
-`---------------------------*/
+/*--------------------------------.
+| Print this symbol on YYOUTPUT.  |
+`--------------------------------*/
 
 static void
-yy_symbol_print (FILE *yyo, int yytype, YYSTYPE const * const yyvaluep)
+yy_symbol_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep)
 {
-  YYFPRINTF (yyo, "%s %s (",
+  YYFPRINTF (yyoutput, "%s %s (",
              yytype < YYNTOKENS ? "token" : "nterm", yytname[yytype]);
 
-  yy_symbol_value_print (yyo, yytype, yyvaluep);
-  YYFPRINTF (yyo, ")");
+  yy_symbol_value_print (yyoutput, yytype, yyvaluep);
+  YYFPRINTF (yyoutput, ")");
 }
 
 /*------------------------------------------------------------------.
@@ -999,7 +920,7 @@ yy_symbol_print (FILE *yyo, int yytype, YYSTYPE const * const yyvaluep)
 `------------------------------------------------------------------*/
 
 static void
-yy_stack_print (yy_state_t *yybottom, yy_state_t *yytop)
+yy_stack_print (yytype_int16 *yybottom, yytype_int16 *yytop)
 {
   YYFPRINTF (stderr, "Stack now");
   for (; yybottom <= yytop; yybottom++)
@@ -1022,20 +943,20 @@ do {                                                            \
 `------------------------------------------------*/
 
 static void
-yy_reduce_print (yy_state_t *yyssp, YYSTYPE *yyvsp, int yyrule)
+yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, int yyrule)
 {
-  int yylno = yyrline[yyrule];
+  unsigned long int yylno = yyrline[yyrule];
   int yynrhs = yyr2[yyrule];
   int yyi;
-  YYFPRINTF (stderr, "Reducing stack by rule %d (line %d):\n",
+  YYFPRINTF (stderr, "Reducing stack by rule %d (line %lu):\n",
              yyrule - 1, yylno);
   /* The symbols being reduced.  */
   for (yyi = 0; yyi < yynrhs; yyi++)
     {
       YYFPRINTF (stderr, "   $%d = ", yyi + 1);
       yy_symbol_print (stderr,
-                       yystos[+yyssp[yyi + 1 - yynrhs]],
-                       &yyvsp[(yyi + 1) - (yynrhs)]
+                       yystos[yyssp[yyi + 1 - yynrhs]],
+                       &(yyvsp[(yyi + 1) - (yynrhs)])
                                               );
       YYFPRINTF (stderr, "\n");
     }
@@ -1079,13 +1000,13 @@ int yydebug;
 
 # ifndef yystrlen
 #  if defined __GLIBC__ && defined _STRING_H
-#   define yystrlen(S) (YY_CAST (YYPTRDIFF_T, strlen (S)))
+#   define yystrlen strlen
 #  else
 /* Return the length of YYSTR.  */
-static YYPTRDIFF_T
+static YYSIZE_T
 yystrlen (const char *yystr)
 {
-  YYPTRDIFF_T yylen;
+  YYSIZE_T yylen;
   for (yylen = 0; yystr[yylen]; yylen++)
     continue;
   return yylen;
@@ -1121,12 +1042,12 @@ yystpcpy (char *yydest, const char *yysrc)
    backslash-backslash).  YYSTR is taken from yytname.  If YYRES is
    null, do not copy; instead, return the length of what the result
    would have been.  */
-static YYPTRDIFF_T
+static YYSIZE_T
 yytnamerr (char *yyres, const char *yystr)
 {
   if (*yystr == '"')
     {
-      YYPTRDIFF_T yyn = 0;
+      YYSIZE_T yyn = 0;
       char const *yyp = yystr;
 
       for (;;)
@@ -1139,10 +1060,7 @@ yytnamerr (char *yyres, const char *yystr)
           case '\\':
             if (*++yyp != '\\')
               goto do_not_strip_quotes;
-            else
-              goto append;
-
-          append:
+            /* Fall through.  */
           default:
             if (yyres)
               yyres[yyn] = *yyp;
@@ -1157,10 +1075,10 @@ yytnamerr (char *yyres, const char *yystr)
     do_not_strip_quotes: ;
     }
 
-  if (yyres)
-    return yystpcpy (yyres, yystr) - yyres;
-  else
+  if (! yyres)
     return yystrlen (yystr);
+
+  return yystpcpy (yyres, yystr) - yyres;
 }
 # endif
 
@@ -1173,19 +1091,19 @@ yytnamerr (char *yyres, const char *yystr)
    *YYMSG_ALLOC to the required number of bytes.  Return 2 if the
    required number of bytes is too large to store.  */
 static int
-yysyntax_error (YYPTRDIFF_T *yymsg_alloc, char **yymsg,
-                yy_state_t *yyssp, int yytoken)
+yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
+                yytype_int16 *yyssp, int yytoken)
 {
+  YYSIZE_T yysize0 = yytnamerr (YY_NULLPTR, yytname[yytoken]);
+  YYSIZE_T yysize = yysize0;
   enum { YYERROR_VERBOSE_ARGS_MAXIMUM = 5 };
   /* Internationalized format string. */
   const char *yyformat = YY_NULLPTR;
-  /* Arguments of yyformat: reported tokens (one for the "unexpected",
-     one per "expected"). */
+  /* Arguments of yyformat. */
   char const *yyarg[YYERROR_VERBOSE_ARGS_MAXIMUM];
-  /* Actual size of YYARG. */
+  /* Number of reported tokens (one for the "unexpected", one per
+     "expected"). */
   int yycount = 0;
-  /* Cumulated lengths of YYARG.  */
-  YYPTRDIFF_T yysize = 0;
 
   /* There are many possibilities here to consider:
      - If this state is a consistent state with a default action, then
@@ -1212,9 +1130,7 @@ yysyntax_error (YYPTRDIFF_T *yymsg_alloc, char **yymsg,
   */
   if (yytoken != YYEMPTY)
     {
-      int yyn = yypact[+*yyssp];
-      YYPTRDIFF_T yysize0 = yytnamerr (YY_NULLPTR, yytname[yytoken]);
-      yysize = yysize0;
+      int yyn = yypact[*yyssp];
       yyarg[yycount++] = yytname[yytoken];
       if (!yypact_value_is_default (yyn))
         {
@@ -1239,12 +1155,11 @@ yysyntax_error (YYPTRDIFF_T *yymsg_alloc, char **yymsg,
                   }
                 yyarg[yycount++] = yytname[yyx];
                 {
-                  YYPTRDIFF_T yysize1
-                    = yysize + yytnamerr (YY_NULLPTR, yytname[yyx]);
-                  if (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM)
-                    yysize = yysize1;
-                  else
+                  YYSIZE_T yysize1 = yysize + yytnamerr (YY_NULLPTR, yytname[yyx]);
+                  if (! (yysize <= yysize1
+                         && yysize1 <= YYSTACK_ALLOC_MAXIMUM))
                     return 2;
+                  yysize = yysize1;
                 }
               }
         }
@@ -1256,7 +1171,6 @@ yysyntax_error (YYPTRDIFF_T *yymsg_alloc, char **yymsg,
       case N:                               \
         yyformat = S;                       \
       break
-    default: /* Avoid compiler warnings. */
       YYCASE_(0, YY_("syntax error"));
       YYCASE_(1, YY_("syntax error, unexpected %s"));
       YYCASE_(2, YY_("syntax error, unexpected %s, expecting %s"));
@@ -1267,13 +1181,10 @@ yysyntax_error (YYPTRDIFF_T *yymsg_alloc, char **yymsg,
     }
 
   {
-    /* Don't count the "%s"s in the final size, but reserve room for
-       the terminator.  */
-    YYPTRDIFF_T yysize1 = yysize + (yystrlen (yyformat) - 2 * yycount) + 1;
-    if (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM)
-      yysize = yysize1;
-    else
+    YYSIZE_T yysize1 = yysize + yystrlen (yyformat);
+    if (! (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM))
       return 2;
+    yysize = yysize1;
   }
 
   if (*yymsg_alloc < yysize)
@@ -1299,8 +1210,8 @@ yysyntax_error (YYPTRDIFF_T *yymsg_alloc, char **yymsg,
         }
       else
         {
-          ++yyp;
-          ++yyformat;
+          yyp++;
+          yyformat++;
         }
   }
   return 0;
@@ -1343,7 +1254,7 @@ int yynerrs;
 int
 yyparse (void)
 {
-    yy_state_fast_t yystate;
+    int yystate;
     /* Number of tokens to shift before error messages enabled.  */
     int yyerrstatus;
 
@@ -1355,16 +1266,16 @@ yyparse (void)
        to reallocate them elsewhere.  */
 
     /* The state stack.  */
-    yy_state_t yyssa[YYINITDEPTH];
-    yy_state_t *yyss;
-    yy_state_t *yyssp;
+    yytype_int16 yyssa[YYINITDEPTH];
+    yytype_int16 *yyss;
+    yytype_int16 *yyssp;
 
     /* The semantic value stack.  */
     YYSTYPE yyvsa[YYINITDEPTH];
     YYSTYPE *yyvs;
     YYSTYPE *yyvsp;
 
-    YYPTRDIFF_T yystacksize;
+    YYSIZE_T yystacksize;
 
   int yyn;
   int yyresult;
@@ -1378,7 +1289,7 @@ yyparse (void)
   /* Buffer for error messages, and its allocated size.  */
   char yymsgbuf[128];
   char *yymsg = yymsgbuf;
-  YYPTRDIFF_T yymsg_alloc = sizeof yymsgbuf;
+  YYSIZE_T yymsg_alloc = sizeof yymsgbuf;
 #endif
 
 #define YYPOPSTACK(N)   (yyvsp -= (N), yyssp -= (N))
@@ -1399,54 +1310,46 @@ yyparse (void)
   yychar = YYEMPTY; /* Cause a token to be read.  */
   goto yysetstate;
 
-
 /*------------------------------------------------------------.
-| yynewstate -- push a new state, which is found in yystate.  |
+| yynewstate -- Push a new state, which is found in yystate.  |
 `------------------------------------------------------------*/
-yynewstate:
+ yynewstate:
   /* In all cases, when you get here, the value and location stacks
      have just been pushed.  So pushing a state here evens the stacks.  */
   yyssp++;
 
-
-/*--------------------------------------------------------------------.
-| yysetstate -- set current state (the top of the stack) to yystate.  |
-`--------------------------------------------------------------------*/
-yysetstate:
-  YYDPRINTF ((stderr, "Entering state %d\n", yystate));
-  YY_ASSERT (0 <= yystate && yystate < YYNSTATES);
-  YY_IGNORE_USELESS_CAST_BEGIN
-  *yyssp = YY_CAST (yy_state_t, yystate);
-  YY_IGNORE_USELESS_CAST_END
+ yysetstate:
+  *yyssp = yystate;
 
   if (yyss + yystacksize - 1 <= yyssp)
-#if !defined yyoverflow && !defined YYSTACK_RELOCATE
-    goto yyexhaustedlab;
-#else
     {
       /* Get the current used size of the three stacks, in elements.  */
-      YYPTRDIFF_T yysize = yyssp - yyss + 1;
+      YYSIZE_T yysize = yyssp - yyss + 1;
 
-# if defined yyoverflow
+#ifdef yyoverflow
       {
         /* Give user a chance to reallocate the stack.  Use copies of
            these so that the &'s don't force the real ones into
            memory.  */
-        yy_state_t *yyss1 = yyss;
         YYSTYPE *yyvs1 = yyvs;
+        yytype_int16 *yyss1 = yyss;
 
         /* Each stack pointer address is followed by the size of the
            data in use in that stack, in bytes.  This used to be a
            conditional around just the two extra args, but that might
            be undefined if yyoverflow is a macro.  */
         yyoverflow (YY_("memory exhausted"),
-                    &yyss1, yysize * YYSIZEOF (*yyssp),
-                    &yyvs1, yysize * YYSIZEOF (*yyvsp),
+                    &yyss1, yysize * sizeof (*yyssp),
+                    &yyvs1, yysize * sizeof (*yyvsp),
                     &yystacksize);
+
         yyss = yyss1;
         yyvs = yyvs1;
       }
-# else /* defined YYSTACK_RELOCATE */
+#else /* no yyoverflow */
+# ifndef YYSTACK_RELOCATE
+      goto yyexhaustedlab;
+# else
       /* Extend the stack our own way.  */
       if (YYMAXDEPTH <= yystacksize)
         goto yyexhaustedlab;
@@ -1455,43 +1358,42 @@ yysetstate:
         yystacksize = YYMAXDEPTH;
 
       {
-        yy_state_t *yyss1 = yyss;
+        yytype_int16 *yyss1 = yyss;
         union yyalloc *yyptr =
-          YY_CAST (union yyalloc *,
-                   YYSTACK_ALLOC (YY_CAST (YYSIZE_T, YYSTACK_BYTES (yystacksize))));
+          (union yyalloc *) YYSTACK_ALLOC (YYSTACK_BYTES (yystacksize));
         if (! yyptr)
           goto yyexhaustedlab;
         YYSTACK_RELOCATE (yyss_alloc, yyss);
         YYSTACK_RELOCATE (yyvs_alloc, yyvs);
-# undef YYSTACK_RELOCATE
+#  undef YYSTACK_RELOCATE
         if (yyss1 != yyssa)
           YYSTACK_FREE (yyss1);
       }
 # endif
+#endif /* no yyoverflow */
 
       yyssp = yyss + yysize - 1;
       yyvsp = yyvs + yysize - 1;
 
-      YY_IGNORE_USELESS_CAST_BEGIN
-      YYDPRINTF ((stderr, "Stack size increased to %ld\n",
-                  YY_CAST (long, yystacksize)));
-      YY_IGNORE_USELESS_CAST_END
+      YYDPRINTF ((stderr, "Stack size increased to %lu\n",
+                  (unsigned long int) yystacksize));
 
       if (yyss + yystacksize - 1 <= yyssp)
         YYABORT;
     }
-#endif /* !defined yyoverflow && !defined YYSTACK_RELOCATE */
+
+  YYDPRINTF ((stderr, "Entering state %d\n", yystate));
 
   if (yystate == YYFINAL)
     YYACCEPT;
 
   goto yybackup;
 
-
 /*-----------.
 | yybackup.  |
 `-----------*/
 yybackup:
+
   /* Do appropriate processing given the current state.  Read a
      lookahead token if we need one and don't already have one.  */
 
@@ -1541,13 +1443,15 @@ yybackup:
 
   /* Shift the lookahead token.  */
   YY_SYMBOL_PRINT ("Shifting", yytoken, &yylval, &yylloc);
+
+  /* Discard the shifted token.  */
+  yychar = YYEMPTY;
+
   yystate = yyn;
   YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
   *++yyvsp = yylval;
   YY_IGNORE_MAYBE_UNINITIALIZED_END
 
-  /* Discard the shifted token.  */
-  yychar = YYEMPTY;
   goto yynewstate;
 
 
@@ -1562,7 +1466,7 @@ yydefault:
 
 
 /*-----------------------------.
-| yyreduce -- do a reduction.  |
+| yyreduce -- Do a reduction.  |
 `-----------------------------*/
 yyreduce:
   /* yyn is the number of a rule to reduce with.  */
@@ -1582,9 +1486,9 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 2:
-#line 110 "sintatico.y"
-                         {
+        case 2:
+#line 110 "sintatico.y" /* yacc.c:1646  */
+    {
         printf("SUCCESSFUL COMPILATION.\n");
         fun *function = programa->lista_de_funcoes;
         while(function != NULL){
@@ -1592,67 +1496,113 @@ yyreduce:
             function = function->next;
         }
         printf("start\n");
-        printHash(programa);
+        //printHash(programa);
+        //printAST(programa);
+        verifica(programa);
         return 0;
 }
-#line 1599 "sintatico.tab.c"
+#line 1505 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 125 "sintatico.y"
-                                   { 
-            printf("declarado\n");
+#line 127 "sintatico.y" /* yacc.c:1646  */
+    { 
         }
-#line 1607 "sintatico.tab.c"
+#line 1512 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 128 "sintatico.y"
-                                   { 
-            printf("função\n");
+#line 129 "sintatico.y" /* yacc.c:1646  */
+    { 
         }
-#line 1615 "sintatico.tab.c"
+#line 1519 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 134 "sintatico.y"
-                {}
-#line 1621 "sintatico.tab.c"
+#line 134 "sintatico.y" /* yacc.c:1646  */
+    {}
+#line 1525 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 135 "sintatico.y"
-        {}
-#line 1627 "sintatico.tab.c"
+#line 135 "sintatico.y" /* yacc.c:1646  */
+    {}
+#line 1531 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 139 "sintatico.y"
-                                         {//# DEFINE NOME/ID 
+#line 139 "sintatico.y" /* yacc.c:1646  */
+    {  
+        identi *id = (yyvsp[-1].id);
+        node *no = (yyvsp[0].no);
+		if(no->exp == 2){
+			printf("error:semantic:%d:%d: string type is not compatible with define\n",no->linha,no->coluna);
+			printLinhaErro(no->linha,no->coluna,no->nome);
+			return 0;
         }
-#line 1634 "sintatico.tab.c"
+        if(insert(programa->globalSymbolTable,id) == 0)
+            return 0;
+        node *noaux = (node*)malloc(sizeof(node));
+        noaux->linha = id->linha;
+        noaux->coluna = id->coluna;
+        strcpy(noaux->nome,id->id);
+        noaux->exp = 38;
+        noaux->direito = no;
+        noaux->esquerdo = NULL;
+        no = noaux;
+        noaux = programa->exp;
+        if(noaux != NULL){
+            while(noaux->prox != NULL){
+                noaux = noaux->prox;
+            }
+            noaux->prox = no;
+        }
+        programa->exp = no;
+        }
+#line 1563 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
-#line 141 "sintatico.y"
-                       {
+#line 166 "sintatico.y" /* yacc.c:1646  */
+    {
         ret* retorno = (yyvsp[0].re);
         identi *id = retorno->identidade;
-        printf("a:%s\n\n",id->id);
-        programa->exp = retorno->node;
+        node *no = retorno->node;
+        if(retorno != NULL){
+            if(insert(programa->globalSymbolTable,retorno->identidade) == 0)
+                return 0;
+            retorno = retorno->prox;
+            while(retorno != NULL){
+                if(insert(programa->globalSymbolTable,retorno->identidade) == 0)
+                    return 0;
+                if(retorno->node != NULL){
+                    no->prox = retorno->node;
+                    no = retorno->node;
+                }
+                retorno = retorno->prox;
+            }
+        }
+        node *noaux = programa->exp;
+        if(noaux != NULL){
+            while(noaux->prox != NULL){
+                noaux = noaux->prox;
+            }
+            noaux->prox = no;
+        }
+        programa->exp = no;
     }
-#line 1645 "sintatico.tab.c"
+#line 1595 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 147 "sintatico.y"
-                         {}
-#line 1651 "sintatico.tab.c"
+#line 193 "sintatico.y" /* yacc.c:1646  */
+    {}
+#line 1601 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
-#line 151 "sintatico.y"
-                                                                                   {
+#line 197 "sintatico.y" /* yacc.c:1646  */
+    {
             fun* func = (fun*)malloc(sizeof(fun));
             func->symbolTable = (controle*)malloc(sizeof(controle));
             identi *ide = (yyvsp[-5].id);
@@ -1660,16 +1610,28 @@ yyreduce:
             ret* retorno = (yyvsp[-2].re);
             node *no = retorno->node;
             int i = 0;
+            identi *parametro = (yyvsp[-4].id);
+            identi *parametroaux;
             while(i< 211){
                 func->symbolTable->hash[i] = programa->globalSymbolTable->hash[i];
                 i++;
             }   
+            while(parametro != NULL){
+                if(parametro->tipo == 2){
+                    printf("parameter '%s' declared void\n",parametro->id);
+                    printLinhaErro(parametro->linha,parametro->coluna,parametro->id);
+                    return 0;
+                }
+                parametroaux = parametro;
+                parametro = parametro->i;
+                insert(func->symbolTable,parametroaux);
+            }
             if(retorno != NULL){
-                if(insert(func,retorno->identidade) == 0)
+                if(insert(func->symbolTable,retorno->identidade) == 0)
                     return 0;
                 retorno = retorno->prox;
                 while(retorno != NULL){
-                    if(insert(func,retorno->identidade) == 0)
+                    if(insert(func->symbolTable,retorno->identidade) == 0)
                         return 0;
                     if(retorno->node != NULL)
                         no->prox = retorno->node;
@@ -1679,9 +1641,20 @@ yyreduce:
             }
             cont++;
             func->exp = no;
-            func->parametro = (yyvsp[-4].para);
+            identi *param = (yyvsp[-4].id);
+            par *para = (par*)malloc(sizeof(par));
+            while(param != NULL){
+                strcpy(para->nome,param->id);
+                param = param->i;
+                para->prox = (par*)malloc(sizeof(par));
+                para = para->prox;
+            }
+            func->parametro = para;
             func->retorno = (yyvsp[-7].inteiro);
+            func->pointer = (yyvsp[-6].inteiro);
             func->prototipo = 0;
+            func->linha = ide->linha;
+            func->coluna = ide->coluna;
             func->lista_de_comandos = (yyvsp[-1].comando);
             func->next = NULL;
             fun *funclist = programa->lista_de_funcoes;
@@ -1703,149 +1676,187 @@ yyreduce:
                 funclist->next = func;
             }
         }
-#line 1707 "sintatico.tab.c"
+#line 1680 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 205 "sintatico.y"
-                         {(yyval.inteiro) = (yyvsp[0].inteiro)+1;}
-#line 1713 "sintatico.tab.c"
+#line 274 "sintatico.y" /* yacc.c:1646  */
+    {(yyval.inteiro) = (yyvsp[0].inteiro)+1 ;}
+#line 1686 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
-#line 206 "sintatico.y"
-        {(yyval.inteiro) = 1;}
-#line 1719 "sintatico.tab.c"
+#line 275 "sintatico.y" /* yacc.c:1646  */
+    {(yyval.inteiro) = 0;}
+#line 1692 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 210 "sintatico.y"
-                              {
+#line 279 "sintatico.y" /* yacc.c:1646  */
+    {
             ret* retorno = (yyvsp[-1].re);
             node *no = retorno->node;
             identi *id = retorno->identidade;
-            printf("a:%s\n",id->id);
             retorno->prox = (yyvsp[0].re);
             (yyval.re) = retorno;
         }
-#line 1732 "sintatico.tab.c"
+#line 1704 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
-#line 218 "sintatico.y"
-        {(yyval.re) = NULL;}
-#line 1738 "sintatico.tab.c"
+#line 286 "sintatico.y" /* yacc.c:1646  */
+    {(yyval.re) = NULL;}
+#line 1710 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 222 "sintatico.y"
-                                         {
+#line 290 "sintatico.y" /* yacc.c:1646  */
+    {
             ret *retorno = (yyvsp[-1].re);
             identi *ide = retorno->identidade;
             ide->type = 0;
             ide->tipo = (yyvsp[-2].inteiro);
             (yyval.re) = retorno;
         }
-#line 1750 "sintatico.tab.c"
+#line 1722 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
-#line 232 "sintatico.y"
-                                          {
+#line 300 "sintatico.y" /* yacc.c:1646  */
+    {
             identi *ide = (yyvsp[-2].id);
             node *no = (yyvsp[0].no);
             ret *retorno = (ret*)malloc(sizeof(ret));
+            node *noaux = (node*)malloc(sizeof(node));
+            noaux->exp = 36;
+            noaux->declaration = 1;
+            strcpy(noaux->nome,ide->id);
+            noaux->linha = ide->linha;
+            noaux->coluna = ide->coluna;
+            noaux->direito = (yyvsp[-1].no);
+            noaux->esquerdo = NULL;
             if(no != NULL){
-                no->esquerdo = (yyvsp[-1].no);
+                no->esquerdo = noaux;
             }
             else{
-                no = (yyvsp[-1].no);
+                no = noaux;
+            }
+            ide->pointer = (yyvsp[-3].inteiro);
+            if((yyvsp[-1].no) != NULL){
+                noaux->exp = 37;
+                ide->pointer = ide->pointer+1;
             }
             retorno->identidade = ide;
             retorno->node = no;
             (yyval.re) = retorno;
         }
-#line 1769 "sintatico.tab.c"
+#line 1754 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
-#line 246 "sintatico.y"
-                                                                  {
+#line 327 "sintatico.y" /* yacc.c:1646  */
+    {
             identi *ide = (yyvsp[-4].id);
             node *no = (yyvsp[-2].no);
+            node *noaux = (node*)malloc(sizeof(node));
+            noaux->declaration = 1;
+            strcpy(noaux->nome,ide->id);
+            noaux->linha = ide->linha;
+            noaux->coluna = ide->coluna;
+            noaux->direito = (yyvsp[-3].no);
+            noaux->esquerdo = NULL;
             if(no != NULL){
-                no->esquerdo = (yyvsp[-3].no);
+                no->esquerdo = noaux;
                 ret *retorno = (yyvsp[0].re);
                 no->prox = retorno->node;
             }
             else{
-                no = (yyvsp[-3].no);
+                no = noaux;
                 ret *retorno = (yyvsp[0].re);
                 no->prox = retorno->node;
+            }
+            ide->pointer = (yyvsp[-5].inteiro);
+            noaux->exp = 36;
+            if((yyvsp[-3].no) != NULL){
+                noaux->exp = 37;
+                ide->pointer = ide->pointer+1;
             }
             ret *retorno = (ret*)malloc(sizeof(ret));
             retorno->identidade = ide;
             retorno->node = no;
             (yyval.re) = retorno;
     }
-#line 1792 "sintatico.tab.c"
+#line 1790 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
-#line 267 "sintatico.y"
-                                                     {(yyval.no) = (yyvsp[-1].no);}
-#line 1798 "sintatico.tab.c"
+#line 361 "sintatico.y" /* yacc.c:1646  */
+    {(yyval.no) = (yyvsp[-1].no);}
+#line 1796 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
-#line 268 "sintatico.y"
-        {(yyval.no) = NULL;}
-#line 1804 "sintatico.tab.c"
+#line 362 "sintatico.y" /* yacc.c:1646  */
+    {(yyval.no) = NULL;}
+#line 1802 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
-#line 272 "sintatico.y"
-                   {(yyval.no) = (yyvsp[0].no);}
-#line 1810 "sintatico.tab.c"
+#line 366 "sintatico.y" /* yacc.c:1646  */
+    {(yyval.no) = (yyvsp[0].no);}
+#line 1808 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
-#line 273 "sintatico.y"
-        {(yyval.no) = NULL;}
-#line 1816 "sintatico.tab.c"
+#line 367 "sintatico.y" /* yacc.c:1646  */
+    {(yyval.no) = NULL;}
+#line 1814 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
-#line 277 "sintatico.y"
-                               {
+#line 371 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 7;
             no->direito = (yyvsp[0].no);
+            no->esquerdo = NULL;
             (yyval.no) = no;
         }
-#line 1827 "sintatico.tab.c"
+#line 1826 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
-#line 283 "sintatico.y"
-        {(yyval.no) = NULL;}
-#line 1833 "sintatico.tab.c"
+#line 378 "sintatico.y" /* yacc.c:1646  */
+    {(yyval.no) = NULL;}
+#line 1832 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
-#line 287 "sintatico.y"
-                                             {
+#line 382 "sintatico.y" /* yacc.c:1646  */
+    {
             identi *ide = (yyvsp[-2].id);
             fun* func = (fun*)malloc(sizeof(fun));
             strcpy(func->nome,ide->id);
             func->symbolTable = (controle*)malloc(sizeof(controle));
             int i = 0;
-            while(i< 211){
-                func->symbolTable->hash[i] = programa->globalSymbolTable->hash[i];
-                i++;
+            identi *parametro = (yyvsp[-1].id);
+            while(parametro != NULL){
+                if(parametro->tipo == 2){
+                    printf("parameter '%s' declared void\n",parametro->id);
+                    printLinhaErro(parametro->linha,parametro->coluna,parametro->id);
+                }
+                parametro = parametro->i;
             }   
-            func->parametro = (yyvsp[-1].para);
+            identi *param = (yyvsp[-1].id);
+            par *para = (par*)malloc(sizeof(par));
+            while(param != NULL){
+                strcpy(para->nome,param->id);
+                param = param->i;
+                para = para->prox;
+            }
+            func->parametro = para;
             func->retorno = (yyvsp[-4].inteiro);
+            func->pointer = (yyvsp[-3].inteiro);
             func->prototipo = 1;
             func->lista_de_comandos = NULL;
             func->next = NULL;
@@ -1868,143 +1879,144 @@ yyreduce:
                 funclist->next = func;
             }
         }
-#line 1872 "sintatico.tab.c"
+#line 1883 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
-#line 323 "sintatico.y"
-                                          {
-            (yyval.para) = (yyvsp[-1].para);
+#line 430 "sintatico.y" /* yacc.c:1646  */
+    {
+            (yyval.id) = (yyvsp[-1].id);
 }
-#line 1880 "sintatico.tab.c"
+#line 1891 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
-#line 329 "sintatico.y"
-                                      {
+#line 436 "sintatico.y" /* yacc.c:1646  */
+    {
             identi *ide = (yyvsp[-1].id);
-            par* parametro = (par*)malloc(sizeof(par));
-            strcpy(parametro->nome,ide->id);
-            parametro->tipo = (yyvsp[-3].inteiro);
-            parametro->ponteiro = (yyvsp[-2].inteiro);
-            (yyval.para) = parametro;
+            ide->tipo = (yyvsp[-3].inteiro);
+            ide->type = 0;
+            ide->pointer = (yyvsp[-2].inteiro);
+            ide->i = NULL;  
+            ide->isParameter = 1;
+            (yyval.id) = ide;
         }
-#line 1893 "sintatico.tab.c"
+#line 1905 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
-#line 337 "sintatico.y"
-                                                           {
+#line 445 "sintatico.y" /* yacc.c:1646  */
+    {
             identi *ide = (yyvsp[-3].id);
-            par* parametro = (par*)malloc(sizeof(par));
-            strcpy(parametro->nome,ide->id);
-            parametro->tipo = (yyvsp[-5].inteiro);
-            parametro->ponteiro = (yyvsp[-4].inteiro);
-            parametro->prox = (yyvsp[0].para);
-            (yyval.para) = parametro;
+            ide->tipo = (yyvsp[-5].inteiro);
+            ide->type = 0;
+            ide->pointer = (yyvsp[-4].inteiro);
+            ide->i = (yyvsp[0].id);
+            ide->isParameter = 1;
+            (yyval.id) = ide;
     }
-#line 1907 "sintatico.tab.c"
+#line 1919 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
-#line 346 "sintatico.y"
-        {    }
-#line 1913 "sintatico.tab.c"
+#line 454 "sintatico.y" /* yacc.c:1646  */
+    { (yyval.id) = NULL;   }
+#line 1925 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
-#line 350 "sintatico.y"
-                                      {
+#line 458 "sintatico.y" /* yacc.c:1646  */
+    {
             identi *ide = (yyvsp[-1].id);
-            par * parametro = (par*)malloc(sizeof(par*));
-            strcpy(parametro->nome,ide->id);
-            parametro->tipo = (yyvsp[-3].inteiro);
-            parametro->ponteiro = (yyvsp[-2].inteiro);
-            parametro->prox = NULL;
-            (yyval.para) = parametro;
+            ide->tipo = (yyvsp[-3].inteiro);
+            ide->type = 0;
+            ide->pointer = (yyvsp[-2].inteiro);
+            ide->i = NULL;
+            ide->isParameter = 1;
+            (yyval.id) = ide;
         }
-#line 1927 "sintatico.tab.c"
+#line 1939 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
-#line 359 "sintatico.y"
-                                                           {
+#line 467 "sintatico.y" /* yacc.c:1646  */
+    {
             identi *ide = (yyvsp[-3].id);
-            par * parametro = (par*)malloc(sizeof(par*));
-            strcpy(parametro->nome,ide->id);
-            parametro->tipo = (yyvsp[-5].inteiro);
-            parametro->ponteiro = (yyvsp[-4].inteiro);
-            parametro->prox = (yyvsp[0].para);
-            (yyval.para) = parametro;
+            ide->tipo = (yyvsp[-5].inteiro);
+            ide->type = 0;
+            ide->pointer = (yyvsp[-4].inteiro);
+            ide->i = (yyvsp[0].id);
+            ide->isParameter = 1;
+            (yyval.id) = ide;
     }
-#line 1941 "sintatico.tab.c"
+#line 1953 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
-#line 371 "sintatico.y"
-            {
+#line 479 "sintatico.y" /* yacc.c:1646  */
+    {
             (yyval.inteiro) = 0;
         }
-#line 1949 "sintatico.tab.c"
+#line 1961 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
-#line 374 "sintatico.y"
-             {tipo = 1;}
-#line 1955 "sintatico.tab.c"
+#line 482 "sintatico.y" /* yacc.c:1646  */
+    {(yyval.inteiro) = 1;}
+#line 1967 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 33:
-#line 375 "sintatico.y"
-             {tipo = 2;}
-#line 1961 "sintatico.tab.c"
+#line 483 "sintatico.y" /* yacc.c:1646  */
+    {(yyval.inteiro) = 2;}
+#line 1973 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 379 "sintatico.y"
-                                                 {(yyval.comando) = (yyvsp[-1].comando);}
-#line 1967 "sintatico.tab.c"
+#line 487 "sintatico.y" /* yacc.c:1646  */
+    {(yyval.comando) = (yyvsp[-1].comando);}
+#line 1979 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 383 "sintatico.y"
-                              {
+#line 491 "sintatico.y" /* yacc.c:1646  */
+    {
             cmd *command = (yyvsp[-1].comando);
             if(command == NULL)
                 (yyval.comando) = (yyvsp[0].comando);
             command->next = (yyvsp[0].comando);
             (yyval.comando) = command;
         }
-#line 1979 "sintatico.tab.c"
+#line 1991 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 390 "sintatico.y"
-                     {
+#line 498 "sintatico.y" /* yacc.c:1646  */
+    {
             cmd *command = (yyvsp[0].comando);
             if(command == NULL)
                 (yyval.comando) = NULL;
             command->next = NULL;
             (yyval.comando) = command;
     }
-#line 1991 "sintatico.tab.c"
+#line 2003 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 400 "sintatico.y"
-                                                            {
+#line 508 "sintatico.y" /* yacc.c:1646  */
+    {
         cmd *command = (cmd*)malloc(sizeof(cmd));
         command->type = 4;
         command->exp = (yyvsp[-2].no);
         command->whil = (yyvsp[-5].comando);
         (yyval.comando) = command;
         }
-#line 2003 "sintatico.tab.c"
+#line 2015 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 407 "sintatico.y"
-                                            {
+#line 515 "sintatico.y" /* yacc.c:1646  */
+    {
         cmd *command = (cmd*)malloc(sizeof(cmd));
         command->type = 1;
         command->exp = (yyvsp[-2].no);
@@ -2012,12 +2024,12 @@ yyreduce:
         command->els = NULL;
         (yyval.comando) = command;
     }
-#line 2016 "sintatico.tab.c"
+#line 2028 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 415 "sintatico.y"
-                                                       {
+#line 523 "sintatico.y" /* yacc.c:1646  */
+    {
         cmd *command = (cmd*)malloc(sizeof(cmd));
         command->type = 1;
         command->exp = (yyvsp[-4].no);
@@ -2025,24 +2037,24 @@ yyreduce:
         command->els = (yyvsp[0].comando);
         (yyval.comando) = command;
     }
-#line 2029 "sintatico.tab.c"
+#line 2041 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 423 "sintatico.y"
-                                               {
+#line 531 "sintatico.y" /* yacc.c:1646  */
+    {
         cmd *command = (cmd*)malloc(sizeof(cmd));
         command->type = 2;
         command->exp = (yyvsp[-2].no);
         command->whil = (yyvsp[0].comando);
         (yyval.comando) = command;
     }
-#line 2041 "sintatico.tab.c"
+#line 2053 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 41:
-#line 430 "sintatico.y"
-                                                                                                   {
+#line 538 "sintatico.y" /* yacc.c:1646  */
+    {
         cmd *command = (cmd*)malloc(sizeof(cmd));
         command->type = 3;
         command->for1 = (yyvsp[-6].no);
@@ -2051,163 +2063,194 @@ yyreduce:
         command->for0 = (yyvsp[0].comando);
         (yyval.comando) = command;
     }
-#line 2055 "sintatico.tab.c"
+#line 2067 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 42:
-#line 439 "sintatico.y"
-                                                {
+#line 547 "sintatico.y" /* yacc.c:1646  */
+    {
         (yyval.comando) = NULL;
     }
-#line 2063 "sintatico.tab.c"
+#line 2075 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 43:
-#line 442 "sintatico.y"
-                                                                 {
+#line 550 "sintatico.y" /* yacc.c:1646  */
+    {
+        lc *lico = (yyvsp[-4].lc);
         cmd *command = (cmd*)malloc(sizeof(cmd));
         command->type = 10;
         command->exp = (yyvsp[-2].no);
+        strcpy(command->string,lico->nome);
         (yyval.comando) = command;
     }
-#line 2074 "sintatico.tab.c"
+#line 2088 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 44:
-#line 448 "sintatico.y"
-                                                                    {
-
+#line 558 "sintatico.y" /* yacc.c:1646  */
+    {
+        lc *lico = (yyvsp[-5].lc);
+        cmd *command = (cmd*)malloc(sizeof(cmd));
+        command->type = 12;
+        command->identi = (yyvsp[-2].id);
+        strcpy(command->string,lico->nome);
+        (yyval.comando) = command;
     }
-#line 2082 "sintatico.tab.c"
+#line 2101 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 45:
-#line 451 "sintatico.y"
-                                                  {
+#line 566 "sintatico.y" /* yacc.c:1646  */
+    {
         cmd *command = (cmd*)malloc(sizeof(cmd));
         command->type = 11;
         command->exp = (yyvsp[-2].no);
         (yyval.comando) = command;
     }
-#line 2093 "sintatico.tab.c"
+#line 2112 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 46:
-#line 457 "sintatico.y"
-                                        {
-        //tipo de retorno
+#line 572 "sintatico.y" /* yacc.c:1646  */
+    {
         cmd *command = (cmd*)malloc(sizeof(cmd));
+        lc* lc = (yyvsp[-2].lc);
         command->type = 9;
-        command->exp = (yyvsp[-1].no);
+        command->linha = lc->linha;
+        command->coluna = lc->coluna;       
+        if((yyvsp[-1].no)  != NULL){
+            command->exp = (yyvsp[-1].no);
+            printf("%d\n",command->exp->exp);
+        }
+        else {
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 2;
+            no->direito = NULL;
+            no->esquerdo = NULL;
+            command->exp = no;
+        }
         (yyval.comando) = command;
     }
-#line 2105 "sintatico.tab.c"
+#line 2136 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 47:
-#line 464 "sintatico.y"
-                             {
+#line 591 "sintatico.y" /* yacc.c:1646  */
+    {
         cmd *command = (cmd*)malloc(sizeof(cmd));
         command->type = 8;
         command->exp = (yyvsp[-1].no);
         (yyval.comando) = command;
     }
-#line 2116 "sintatico.tab.c"
+#line 2147 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 48:
-#line 470 "sintatico.y"
-                  {
+#line 597 "sintatico.y" /* yacc.c:1646  */
+    {
         (yyval.comando) = NULL;
     }
-#line 2124 "sintatico.tab.c"
+#line 2155 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 49:
-#line 473 "sintatico.y"
-              {
+#line 600 "sintatico.y" /* yacc.c:1646  */
+    {
         (yyval.comando) = (yyvsp[0].comando);
     }
-#line 2132 "sintatico.tab.c"
+#line 2163 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 50:
-#line 479 "sintatico.y"
-                        {(yyval.no) = (yyvsp[0].no);}
-#line 2138 "sintatico.tab.c"
+#line 606 "sintatico.y" /* yacc.c:1646  */
+    {(yyval.no) = (yyvsp[0].no);}
+#line 2169 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 51:
-#line 480 "sintatico.y"
-                                         {
+#line 607 "sintatico.y" /* yacc.c:1646  */
+    {
         node *no = (yyvsp[-2].no);
         no->prox = (yyvsp[0].no);
         (yyval.no) = no;
     }
-#line 2148 "sintatico.tab.c"
+#line 2179 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 52:
-#line 488 "sintatico.y"
-                              {(yyval.no) = (yyvsp[0].no);}
-#line 2154 "sintatico.tab.c"
+#line 615 "sintatico.y" /* yacc.c:1646  */
+    {(yyval.no) = (yyvsp[0].no);}
+#line 2185 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 53:
-#line 489 "sintatico.y"
-                                                 {
+#line 616 "sintatico.y" /* yacc.c:1646  */
+    {
         node *no = (yyvsp[-1].no);
         no->direito = (yyvsp[0].no);
         no->esquerdo = (yyvsp[-2].no);
     }
-#line 2164 "sintatico.tab.c"
+#line 2195 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 54:
-#line 497 "sintatico.y"
-               {
+#line 624 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 7;
             no->direito = NULL;
             no->esquerdo = NULL;
+            lc *lc = (yyvsp[0].lc);
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             (yyval.no) = no;
         }
-#line 2176 "sintatico.tab.c"
+#line 2211 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 55:
-#line 504 "sintatico.y"
-                   {
+#line 635 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 8;
             no->direito = NULL;
             no->esquerdo = NULL;
+            lc *lc = (yyvsp[0].lc);
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             (yyval.no) = no;
         }
-#line 2188 "sintatico.tab.c"
+#line 2227 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 56:
-#line 511 "sintatico.y"
-                     {
+#line 646 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 9;
             no->direito = NULL;
             no->esquerdo = NULL;
+            lc *lc = (yyvsp[0].lc);
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             (yyval.no) = no;
         }
-#line 2200 "sintatico.tab.c"
+#line 2243 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 57:
-#line 521 "sintatico.y"
-                  {(yyval.no) = (yyvsp[0].no);}
-#line 2206 "sintatico.tab.c"
+#line 660 "sintatico.y" /* yacc.c:1646  */
+    {(yyval.no) = (yyvsp[0].no);}
+#line 2249 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 58:
-#line 522 "sintatico.y"
-                                                                             {
+#line 661 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (yyvsp[-4].no);
             no->exp = 28;
             no->prox = (yyvsp[-2].no);
@@ -2215,468 +2258,565 @@ yyreduce:
             noaux->prox = (yyvsp[0].no);
             (yyval.no) = no;
     }
-#line 2219 "sintatico.tab.c"
+#line 2262 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 59:
-#line 534 "sintatico.y"
-                   {(yyval.no) = (yyvsp[0].no);}
-#line 2225 "sintatico.tab.c"
+#line 673 "sintatico.y" /* yacc.c:1646  */
+    {(yyval.no) = (yyvsp[0].no);}
+#line 2268 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 60:
-#line 535 "sintatico.y"
-                                        {
+#line 674 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 11;
             no->direito = (yyvsp[0].no);
             no->esquerdo = (yyvsp[-2].no);
+            lc *lc = (yyvsp[-1].lc);
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
             (yyval.no) = no;
     }
-#line 2237 "sintatico.tab.c"
+#line 2283 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 61:
-#line 545 "sintatico.y"
-                                 {
+#line 687 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 10;
             no->direito = (yyvsp[0].no);
             no->esquerdo = (yyvsp[-2].no);
+            lc *lc = (yyvsp[-1].lc);
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
             (yyval.no) = no;
         }
-#line 2249 "sintatico.tab.c"
+#line 2298 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 62:
-#line 552 "sintatico.y"
-           {(yyval.no) = (yyvsp[0].no);}
-#line 2255 "sintatico.tab.c"
+#line 697 "sintatico.y" /* yacc.c:1646  */
+    {(yyval.no) = (yyvsp[0].no);}
+#line 2304 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 63:
-#line 556 "sintatico.y"
-                          {
+#line 701 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 12;
             no->direito = (yyvsp[0].no);
             no->esquerdo = (yyvsp[-2].no);
             (yyval.no) = no;
         }
-#line 2267 "sintatico.tab.c"
+#line 2316 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 64:
-#line 563 "sintatico.y"
-            {(yyval.no) = (yyvsp[0].no);}
-#line 2273 "sintatico.tab.c"
+#line 708 "sintatico.y" /* yacc.c:1646  */
+    {(yyval.no) = (yyvsp[0].no);}
+#line 2322 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 65:
-#line 567 "sintatico.y"
-                            {
+#line 712 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 13;
             no->direito = (yyvsp[0].no);
             no->esquerdo = (yyvsp[-2].no);
             (yyval.no) = no;
         }
-#line 2285 "sintatico.tab.c"
+#line 2334 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 66:
-#line 574 "sintatico.y"
-            {(yyval.no) = (yyvsp[0].no);}
-#line 2291 "sintatico.tab.c"
+#line 719 "sintatico.y" /* yacc.c:1646  */
+    {(yyval.no) = (yyvsp[0].no);}
+#line 2340 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 67:
-#line 578 "sintatico.y"
-                                           {
+#line 723 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 14;
             no->direito = (yyvsp[0].no);
             no->esquerdo = (yyvsp[-2].no);
             (yyval.no) = no;
         }
-#line 2303 "sintatico.tab.c"
+#line 2352 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 68:
-#line 585 "sintatico.y"
-                           {(yyval.no) = (yyvsp[0].no);}
-#line 2309 "sintatico.tab.c"
+#line 730 "sintatico.y" /* yacc.c:1646  */
+    {(yyval.no) = (yyvsp[0].no);}
+#line 2358 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 69:
-#line 589 "sintatico.y"
-                                                           {
+#line 734 "sintatico.y" /* yacc.c:1646  */
+    {
             node* exp = (yyvsp[-1].no);
             exp->direito = (yyvsp[-2].no);
             exp->esquerdo = (yyvsp[0].no);
             (yyval.no) = exp;
         }
-#line 2320 "sintatico.tab.c"
+#line 2369 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 70:
-#line 595 "sintatico.y"
-                             {(yyval.no) = (yyvsp[0].no);}
-#line 2326 "sintatico.tab.c"
+#line 740 "sintatico.y" /* yacc.c:1646  */
+    {(yyval.no) = (yyvsp[0].no);}
+#line 2375 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 71:
-#line 599 "sintatico.y"
-              { 
+#line 744 "sintatico.y" /* yacc.c:1646  */
+    { 
             node* exp = (node*)malloc(sizeof(node));
-            exp->exp = 3;
+            exp->exp = 5;
             strcpy(exp->nome,"EQUAL");
+            lc *lc = (yyvsp[0].lc);
+            exp->linha = lc->linha;
+            exp->coluna = lc->coluna;
+            exp->esquerdo = NULL;
+            exp->direito = NULL;
+            strcpy(exp->nome,lc->nome);
             (yyval.no) = exp;}
-#line 2336 "sintatico.tab.c"
+#line 2391 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 72:
-#line 604 "sintatico.y"
-                  {
+#line 755 "sintatico.y" /* yacc.c:1646  */
+    {
             node* exp = (node*)malloc(sizeof(node));
-            exp->exp = 4;
+            exp->exp = 6;
             strcpy(exp->nome,"NOT_EQUAL");
+            lc *lc = (yyvsp[0].lc);
+            exp->linha = lc->linha;
+            exp->coluna = lc->coluna;
+            exp->esquerdo = NULL;
+            exp->direito = NULL;    
+            strcpy(exp->nome,lc->nome);
             (yyval.no) = exp;
     }
-#line 2347 "sintatico.tab.c"
+#line 2408 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 73:
-#line 613 "sintatico.y"
-                        {(yyval.no) = (yyvsp[0].no);}
-#line 2353 "sintatico.tab.c"
+#line 770 "sintatico.y" /* yacc.c:1646  */
+    {(yyval.no) = (yyvsp[0].no);}
+#line 2414 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 74:
-#line 614 "sintatico.y"
-                                                           {
+#line 771 "sintatico.y" /* yacc.c:1646  */
+    {
             node* exp = (yyvsp[-1].no);
             exp->direito = (yyvsp[-2].no);
             exp->esquerdo = (yyvsp[0].no);
             (yyval.no) = exp;
     }
-#line 2364 "sintatico.tab.c"
+#line 2425 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 75:
-#line 623 "sintatico.y"
-                  {
+#line 780 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 15;
             no->direito = NULL;
             no->esquerdo = NULL;
+            lc *lc = (yyvsp[0].lc);
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             (yyval.no) = no;
         }
-#line 2376 "sintatico.tab.c"
+#line 2441 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 76:
-#line 630 "sintatico.y"
-                   {
+#line 791 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 16;
             no->direito = NULL;
             no->esquerdo = NULL;
+            lc *lc = (yyvsp[0].lc);
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             (yyval.no) = no;
     }
-#line 2388 "sintatico.tab.c"
+#line 2457 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 77:
-#line 637 "sintatico.y"
-                     {
+#line 802 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 17;
             no->direito = NULL;
             no->esquerdo = NULL;
+            lc *lc = (yyvsp[0].lc);
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             (yyval.no) = no;
     }
-#line 2400 "sintatico.tab.c"
+#line 2473 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 78:
-#line 644 "sintatico.y"
-                      {
+#line 813 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 18;
             no->direito = NULL;
             no->esquerdo = NULL;
+            lc *lc = (yyvsp[0].lc);
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             (yyval.no) = no;
     }
-#line 2412 "sintatico.tab.c"
+#line 2489 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 79:
-#line 654 "sintatico.y"
-                          {(yyval.no) = (yyvsp[0].no);}
-#line 2418 "sintatico.tab.c"
+#line 827 "sintatico.y" /* yacc.c:1646  */
+    {(yyval.no) = (yyvsp[0].no);}
+#line 2495 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 80:
-#line 655 "sintatico.y"
-                                                  {
+#line 828 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 19;
             no->direito = (yyvsp[0].no);
             no->esquerdo = (yyvsp[-2].no);
+            lc *lc = (yyvsp[-1].lc);
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             (yyval.no) = no;
     }
-#line 2430 "sintatico.tab.c"
+#line 2511 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 81:
-#line 662 "sintatico.y"
-                                                  {
+#line 839 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 20;
             no->direito = (yyvsp[0].no);
             no->esquerdo = (yyvsp[-2].no);
+            lc *lc = (yyvsp[-1].lc);
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             (yyval.no) = no;
     }
-#line 2442 "sintatico.tab.c"
+#line 2527 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 82:
-#line 672 "sintatico.y"
-                           {(yyval.no) = (yyvsp[0].no);}
-#line 2448 "sintatico.tab.c"
+#line 853 "sintatico.y" /* yacc.c:1646  */
+    {(yyval.no) = (yyvsp[0].no);}
+#line 2533 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 83:
-#line 673 "sintatico.y"
-                                                   {
+#line 854 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 21;
             no->direito = (yyvsp[0].no);
             no->esquerdo = (yyvsp[-2].no);
+            lc *lc = (yyvsp[-1].lc);
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             (yyval.no) = no;
     }
-#line 2460 "sintatico.tab.c"
+#line 2549 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 84:
-#line 680 "sintatico.y"
-                                                  {
+#line 865 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 22;
             no->direito = (yyvsp[0].no);
             no->esquerdo = (yyvsp[-2].no);
+            lc *lc = (yyvsp[-1].lc);
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             (yyval.no) = no;
     }
-#line 2472 "sintatico.tab.c"
+#line 2565 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 85:
-#line 690 "sintatico.y"
-                       {(yyval.no) = (yyvsp[0].no);}
-#line 2478 "sintatico.tab.c"
+#line 879 "sintatico.y" /* yacc.c:1646  */
+    {(yyval.no) = (yyvsp[0].no);}
+#line 2571 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 86:
-#line 691 "sintatico.y"
-                                              {
+#line 880 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 23;
             no->direito = (yyvsp[0].no);
             no->esquerdo = (yyvsp[-2].no);
+            lc *lc = (yyvsp[-1].lc);
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             (yyval.no) = no;
     }
-#line 2490 "sintatico.tab.c"
+#line 2587 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 87:
-#line 698 "sintatico.y"
-                                                   {
+#line 891 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 24;
             no->direito = (yyvsp[0].no);
             no->esquerdo = (yyvsp[-2].no);
+            lc *lc = (yyvsp[-1].lc);
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             (yyval.no) = no;
     }
-#line 2502 "sintatico.tab.c"
+#line 2603 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 88:
-#line 705 "sintatico.y"
-                                                    {
+#line 902 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 25;
             no->direito = (yyvsp[0].no);
             no->esquerdo = (yyvsp[-2].no);
+            lc *lc = (yyvsp[-1].lc);
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             (yyval.no) = no;
     }
-#line 2514 "sintatico.tab.c"
+#line 2619 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 89:
-#line 715 "sintatico.y"
-                        {(yyval.no) = (yyvsp[0].no);}
-#line 2520 "sintatico.tab.c"
+#line 916 "sintatico.y" /* yacc.c:1646  */
+    {(yyval.no) = (yyvsp[0].no);}
+#line 2625 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 90:
-#line 716 "sintatico.y"
-                                                    {
+#line 917 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 26;
             no->direito = (yyvsp[0].no);
             no->esquerdo = NULL;
             (yyval.no) = no;
     }
-#line 2532 "sintatico.tab.c"
+#line 2637 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 91:
-#line 726 "sintatico.y"
-                          {(yyval.no) = (yyvsp[0].no);}
-#line 2538 "sintatico.tab.c"
+#line 927 "sintatico.y" /* yacc.c:1646  */
+    {(yyval.no) = (yyvsp[0].no);}
+#line 2643 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 92:
-#line 727 "sintatico.y"
-                            {
+#line 928 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 27;
             no->direito = (yyvsp[0].no);
             no->esquerdo = NULL;
+            lc *lc = (yyvsp[-1].lc);
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             (yyval.no) = no;
     }
-#line 2550 "sintatico.tab.c"
+#line 2659 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 93:
-#line 734 "sintatico.y"
-                            {
+#line 939 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 28;
             no->direito = (yyvsp[0].no);
             no->esquerdo = NULL;
+            lc *lc = (yyvsp[-1].lc);
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             (yyval.no) = no;
     }
-#line 2562 "sintatico.tab.c"
+#line 2675 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 94:
-#line 741 "sintatico.y"
-                                   {
+#line 950 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 29;
             no->direito = (yyvsp[0].no);
             no->esquerdo = NULL;
+            lc *lc = (yyvsp[-1].lc);
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             (yyval.no) = no;
     }
-#line 2574 "sintatico.tab.c"
+#line 2691 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 95:
-#line 748 "sintatico.y"
-                                {
+#line 961 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 30;
             no->direito = (yyvsp[0].no);
             no->esquerdo = NULL;
+            lc *lc = (yyvsp[-1].lc);
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             (yyval.no) = no;
     }
-#line 2586 "sintatico.tab.c"
+#line 2707 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 96:
-#line 755 "sintatico.y"
-                            {
+#line 972 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 31;
             no->direito = (yyvsp[0].no);
             no->esquerdo = NULL;
+            lc *lc = (yyvsp[-1].lc);
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             (yyval.no) = no;
     }
-#line 2598 "sintatico.tab.c"
+#line 2723 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 97:
-#line 762 "sintatico.y"
-                             {
+#line 983 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 32;
             no->direito = (yyvsp[0].no);
             no->esquerdo = NULL;
+            lc *lc = (yyvsp[-1].lc);
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             (yyval.no) = no;
     }
-#line 2610 "sintatico.tab.c"
+#line 2739 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 98:
-#line 769 "sintatico.y"
-                                   {
+#line 994 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 33;
             no->direito = (yyvsp[0].no);
             no->esquerdo = NULL;
+            lc *lc = (yyvsp[-1].lc);
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             (yyval.no) = no;
     }
-#line 2622 "sintatico.tab.c"
+#line 2755 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 99:
-#line 776 "sintatico.y"
-                           {
+#line 1005 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 34;
             no->direito = (yyvsp[0].no);
             no->esquerdo = NULL;
+            lc *lc = (yyvsp[-1].lc);
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             (yyval.no) = no;
     }
-#line 2634 "sintatico.tab.c"
+#line 2771 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 100:
-#line 786 "sintatico.y"
-                          {
+#line 1019 "sintatico.y" /* yacc.c:1646  */
+    {
             (yyval.no) = (yyvsp[0].no);
         }
-#line 2642 "sintatico.tab.c"
+#line 2779 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 101:
-#line 789 "sintatico.y"
-                                                                       {
-            //array
-
+#line 1022 "sintatico.y" /* yacc.c:1646  */
+    {
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 7;
+            no->direito = (yyvsp[-3].no);
+            no->esquerdo = NULL;
+            (yyval.no) = no;
     }
-#line 2651 "sintatico.tab.c"
+#line 2791 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 102:
-#line 793 "sintatico.y"
-                              {
+#line 1029 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 27;
             no->direito = (yyvsp[-1].no);
             no->esquerdo = NULL;
             (yyval.no) = no;
         }
-#line 2663 "sintatico.tab.c"
+#line 2803 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 103:
-#line 800 "sintatico.y"
-                              {
+#line 1036 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (node*)malloc(sizeof(node));
             no->exp = 28;
             no->direito = (yyvsp[-1].no);
             no->esquerdo = NULL;
             (yyval.no) = no;
         }
-#line 2675 "sintatico.tab.c"
+#line 2815 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 104:
-#line 807 "sintatico.y"
-                                                             {
+#line 1043 "sintatico.y" /* yacc.c:1646  */
+    {
                 //chamada função
             node *no = (node*)malloc(sizeof(node));
             no->exp = 35;
@@ -2684,134 +2824,155 @@ yyreduce:
             no->esquerdo = NULL;
             (yyval.no) = no;
     }
-#line 2688 "sintatico.tab.c"
+#line 2828 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 105:
-#line 818 "sintatico.y"
-                            {(yyval.no) = (yyvsp[0].no);}
-#line 2694 "sintatico.tab.c"
+#line 1054 "sintatico.y" /* yacc.c:1646  */
+    {(yyval.no) = (yyvsp[0].no);}
+#line 2834 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 106:
-#line 819 "sintatico.y"
-        {(yyval.no) = NULL;}
-#line 2700 "sintatico.tab.c"
+#line 1055 "sintatico.y" /* yacc.c:1646  */
+    {(yyval.no) = NULL;}
+#line 2840 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 107:
-#line 823 "sintatico.y"
-                                                  {
+#line 1059 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (yyvsp[-2].no);
             no->prox = (yyvsp[0].no);
             (yyval.no) = no;
         }
-#line 2710 "sintatico.tab.c"
+#line 2850 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 108:
-#line 828 "sintatico.y"
-                        {
+#line 1064 "sintatico.y" /* yacc.c:1646  */
+    {
             node *no = (yyvsp[0].no);
             no->prox = NULL;
             (yyval.no)  = no;
     }
-#line 2720 "sintatico.tab.c"
+#line 2860 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 109:
-#line 836 "sintatico.y"
-           { 
+#line 1072 "sintatico.y" /* yacc.c:1646  */
+    { 
             identi *ide = (yyvsp[0].id);
             node* exp = (node*)malloc(sizeof(node));
             exp->exp = 36;
+            exp->direito = NULL;
+            exp->esquerdo = NULL;
             strcpy(exp->nome,ide->id);
+            exp->linha = ide->linha;
+            exp->coluna = ide->coluna;
             (yyval.no) = exp;   
         }
-#line 2732 "sintatico.tab.c"
+#line 2876 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 110:
-#line 843 "sintatico.y"
-               {
+#line 1083 "sintatico.y" /* yacc.c:1646  */
+    {
             (yyval.no) = (yyvsp[0].no); 
         }
-#line 2740 "sintatico.tab.c"
+#line 2884 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 111:
-#line 846 "sintatico.y"
-                  {
+#line 1086 "sintatico.y" /* yacc.c:1646  */
+    {
+            lc *lico = (yyvsp[0].lc);
             node* exp = (node*)malloc(sizeof(node));
-            exp->exp = 2;
-            strcpy(exp->nome,(yyvsp[0].str));
+            exp->exp =1;
+            exp->direito = NULL;
+            exp->esquerdo = NULL;
+            strcpy(exp->nome,lico->nome);
+            exp->linha = lico->linha;
+            exp->coluna = lico->coluna;
             (yyval.no) = exp; 
         }
-#line 2751 "sintatico.tab.c"
+#line 2900 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 112:
-#line 852 "sintatico.y"
-               {
-                //com ponteiro
+#line 1097 "sintatico.y" /* yacc.c:1646  */
+    {
+            lc *lico = (yyvsp[0].lc);
             node* exp = (node*)malloc(sizeof(node));
-            exp->exp = 2;
-            strcpy(exp->nome,(yyvsp[0].str));
+            exp->exp = 39;
+            exp->direito = NULL;
+            exp->esquerdo = NULL;
+            strcpy(exp->nome,lico->nome);
+            exp->linha = lico->linha;
+            exp->coluna = lico->coluna;
             (yyval.no) = exp; 
     }
-#line 2763 "sintatico.tab.c"
+#line 2916 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 113:
-#line 859 "sintatico.y"
-                                   {
+#line 1108 "sintatico.y" /* yacc.c:1646  */
+    {
             (yyval.no) = (yyvsp[-1].no); 
     }
-#line 2771 "sintatico.tab.c"
+#line 2924 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 114:
-#line 865 "sintatico.y"
-                    {
+#line 1114 "sintatico.y" /* yacc.c:1646  */
+    {
+            lc *lico = (yyvsp[0].lc);
             node *no = (node*)malloc(sizeof(node));
-            no->exp = 1;
+            no->exp = 0;
             no->direito = NULL;
             no->esquerdo = NULL;
-            strcpy(no->nome,(yyvsp[0].str));
+            strcpy(no->nome,lico->nome);
+            no->linha = lico->linha;
+            no->coluna = lico->coluna;
             (yyval.no) = no;
         }
-#line 2784 "sintatico.tab.c"
+#line 2940 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 115:
-#line 873 "sintatico.y"
-                 {
+#line 1125 "sintatico.y" /* yacc.c:1646  */
+    {
+            lc *lico = (yyvsp[0].lc);
             node *no = (node*)malloc(sizeof(node));
-            no->exp = 1;
+            no->exp = 0;
             no->direito = NULL;
             no->esquerdo = NULL;
-            strcpy(no->nome,(yyvsp[0].str));
+            strcpy(no->nome,lico->nome);
+            no->linha = lico->linha;
+            no->coluna = lico->coluna;
             (yyval.no) = no;
     }
-#line 2797 "sintatico.tab.c"
+#line 2956 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
   case 116:
-#line 881 "sintatico.y"
-                  {
+#line 1136 "sintatico.y" /* yacc.c:1646  */
+    {
+            lc *lico = (yyvsp[0].lc);
             node *no = (node*)malloc(sizeof(node));
-            no->exp = 1;
+            no->exp = 0;
             no->direito = NULL;
             no->esquerdo = NULL;
-            strcpy(no->nome,(yyvsp[0].str));
+            strcpy(no->nome,lico->nome);
+            no->linha = lico->linha;
+            no->coluna = lico->coluna;
             (yyval.no) = no;
     }
-#line 2810 "sintatico.tab.c"
+#line 2972 "sintatico.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 2814 "sintatico.tab.c"
-
+#line 2976 "sintatico.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -2836,13 +2997,14 @@ yyreduce:
   /* Now 'shift' the result of the reduction.  Determine what state
      that goes to, based on the state we popped back to and the rule
      number reduced by.  */
-  {
-    const int yylhs = yyr1[yyn] - YYNTOKENS;
-    const int yyi = yypgoto[yylhs] + *yyssp;
-    yystate = (0 <= yyi && yyi <= YYLAST && yycheck[yyi] == *yyssp
-               ? yytable[yyi]
-               : yydefgoto[yylhs]);
-  }
+
+  yyn = yyr1[yyn];
+
+  yystate = yypgoto[yyn - YYNTOKENS] + *yyssp;
+  if (0 <= yystate && yystate <= YYLAST && yycheck[yystate] == *yyssp)
+    yystate = yytable[yystate];
+  else
+    yystate = yydefgoto[yyn - YYNTOKENS];
 
   goto yynewstate;
 
@@ -2874,7 +3036,7 @@ yyerrlab:
           {
             if (yymsg != yymsgbuf)
               YYSTACK_FREE (yymsg);
-            yymsg = YY_CAST (char *, YYSTACK_ALLOC (YY_CAST (YYSIZE_T, yymsg_alloc)));
+            yymsg = (char *) YYSTACK_ALLOC (yymsg_alloc);
             if (!yymsg)
               {
                 yymsg = yymsgbuf;
@@ -2925,10 +3087,12 @@ yyerrlab:
 | yyerrorlab -- error raised explicitly by YYERROR.  |
 `---------------------------------------------------*/
 yyerrorlab:
-  /* Pacify compilers when the user code never invokes YYERROR and the
-     label yyerrorlab therefore never appears in user code.  */
-  if (0)
-    YYERROR;
+
+  /* Pacify compilers like GCC when the user code never invokes
+     YYERROR and the label yyerrorlab therefore never appears in user
+     code.  */
+  if (/*CONSTCOND*/ 0)
+     goto yyerrorlab;
 
   /* Do not reclaim the symbols of the rule whose action triggered
      this YYERROR.  */
@@ -2990,14 +3154,12 @@ yyacceptlab:
   yyresult = 0;
   goto yyreturn;
 
-
 /*-----------------------------------.
 | yyabortlab -- YYABORT comes here.  |
 `-----------------------------------*/
 yyabortlab:
   yyresult = 1;
   goto yyreturn;
-
 
 #if !defined yyoverflow || YYERROR_VERBOSE
 /*-------------------------------------------------.
@@ -3009,10 +3171,6 @@ yyexhaustedlab:
   /* Fall through.  */
 #endif
 
-
-/*-----------------------------------------------------.
-| yyreturn -- parsing is finished, return the result.  |
-`-----------------------------------------------------*/
 yyreturn:
   if (yychar != YYEMPTY)
     {
@@ -3029,7 +3187,7 @@ yyreturn:
   while (yyssp != yyss)
     {
       yydestruct ("Cleanup: popping",
-                  yystos[+*yyssp], yyvsp);
+                  yystos[*yyssp], yyvsp);
       YYPOPSTACK (1);
     }
 #ifndef yyoverflow
@@ -3042,7 +3200,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 891 "sintatico.y"
+#line 1149 "sintatico.y" /* yacc.c:1906  */
 
 
 void yyerror(char *s) {

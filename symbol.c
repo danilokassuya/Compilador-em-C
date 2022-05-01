@@ -48,12 +48,10 @@ Identificador createIdenti(int totalLines,int characters,char name[]){
 	ide->linha = totalLines;
 	ide->coluna = characters;
 	strcpy(ide->id,name);
-	ide->parametros = NULL;
 	ide->size = -1;
-	ide->local = -1;
-	ide->isParameter = -1;
+	ide->isParameter = 0;
 	ide->started = -1;
-	ide->pointer = -1;
+	ide->pointer = 0;
 	return ide;
 }
 
@@ -82,11 +80,6 @@ void setisParameter(Identificador inde,int isParameter){
 	identifica->isParameter = isParameter;
 }
 
-void setLocal(Identificador inde,int local){
-	identi *identifica = (identi *)inde;
-	identifica->local = local;
-}
-
 void setSize(Identificador inde,int size){
 	identi *identifica = (identi *)inde;
 	identifica->size = size;
@@ -102,15 +95,38 @@ void setPointer(Identificador inde,int pointer){
 	identifica->pointer = pointer;
 }
 
-int insert(Identificador funcao, Identificador inde){
+void printLinhaErro(int linha,int coluna,char nome[]){
+	int i;
+	int lineNumber = 1;
+	char line[1024];	
+	char aux;
+	int characters = coluna;
+	fseek(stdin, 0, SEEK_SET);
+	characters -= strlen(nome);
+	while(lineNumber < linha) {
+		aux = fgetc(stdin);
+		if(aux == '\n')    lineNumber++;
+		if(aux == EOF)  break;
+	}
+	fgets(line, sizeof(line), stdin);
+	printf("%s", line);
+
+	for(i=1;i<characters;i++) {
+		printf(" ");
+	}
+	printf("^");
+}
+
+int insert(Identificador table, Identificador inde){
 	identi *identifica = (identi*) inde;
-	fun *func = (fun*) funcao;
-	if(identifica->type == 3)
-		if(identifica->tipo != 0){
-			printf("string type is not compatible with define\n");
+	identifica->i = NULL;
+	if(identifica->type == 0)
+		if(identifica->tipo == 2){
+			printf("error:semantic:%d:%d: variable '%s' declared void\n\n",identifica->linha,identifica->coluna,identifica->id);
+			printLinhaErro(identifica->linha,identifica->coluna,identifica->id);
 			return 0;
 		}
-	controle *hash = func->symbolTable;
+	controle *hash = (controle*)table;
 	int size = strlen(identifica->id);
 	int i = 0;
 	int buff = 0;
@@ -121,87 +137,187 @@ int insert(Identificador funcao, Identificador inde){
 	i = buff%211;
 	identi *h = hash->hash[i];
 	identi *haux = h;
-	printf("%s",func->nome);
 	if(h == NULL){
-		printf("okaa\n");
 		hash->hash[i] = identifica;
 	}
 	else{
-		printf("in:%s\n",hash->hash[i]->id);
-		do{
-			printf("%s %s",identifica->id,h->id);
-			if(strcmp(identifica->id, h->id) == 0){
-				int i;
-				int lineNumber = 1;
-				char line[1024];
-				char aux;
-				int characters = h->coluna;
-				FILE* file = fseek(stdin, 0, SEEK_SET);
-				characters -= strlen("i");
-				printf("error:semantic:%d:%d: variable ’%s’ already declared, previous declaration in line %d column %d\n",identifica->linha,identifica->coluna,identifica->id,h->linha,h->coluna);
-				
-				while(lineNumber < h->linha) {
-					aux = fgetc(stdin);
-					if(aux == '\n')    lineNumber++;
-					if(aux == EOF)  break;
+		if(identifica->isParameter  == 0){
+			do{
+				if(strcmp(identifica->id, h->id) == 0 && identifica->tipo == h->tipo){
+					printf("error:semantic:%d:%d: variable '%s' already declared, previous declaration in line %d column %d\n",identifica->linha,identifica->coluna,identifica->id,h->linha,h->coluna);
+					printLinhaErro(h->linha,h->coluna,h->id);
+					return 0;
 				}
-				fgets(line, sizeof(line), stdin);
-				printf("%s", line);
-
-				for(i=1;i<characters;i++) {
-					printf(" ");
+				if(strcmp(identifica->id, h->id) == 0){
+					printf("error:semantic:%d:%d: redefinition of identifier '%s' previous defined in line %d\n",identifica->linha,identifica->coluna,identifica->id,h->linha);
+					printLinhaErro(h->linha,h->coluna,h->id);
+					return 0;
 				}
-				printf("^");
-
-				return 0;
-			}while(h->i != NULL);
-			if(strcmp(identifica->id, h->id) == 0){
-
-				printf("%d: redefinition of identifier '%s'",identifica->linha,identifica->id);
-
-				return 0;
-			}
-			h = h->i;
-		}while(h != NULL);
-		printf("ok\n");
+				h = h->i;
+			}while(h != NULL);
+		}
 		hash->hash[i] = identifica;
 		hash->hash[i]->i = haux;
-		printf("%s\n",h->id);
 	}
 	return 1;
 }
 
-int getLinha(Identificador ctr, char string[]){
-	controle *hash = (controle*)ctr;
-	int size = strlen(string);
-	int i = 0;
-	int buff = 0;
-	while(i < size ){
-		buff = buff + string[i];
-		i++;
+int getLinha(char funcao[], char variavel[], Identificador programa){
+	pro *prog = (pro*)programa;
+	if(strcmp(funcao,"Global") == 0){
+		controle *hash = prog->globalSymbolTable;
+		int size = strlen(variavel);
+		int i = 0;
+		int buff = 0;
+		while(i < size ){
+			buff = buff + variavel[i];
+			i++;
+		}
+		i = buff%211;
+		identi *h = hash->hash[i];
+		if(h == NULL)
+				return -1;
+		while(strcmp(h->id, variavel) != 0){
+			h = h->i;
+			if(h == NULL)
+				return -1;
+		}
+		return h->linha;
 	}
-	i = buff%211;
-	identi *h = hash->hash[i];
-	if(h == NULL)
-		printf("Erro hash[%d] é null\n",i);
-	return h->linha;
+	else{
+		fun *func = prog->lista_de_funcoes;
+		while(strcmp(func->nome,funcao) != 0){
+			if(func == NULL)
+				return -1;
+			func = func->next;
+		}
+		controle *hash = func->symbolTable;
+		int size = strlen(variavel);
+		int i = 0;
+		int buff = 0;
+		while(i < size ){
+			buff = buff + variavel[i];
+			i++;
+		}
+		i = buff%211;
+		identi *h = hash->hash[i];
+		if(h == NULL)
+				return -1;
+		while(strcmp(h->id, variavel) != 0){
+			h = h->i;
+			if(h == NULL)
+				return -1;
+		}
+		return h->linha;
+	}
+
+	return -1;
 }
 
-int getColuna(Identificador ctr, char string[]){
-	controle *hash = (controle*)ctr;
-	int size = strlen(string);
-	int i = 0;
-	int buff = 0;
-	while(i < size ){
-		buff = buff + string[i];
-		i++;
+int getColuna(char funcao[], char variavel[], Identificador programa){
+	pro *prog = (pro*)programa;
+	if(strcmp(funcao,"Global") == 0){
+		controle *hash = prog->globalSymbolTable;
+		int size = strlen(variavel);
+		int i = 0;
+		int buff = 0;
+		while(i < size ){
+			buff = buff + variavel[i];
+			i++;
+		}
+		i = buff%211;
+		identi *h = hash->hash[i];
+		if(h == NULL)
+				return -1;
+		while(strcmp(h->id, variavel) != 0){
+			h = h->i;
+			if(h == NULL)
+				return -1;
+		}
+		return h->coluna;
 	}
-	i = buff%211;
-	identi *h = hash->hash[i];
-	if(h == NULL)
-		printf("Erro hash[%d] é null\n",i);
-	return h->coluna;
+	else{
+		fun *func = prog->lista_de_funcoes;
+		while(strcmp(func->nome,funcao) != 0){
+			if(func == NULL)
+				return -1;
+			func = func->next;
+		}
+		controle *hash = func->symbolTable;
+		int size = strlen(variavel);
+		int i = 0;
+		int buff = 0;
+		while(i < size ){
+			buff = buff + variavel[i];
+			i++;
+		}
+		i = buff%211;
+		identi *h = hash->hash[i];
+		if(h == NULL)
+				return -1;
+		while(strcmp(h->id, variavel) != 0){
+			h = h->i;
+			if(h == NULL)
+				return -1;
+		}
+		return h->coluna;
+	}
+
+	return -1;
 }
+
+int getPointer(char funcao[], char variavel[], Identificador programa){
+	pro *prog = (pro*)programa;
+	if(strcmp(funcao,"Global") == 0){
+		controle *hash = prog->globalSymbolTable;
+		int size = strlen(variavel);
+		int i = 0;
+		int buff = 0;
+		while(i < size ){
+			buff = buff + variavel[i];
+			i++;
+		}
+		i = buff%211;
+		identi *h = hash->hash[i];
+		if(h == NULL)
+				return -1;
+		while(strcmp(h->id, variavel) != 0){
+			h = h->i;
+			if(h == NULL)
+				return -1;
+		}
+		return h->pointer;
+	}
+	else{
+		fun *func = prog->lista_de_funcoes;
+		while(strcmp(func->nome,funcao) != 0){
+			if(func == NULL)
+				return -1;
+			func = func->next;
+		}
+		controle *hash = func->symbolTable;
+		int size = strlen(variavel);
+		int i = 0;
+		int buff = 0;
+		while(i < size ){
+			buff = buff + variavel[i];
+			i++;
+		}
+		i = buff%211;
+		identi *h = hash->hash[i];
+		if(h == NULL)
+				return -1;
+		while(strcmp(h->id, variavel) != 0){
+			h = h->i;
+			if(h == NULL)
+				return -1;
+		}
+		return h->pointer;
+	}
+
+	return -1;
+}
+
 
 Identificador clean(Identificador ctr){
 	int i = 0;
@@ -211,6 +327,59 @@ Identificador clean(Identificador ctr){
 		i++;
 	}
 	return hash;
+}
+
+int searchHash(char funcao[], char variavel[], Identificador programa){
+	pro *prog = (pro*)programa;
+	if(strcmp(funcao,"Global") == 0){
+		controle *hash = prog->globalSymbolTable;
+		int size = strlen(variavel);
+		int i = 0;
+		int buff = 0;
+		while(i < size ){
+			buff = buff + variavel[i];
+			i++;
+		}
+		i = buff%211;
+		identi *h = hash->hash[i];
+		if(h == NULL)
+				return -1;
+		while(strcmp(h->id, variavel) != 0){
+			h = h->i;
+			if(h == NULL)
+				return -1;
+		}
+		return h->tipo;
+	}
+	else{
+		fun *func = prog->lista_de_funcoes;
+		while(strcmp(func->nome,funcao) != 0){
+			if(func == NULL)
+				return -1;
+			func = func->next;
+		}
+		controle *hash = func->symbolTable;
+		int size = strlen(variavel);
+		int i = 0;
+		int buff = 0;
+		while(i < size ){
+			buff = buff + variavel[i];
+			i++;
+		}
+		i = buff%211;
+		identi *h = hash->hash[i];
+		if(h == NULL)
+				return -1;
+		while(strcmp(h->id, variavel) != 0){
+			h = h->i;
+			if(h == NULL){
+				return -1;
+			}
+		}
+		return h->tipo;
+	}
+
+	return -1;
 }
 
 int exist(Identificador ctr, char string[]){

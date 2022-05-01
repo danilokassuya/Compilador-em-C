@@ -24,15 +24,15 @@
     fun *function;
     cmd  *comando;
     int var[2];
-    par *para;
     identi *id;
     ret *re;
+    lc *lc; 
 }
 
 %token VOID
 %token <str>INT
 %token CHAR
-%token RETURN
+%token <lc>RETURN
 %token BREAK
 %token SWITCH
 %token CASE
@@ -44,31 +44,31 @@
 %token ELSE
 %token TYPEDEF
 %token STRUCT
-%token PLUS
-%token MINUS
-%token MULTIPLY
-%token DIV
-%token REMAINDER
-%token INC
-%token DEC
-%token BITWISE_AND
-%token BITWISE_OR
-%token BITWISE_NOT
-%token BITWISE_XOR
-%token NOT
-%token LOGICAL_AND
-%token LOGICAL_OR
-%token <teste>EQUAL
-%token <teste>NOT_EQUAL
-%token LESS_THAN
-%token GREATER_THAN
-%token LESS_EQUAL
-%token GREATER_EQUAL
-%token R_SHIFT
-%token L_SHIFT
-%token ASSIGN
-%token ADD_ASSIGN
-%token MINUS_ASSIGN
+%token <lc>PLUS
+%token <lc>MINUS
+%token <lc>MULTIPLY
+%token <lc>DIV
+%token <lc>REMAINDER
+%token <lc>INC
+%token <lc>DEC
+%token <lc>BITWISE_AND
+%token <lc>BITWISE_OR
+%token <lc>BITWISE_NOT
+%token <lc>BITWISE_XOR
+%token <lc>NOT
+%token <lc>LOGICAL_AND
+%token <lc>LOGICAL_OR
+%token <lc>EQUAL
+%token <lc>NOT_EQUAL
+%token <lc>LESS_THAN
+%token <lc>GREATER_THAN
+%token <lc>LESS_EQUAL
+%token <lc>GREATER_EQUAL
+%token <lc>R_SHIFT
+%token <lc>L_SHIFT
+%token <lc>ASSIGN
+%token <lc>ADD_ASSIGN
+%token <lc>MINUS_ASSIGN
 %token SEMICOLON
 %token COMMA
 %token COLON
@@ -85,12 +85,12 @@
 %token DEFINE
 %token EXIT
 %token <id>ID
-%token <str>NUM_OCTAL
-%token <str>NUM_INTEGER
-%token <str>NUM_HEXA
-%token <str>STRING
-%token <str>CHARACTER
-%token <str>R_CURLY_BRACKET
+%token <lc>NUM_OCTAL
+%token <lc>NUM_INTEGER
+%token <lc>NUM_HEXA
+%token <lc>STRING
+%token <lc>CHARACTER
+%token R_CURLY_BRACKET
 %token END_OF_FILE
 %token UNTERMINATED_COMMENT
 %token LEXICAL_ERROR
@@ -100,8 +100,8 @@
 %type<no> expressionAuxB logicalAND logicalOR or and xor aditiveExpression conditionalExpression castExpression comparison primaryExpression equalityExpression operator number atribExpression atribAux  
 %type<no> relationalExpression shiftExpression multiplyExpression comparisonAux atribExpressionAux atribExpressionAuxB postfixExpression unaryExpression expression expressionAux
 %type<comando> commands commandsList block 
-%type<para> parameters parametersAux parametersAuxB
 %type<re> varDeclarationAux varDeclaration varAux
+%type<id> parameters parametersAux parametersAuxB   
 
 
 %start start
@@ -115,7 +115,9 @@ start:program END_OF_FILE{
             function = function->next;
         }
         printf("start\n");
-        printHash(programa);
+        //printHash(programa);
+        //printAST(programa);
+        verifica(programa);
         return 0;
 }
 ;
@@ -123,10 +125,8 @@ start:program END_OF_FILE{
 
 program: 
         declarations programAux    { 
-            printf("declarado\n");
         }
     |   function programAux        { 
-            printf("função\n");
         }
 ;
 
@@ -136,13 +136,59 @@ programAux:
 ;
 
 declarations: 
-        NUMBER_SIGN DEFINE ID expression {//# DEFINE NOME/ID 
+        NUMBER_SIGN DEFINE ID expression {  
+        identi *id = $3;
+        node *no = $4;
+		if(no->exp == 2){
+			printf("error:semantic:%d:%d: string type is not compatible with define\n",no->linha,no->coluna);
+			printLinhaErro(no->linha,no->coluna,no->nome);
+			return 0;
+        }
+        if(insert(programa->globalSymbolTable,id) == 0)
+            return 0;
+        node *noaux = (node*)malloc(sizeof(node));
+        noaux->linha = id->linha;
+        noaux->coluna = id->coluna;
+        strcpy(noaux->nome,id->id);
+        noaux->exp = 38;
+        noaux->direito = no;
+        noaux->esquerdo = NULL;
+        no = noaux;
+        noaux = programa->exp;
+        if(noaux != NULL){
+            while(noaux->prox != NULL){
+                noaux = noaux->prox;
+            }
+            noaux->prox = no;
+        }
+        programa->exp = no;
         }
     |   varDeclaration {
         ret* retorno = $1;
         identi *id = retorno->identidade;
-        printf("a:%s\n\n",id->id);
-        programa->exp = retorno->node;
+        node *no = retorno->node;
+        if(retorno != NULL){
+            if(insert(programa->globalSymbolTable,retorno->identidade) == 0)
+                return 0;
+            retorno = retorno->prox;
+            while(retorno != NULL){
+                if(insert(programa->globalSymbolTable,retorno->identidade) == 0)
+                    return 0;
+                if(retorno->node != NULL){
+                    no->prox = retorno->node;
+                    no = retorno->node;
+                }
+                retorno = retorno->prox;
+            }
+        }
+        node *noaux = programa->exp;
+        if(noaux != NULL){
+            while(noaux->prox != NULL){
+                noaux = noaux->prox;
+            }
+            noaux->prox = no;
+        }
+        programa->exp = no;
     }
     |   protoDeclaration {}
 ;
@@ -156,16 +202,28 @@ function:
             ret* retorno = $6;
             node *no = retorno->node;
             int i = 0;
+            identi *parametro = $4;
+            identi *parametroaux;
             while(i< 211){
                 func->symbolTable->hash[i] = programa->globalSymbolTable->hash[i];
                 i++;
             }   
+            while(parametro != NULL){
+                if(parametro->tipo == 2){
+                    printf("parameter '%s' declared void\n",parametro->id);
+                    printLinhaErro(parametro->linha,parametro->coluna,parametro->id);
+                    return 0;
+                }
+                parametroaux = parametro;
+                parametro = parametro->i;
+                insert(func->symbolTable,parametroaux);
+            }
             if(retorno != NULL){
-                if(insert(func,retorno->identidade) == 0)
+                if(insert(func->symbolTable,retorno->identidade) == 0)
                     return 0;
                 retorno = retorno->prox;
                 while(retorno != NULL){
-                    if(insert(func,retorno->identidade) == 0)
+                    if(insert(func->symbolTable,retorno->identidade) == 0)
                         return 0;
                     if(retorno->node != NULL)
                         no->prox = retorno->node;
@@ -175,9 +233,20 @@ function:
             }
             cont++;
             func->exp = no;
-            func->parametro = $4;
+            identi *param = $4;
+            par *para = (par*)malloc(sizeof(par));
+            while(param != NULL){
+                strcpy(para->nome,param->id);
+                param = param->i;
+                para->prox = (par*)malloc(sizeof(par));
+                para = para->prox;
+            }
+            func->parametro = para;
             func->retorno = $1;
+            func->pointer = $2;
             func->prototipo = 0;
+            func->linha = ide->linha;
+            func->coluna = ide->coluna;
             func->lista_de_comandos = $7;
             func->next = NULL;
             fun *funclist = programa->lista_de_funcoes;
@@ -202,8 +271,8 @@ function:
 ;
 
 pointer: 
-        MULTIPLY pointer {$$ = $2+1;}
-    |   {$$ = 1;}
+        MULTIPLY pointer {$$ = $2+1 ;}
+    |   {$$ = 0;}
 ;
 
 varAux: 
@@ -211,7 +280,6 @@ varAux:
             ret* retorno = $1;
             node *no = retorno->node;
             identi *id = retorno->identidade;
-            printf("a:%s\n",id->id);
             retorno->prox = $2;
             $$ = retorno;
         }
@@ -233,11 +301,24 @@ varDeclarationAux:
             identi *ide = $2;
             node *no = $4;
             ret *retorno = (ret*)malloc(sizeof(ret));
+            node *noaux = (node*)malloc(sizeof(node));
+            noaux->exp = 36;
+            noaux->declaration = 1;
+            strcpy(noaux->nome,ide->id);
+            noaux->linha = ide->linha;
+            noaux->coluna = ide->coluna;
+            noaux->direito = $3;
+            noaux->esquerdo = NULL;
             if(no != NULL){
-                no->esquerdo = $3;
+                no->esquerdo = noaux;
             }
             else{
-                no = $3;
+                no = noaux;
+            }
+            ide->pointer = $1;
+            if($3 != NULL){
+                noaux->exp = 37;
+                ide->pointer = ide->pointer+1;
             }
             retorno->identidade = ide;
             retorno->node = no;
@@ -246,15 +327,28 @@ varDeclarationAux:
     |   pointer ID expressionAux atribAux COMMA varDeclarationAux {
             identi *ide = $2;
             node *no = $4;
+            node *noaux = (node*)malloc(sizeof(node));
+            noaux->declaration = 1;
+            strcpy(noaux->nome,ide->id);
+            noaux->linha = ide->linha;
+            noaux->coluna = ide->coluna;
+            noaux->direito = $3;
+            noaux->esquerdo = NULL;
             if(no != NULL){
-                no->esquerdo = $3;
+                no->esquerdo = noaux;
                 ret *retorno = $6;
                 no->prox = retorno->node;
             }
             else{
-                no = $3;
+                no = noaux;
                 ret *retorno = $6;
                 no->prox = retorno->node;
+            }
+            ide->pointer = $1;
+            noaux->exp = 36;
+            if($3 != NULL){
+                noaux->exp = 37;
+                ide->pointer = ide->pointer+1;
             }
             ret *retorno = (ret*)malloc(sizeof(ret));
             retorno->identidade = ide;
@@ -278,6 +372,7 @@ atribAux:
             node *no = (node*)malloc(sizeof(node));
             no->exp = 7;
             no->direito = $2;
+            no->esquerdo = NULL;
             $$ = no;
         }
     |   {$$ = NULL;}
@@ -290,12 +385,24 @@ protoDeclaration:
             strcpy(func->nome,ide->id);
             func->symbolTable = (controle*)malloc(sizeof(controle));
             int i = 0;
-            while(i< 211){
-                func->symbolTable->hash[i] = programa->globalSymbolTable->hash[i];
-                i++;
+            identi *parametro = $4;
+            while(parametro != NULL){
+                if(parametro->tipo == 2){
+                    printf("parameter '%s' declared void\n",parametro->id);
+                    printLinhaErro(parametro->linha,parametro->coluna,parametro->id);
+                }
+                parametro = parametro->i;
             }   
-            func->parametro = $4;
+            identi *param = $4;
+            par *para = (par*)malloc(sizeof(par));
+            while(param != NULL){
+                strcpy(para->nome,param->id);
+                param = param->i;
+                para = para->prox;
+            }
+            func->parametro = para;
             func->retorno = $1;
+            func->pointer = $2;
             func->prototipo = 1;
             func->lista_de_comandos = NULL;
             func->next = NULL;
@@ -328,42 +435,43 @@ parameters: L_PAREN parametersAux R_PAREN {
 parametersAux: 
         type pointer ID expressionAux {
             identi *ide = $3;
-            par* parametro = (par*)malloc(sizeof(par));
-            strcpy(parametro->nome,ide->id);
-            parametro->tipo = $1;
-            parametro->ponteiro = $2;
-            $$ = parametro;
+            ide->tipo = $1;
+            ide->type = 0;
+            ide->pointer = $2;
+            ide->i = NULL;  
+            ide->isParameter = 1;
+            $$ = ide;
         }
     |   type pointer ID expressionAux COMMA parametersAuxB {
             identi *ide = $3;
-            par* parametro = (par*)malloc(sizeof(par));
-            strcpy(parametro->nome,ide->id);
-            parametro->tipo = $1;
-            parametro->ponteiro = $2;
-            parametro->prox = $6;
-            $$ = parametro;
+            ide->tipo = $1;
+            ide->type = 0;
+            ide->pointer = $2;
+            ide->i = $6;
+            ide->isParameter = 1;
+            $$ = ide;
     }
-    |   {    }
+    |   { $$ = NULL;   }
 ;
 
 parametersAuxB: 
         type pointer ID expressionAux {
             identi *ide = $3;
-            par * parametro = (par*)malloc(sizeof(par*));
-            strcpy(parametro->nome,ide->id);
-            parametro->tipo = $1;
-            parametro->ponteiro = $2;
-            parametro->prox = NULL;
-            $$ = parametro;
+            ide->tipo = $1;
+            ide->type = 0;
+            ide->pointer = $2;
+            ide->i = NULL;
+            ide->isParameter = 1;
+            $$ = ide;
         }
     |   type pointer ID expressionAux COMMA parametersAuxB {
             identi *ide = $3;
-            par * parametro = (par*)malloc(sizeof(par*));
-            strcpy(parametro->nome,ide->id);
-            parametro->tipo = $1;
-            parametro->ponteiro = $2;
-            parametro->prox = $6;
-            $$ = parametro;
+            ide->tipo = $1;
+            ide->type = 0;
+            ide->pointer = $2;
+            ide->i = $6;
+            ide->isParameter = 1;
+            $$ = ide;
     }
 ;
 
@@ -371,8 +479,8 @@ type:
         INT {
             $$ = 0;
         }
-    |   CHAR {tipo = 1;}
-    |   VOID {tipo = 2;}
+    |   CHAR {$$ = 1;}
+    |   VOID {$$ = 2;}
 ;
 
 block:
@@ -440,13 +548,20 @@ commandsList:
         $$ = NULL;
     }
     |   PRINTF L_PAREN STRING COMMA expression R_PAREN SEMICOLON {
+        lc *lico = $3;
         cmd *command = (cmd*)malloc(sizeof(cmd));
         command->type = 10;
         command->exp = $5;
+        strcpy(command->string,lico->nome);
         $$ = command;
     }
     |   SCANF L_PAREN STRING COMMA BITWISE_AND ID R_PAREN SEMICOLON {
-
+        lc *lico = $3;
+        cmd *command = (cmd*)malloc(sizeof(cmd));
+        command->type = 12;
+        command->identi = $6;
+        strcpy(command->string,lico->nome);
+        $$ = command;
     }
     |   EXIT L_PAREN expression R_PAREN SEMICOLON {
         cmd *command = (cmd*)malloc(sizeof(cmd));
@@ -455,10 +570,22 @@ commandsList:
         $$ = command;
     }
     |   RETURN expressionAuxB SEMICOLON {
-        //tipo de retorno
         cmd *command = (cmd*)malloc(sizeof(cmd));
+        lc* lc = $1;
         command->type = 9;
-        command->exp = $2;
+        command->linha = lc->linha;
+        command->coluna = lc->coluna;       
+        if($2  != NULL){
+            command->exp = $2;
+            printf("%d\n",command->exp->exp);
+        }
+        else {
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 2;
+            no->direito = NULL;
+            no->esquerdo = NULL;
+            command->exp = no;
+        }
         $$ = command;
     }
     |   expression SEMICOLON {
@@ -499,6 +626,10 @@ operator:
             no->exp = 7;
             no->direito = NULL;
             no->esquerdo = NULL;
+            lc *lc = $1;
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             $$ = no;
         }
     |   ADD_ASSIGN {
@@ -506,6 +637,10 @@ operator:
             no->exp = 8;
             no->direito = NULL;
             no->esquerdo = NULL;
+            lc *lc = $1;
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             $$ = no;
         }
     |   MINUS_ASSIGN {
@@ -513,6 +648,10 @@ operator:
             no->exp = 9;
             no->direito = NULL;
             no->esquerdo = NULL;
+            lc *lc = $1;
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             $$ = no;
         }
 ;
@@ -537,6 +676,9 @@ logicalOR:
             no->exp = 11;
             no->direito = $3;
             no->esquerdo = $1;
+            lc *lc = $2;
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
             $$ = no;
     }
 ;
@@ -547,6 +689,9 @@ logicalAND:
             no->exp = 10;
             no->direito = $3;
             no->esquerdo = $1;
+            lc *lc = $2;
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
             $$ = no;
         }
     |   or {$$ = $1;}
@@ -598,13 +743,25 @@ equalityExpression:
 comparison:
         EQUAL { 
             node* exp = (node*)malloc(sizeof(node));
-            exp->exp = 3;
+            exp->exp = 5;
             strcpy(exp->nome,"EQUAL");
+            lc *lc = $1;
+            exp->linha = lc->linha;
+            exp->coluna = lc->coluna;
+            exp->esquerdo = NULL;
+            exp->direito = NULL;
+            strcpy(exp->nome,lc->nome);
             $$ = exp;}
     |   NOT_EQUAL {
             node* exp = (node*)malloc(sizeof(node));
-            exp->exp = 4;
+            exp->exp = 6;
             strcpy(exp->nome,"NOT_EQUAL");
+            lc *lc = $1;
+            exp->linha = lc->linha;
+            exp->coluna = lc->coluna;
+            exp->esquerdo = NULL;
+            exp->direito = NULL;    
+            strcpy(exp->nome,lc->nome);
             $$ = exp;
     }
 ;
@@ -625,6 +782,10 @@ comparisonAux:
             no->exp = 15;
             no->direito = NULL;
             no->esquerdo = NULL;
+            lc *lc = $1;
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             $$ = no;
         }
     |   LESS_EQUAL {
@@ -632,6 +793,10 @@ comparisonAux:
             no->exp = 16;
             no->direito = NULL;
             no->esquerdo = NULL;
+            lc *lc = $1;
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             $$ = no;
     }
     |   GREATER_THAN {
@@ -639,6 +804,10 @@ comparisonAux:
             no->exp = 17;
             no->direito = NULL;
             no->esquerdo = NULL;
+            lc *lc = $1;
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             $$ = no;
     }
     |   GREATER_EQUAL {
@@ -646,6 +815,10 @@ comparisonAux:
             no->exp = 18;
             no->direito = NULL;
             no->esquerdo = NULL;
+            lc *lc = $1;
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             $$ = no;
     }
 ;
@@ -657,6 +830,10 @@ shiftExpression:
             no->exp = 19;
             no->direito = $3;
             no->esquerdo = $1;
+            lc *lc = $2;
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             $$ = no;
     }
     |   aditiveExpression R_SHIFT shiftExpression {
@@ -664,6 +841,10 @@ shiftExpression:
             no->exp = 20;
             no->direito = $3;
             no->esquerdo = $1;
+            lc *lc = $2;
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             $$ = no;
     }
 ;
@@ -675,6 +856,10 @@ aditiveExpression:
             no->exp = 21;
             no->direito = $3;
             no->esquerdo = $1;
+            lc *lc = $2;
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             $$ = no;
     }
     |   multiplyExpression PLUS aditiveExpression {
@@ -682,6 +867,10 @@ aditiveExpression:
             no->exp = 22;
             no->direito = $3;
             no->esquerdo = $1;
+            lc *lc = $2;
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             $$ = no;
     }
 ;
@@ -693,6 +882,10 @@ multiplyExpression:
             no->exp = 23;
             no->direito = $3;
             no->esquerdo = $1;
+            lc *lc = $2;
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             $$ = no;
     }
     |   castExpression MULTIPLY multiplyExpression {
@@ -700,6 +893,10 @@ multiplyExpression:
             no->exp = 24;
             no->direito = $3;
             no->esquerdo = $1;
+            lc *lc = $2;
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             $$ = no;
     }
     |   castExpression REMAINDER multiplyExpression {
@@ -707,6 +904,10 @@ multiplyExpression:
             no->exp = 25;
             no->direito = $3;
             no->esquerdo = $1;
+            lc *lc = $2;
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             $$ = no;
     }
 ;
@@ -729,6 +930,10 @@ unaryExpression:
             no->exp = 27;
             no->direito = $2;
             no->esquerdo = NULL;
+            lc *lc = $1;
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             $$ = no;
     }
     |   DEC unaryExpression {
@@ -736,6 +941,10 @@ unaryExpression:
             no->exp = 28;
             no->direito = $2;
             no->esquerdo = NULL;
+            lc *lc = $1;
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             $$ = no;
     }
     |   BITWISE_AND castExpression {
@@ -743,6 +952,10 @@ unaryExpression:
             no->exp = 29;
             no->direito = $2;
             no->esquerdo = NULL;
+            lc *lc = $1;
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             $$ = no;
     }
     |   MULTIPLY castExpression {
@@ -750,6 +963,10 @@ unaryExpression:
             no->exp = 30;
             no->direito = $2;
             no->esquerdo = NULL;
+            lc *lc = $1;
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             $$ = no;
     }
     |   PLUS castExpression {
@@ -757,6 +974,10 @@ unaryExpression:
             no->exp = 31;
             no->direito = $2;
             no->esquerdo = NULL;
+            lc *lc = $1;
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             $$ = no;
     }
     |   MINUS castExpression {
@@ -764,6 +985,10 @@ unaryExpression:
             no->exp = 32;
             no->direito = $2;
             no->esquerdo = NULL;
+            lc *lc = $1;
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             $$ = no;
     }
     |   BITWISE_NOT castExpression {
@@ -771,6 +996,10 @@ unaryExpression:
             no->exp = 33;
             no->direito = $2;
             no->esquerdo = NULL;
+            lc *lc = $1;
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             $$ = no;
     }
     |   NOT castExpression {
@@ -778,6 +1007,10 @@ unaryExpression:
             no->exp = 34;
             no->direito = $2;
             no->esquerdo = NULL;
+            lc *lc = $1;
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             $$ = no;
     }
 ;
@@ -787,8 +1020,11 @@ postfixExpression:
             $$ = $1;
         }
     |   postfixExpression L_SQUARE_BRACKET expression R_SQUARE_BRACKET {
-            //array
-
+            node *no = (node*)malloc(sizeof(node));
+            no->exp = 7;
+            no->direito = $1;
+            no->esquerdo = NULL;
+            $$ = no;
     }
     |   postfixExpression INC {
             node *no = (node*)malloc(sizeof(node));
@@ -837,23 +1073,36 @@ primaryExpression:
             identi *ide = $1;
             node* exp = (node*)malloc(sizeof(node));
             exp->exp = 36;
+            exp->direito = NULL;
+            exp->esquerdo = NULL;
             strcpy(exp->nome,ide->id);
+            exp->linha = ide->linha;
+            exp->coluna = ide->coluna;
             $$ = exp;   
         }
     |   number {
             $$ = $1; 
         }
     |   CHARACTER {
+            lc *lico = $1;
             node* exp = (node*)malloc(sizeof(node));
-            exp->exp = 2;
-            strcpy(exp->nome,$1);
+            exp->exp =1;
+            exp->direito = NULL;
+            exp->esquerdo = NULL;
+            strcpy(exp->nome,lico->nome);
+            exp->linha = lico->linha;
+            exp->coluna = lico->coluna;
             $$ = exp; 
         }
     |   STRING {
-                //com ponteiro
+            lc *lico = $1;
             node* exp = (node*)malloc(sizeof(node));
-            exp->exp = 2;
-            strcpy(exp->nome,$1);
+            exp->exp = 39;
+            exp->direito = NULL;
+            exp->esquerdo = NULL;
+            strcpy(exp->nome,lico->nome);
+            exp->linha = lico->linha;
+            exp->coluna = lico->coluna;
             $$ = exp; 
     }
     |   L_PAREN expression R_PAREN {
@@ -863,27 +1112,36 @@ primaryExpression:
 
 number:
         NUM_INTEGER {
+            lc *lico = $1;
             node *no = (node*)malloc(sizeof(node));
-            no->exp = 1;
+            no->exp = 0;
             no->direito = NULL;
             no->esquerdo = NULL;
-            strcpy(no->nome,$1);
+            strcpy(no->nome,lico->nome);
+            no->linha = lico->linha;
+            no->coluna = lico->coluna;
             $$ = no;
         }
     |   NUM_HEXA {
+            lc *lico = $1;
             node *no = (node*)malloc(sizeof(node));
-            no->exp = 1;
+            no->exp = 0;
             no->direito = NULL;
             no->esquerdo = NULL;
-            strcpy(no->nome,$1);
+            strcpy(no->nome,lico->nome);
+            no->linha = lico->linha;
+            no->coluna = lico->coluna;
             $$ = no;
     }
     |   NUM_OCTAL {
+            lc *lico = $1;
             node *no = (node*)malloc(sizeof(node));
-            no->exp = 1;
+            no->exp = 0;
             no->direito = NULL;
             no->esquerdo = NULL;
-            strcpy(no->nome,$1);
+            strcpy(no->nome,lico->nome);
+            no->linha = lico->linha;
+            no->coluna = lico->coluna;
             $$ = no;
     }
 ;

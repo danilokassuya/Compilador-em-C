@@ -28,14 +28,9 @@ typedef struct identificador{
 	*/
 	int tipo;
 	int size;
-	int local;
 	int isParameter;
 	int started;
-
-	//prototipo
-	struct par* parametros;
-	//int tipo; //retorno
-
+	char string[100];
 	//constante
 	//int tipo;
 	char valor[100];
@@ -52,7 +47,7 @@ typedef struct retorno{
 	struct retorno *prox;
 }ret;
 
-typedef void *Identificador;
+typedef void *Identificador;	
 
 void printHash(Identificador prog);
 
@@ -80,9 +75,15 @@ void setType(Identificador inde,int type);
 
 void setPointer(Identificador inde,int pointer);
 
-int getLinha(Identificador ctr, char string[]);
+void printLinhaErro(int linha,int coluna,char nome[]);
 
-int getColuna(Identificador ctr, char string[]);
+int getLinha(char funcao[], char variavel[], Identificador programa);
+
+int getColuna(char funcao[], char variavel[], Identificador programa);
+
+int getPointer(char funcao[], char variavel[], Identificador programa);
+
+int searchHash(char funcao[], char variavel[], Identificador programa);
 
 Identificador clean(Identificador ctr);
 
