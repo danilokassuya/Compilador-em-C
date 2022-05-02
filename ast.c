@@ -56,10 +56,11 @@ int verifica(NO programa){
     cmd *command;
     fun *func = prog->lista_de_funcoes;
     while(func != NULL){
+        printf("tipo:\n");
         retornoValido = 0;
         strcpy(funcaoAtual,func->nome);
-        /*if(verificaParametro(programa) == -1)
-            return -1;*/
+        if(verificaParametro(programa) == -1)
+            return -1;
         printf("FuncaoAtual:%s",funcaoAtual);
         printExp(func->exp,0);
         printf("\n");
@@ -79,6 +80,7 @@ int verifica(NO programa){
             return -1;
         }
         func = func->next;
+            printf("tipo:\n");
     }
 }
 
@@ -154,8 +156,8 @@ int verificaCMD(NO programa,NO comm){
     }
     else if(command->type == 9){
         tipo = verificarExp(command->exp,programa);
-        retornoValido = 1;
         printf("tipo:%d %d\n",tipo,getRetorno(programa,funcaoAtual));
+        retornoValido = 1;
         if(tipo == -1){
             printf("Erro\n");
             return -1;
@@ -189,6 +191,8 @@ int verificarExp(NO no,NO programa){
     identi *h;
     node *exp = (node*)no;
     node *expaux = (node*)no;
+    fun *func;
+    pro *prog = (pro*)programa;
     if(exp == NULL){
         return -2;
     }
@@ -227,7 +231,6 @@ int verificarExp(NO no,NO programa){
         expaux = exp->direito;
         while(expaux->prox != NULL){
             if(verificarExp(expaux,programa) == -1){
-                printf("deu ruim\n");
                 return -1;
             }
             h->tamanho[count] = expaux->valor;
@@ -281,14 +284,25 @@ int verificarExp(NO no,NO programa){
         }
         return 0;
     }
-
+    if(exp->exp == 35){
+        func = prog->lista_de_funcoes;
+        while(strcmp(func->nome,exp->esquerdo->nome) != 0){
+            func = func->next;
+        }
+        printf("%s\n",exp->direito->nome);
+        printf("ue\n");
+        exp = exp->direito;
+        while(exp != NULL){
+            printf("Chamada%d\n",searchHash(func->nome,exp->direito->nome,programa));
+            exp = exp->prox;
+        }
+            return func->retorno;
+    }
     if(exp->exp == 27 || exp->exp == 28 ){
         return tipo1;
     }
     if(exp->exp == 7){
         if(pointer1 != 0 || pointer2 != 0 || tipo1 != tipo2){
-                printf("oi\n");
-                printf("%s\n",exp->direito->nome);
             if(exp->esquerdo->declaration == 1)
                 printf("error:semantic:%d:%d: incompatible types in initialization when assigning to type '%s%s' from type '%s%s'\n",exp->linha,exp->coluna,tradutor(tipo1),pointer(pointer1),tradutor(tipo2),pointer(pointer2));
             else 
@@ -494,8 +508,11 @@ int verificaParametro(NO programa){
     identi *h;
     int type1;
     int type2;
-    int protipo;
+    int prototipo;
     int retorno;
+    int linha;
+    int coluna;
+    char nome[100];
     fun *func = prog->lista_de_funcoes;
     while(strcmp(func->nome,funcaoAtual) != 0){
         func = func->next;
@@ -504,17 +521,39 @@ int verificaParametro(NO programa){
             return -1;
         }
     }
+    if(func->prototipo == 0){
+        linha = func->linha;
+        coluna = func->coluna;
+    }
     par *parametro = func->parametro;
     retorno = func->retorno;
-    protipo = func->prototipo;
+    prototipo = func->prototipo;
+    strcpy(nome,func->nome);
+    if(prototipo == 0){
+        linha = func->linha;
+        coluna = func->coluna;
+    }
+    func = func->next;
+    if(func == NULL){
+        return 0;
+    }
     while(strcmp(func->nome,funcaoAtual) != 0){
         func = func->next;
         if(func == NULL){
             return 0;
         }
     }
+    if(func->prototipo == 0){
+        linha = func->linha;
+        coluna = func->coluna;
+    }
     par *parametro2 = func->parametro;
-    while(parametro != NULL || parametro2 != NULL){
+    if(retorno != func->retorno){
+        printf("error:semantic:%d:%d: conflicting types for '%s'\n",linha,coluna,func->nome);
+        printLinhaErro(linha,coluna,funcaoAtual);
+        return -1;
+    }
+    while(parametro != NULL && parametro2 != NULL){
         if(func->prototipo == 1){
             h = getIdenti(funcaoAtual,parametro->nome,programa);
             type1 = h->tipo;
@@ -535,4 +574,30 @@ int verificaParametro(NO programa){
         parametro = parametro->prox;
         parametro2 = parametro2->prox;
     }
+    printf("prototipo %d %d\n",prototipo,func->prototipo);
+    if(prototipo == 1){
+        if(parametro == NULL && parametro2 != NULL){
+            printf("error:semantic:%d:%d:  prototype for '%s' declares fewer arguments\n",func->linha,func->coluna,func->nome);
+            printLinhaErro(func->linha,func->coluna,func->nome);
+            return -1;
+        }
+        if(parametro != NULL && parametro2 == NULL){
+            printf("error:semantic:%d:%d:  prototype for '%s' declares more arguments\n",func->linha,func->coluna,func->nome);
+            printLinhaErro(func->linha,func->coluna,func->nome);
+            return -1;
+        }
+    }
+    if(func->prototipo == 1){
+        if(parametro != NULL && parametro2 == NULL){
+            printf("error:semantic:%d:%d:  prototype for '%s' declares more arguments\n",linha,coluna,nome);
+            printLinhaErro(linha,coluna,nome);
+            return -1;
+        }
+        if(parametro == NULL && parametro2 != NULL){
+            printf("error:semantic:%d:%d:  prototype for '%s' declares fewer arguments\n",linha,coluna,nome);
+            printLinhaErro(linha,coluna,nome);
+            return -1;
+        }
+    }
+    return 0;
 }

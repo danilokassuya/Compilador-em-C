@@ -359,7 +359,9 @@ int searchHash(char funcao[], char variavel[], Identificador programa){
 				return -1;
 			func = func->next;
 		}
-		controle *hash = func->symbolTable;
+		printf("aqui:\n");
+		controle *hash =  func->symbolTable;
+		printf("aqui:\n");
 		int size = strlen(variavel);
 		int i = 0;
 		int buff = 0;

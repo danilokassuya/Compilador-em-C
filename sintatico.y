@@ -115,7 +115,7 @@ start:program END_OF_FILE{
             function = function->next;
         }*/
         //printf("start\n");
-        //printHash(programa);
+        printHash(programa);
         //printAST(programa);
         verifica(programa);
         printf("Semantico Concluido");
@@ -199,6 +199,7 @@ function:
             fun* func = (fun*)malloc(sizeof(fun));
             func->symbolTable = (controle*)malloc(sizeof(controle));
             identi *ide = $3;
+            identi *iden = (identi*)malloc(sizeof(identi));
             strcpy(func->nome,ide->id);
             ret* retorno = $6;
             node *no = retorno->node;
@@ -240,13 +241,19 @@ function:
             func->exp = noaux;
             identi *param = $4;
             par *para = (par*)malloc(sizeof(par));
-            while(param != NULL){
-                strcpy(para->nome,param->id);
-                param = param->i;
-                para->prox = (par*)malloc(sizeof(par));
-                para = para->prox;
+            if(param != NULL){
+                func->parametro = para;
+                while(param != NULL){
+                    strcpy(para->nome,param->id);
+                    param = param->i;
+                    para->prox = (par*)malloc(sizeof(par));
+                    if(param == NULL)
+                        para->prox = NULL;
+                    para = para->prox;
+                }
+                para = NULL;
             }
-            func->parametro = para;
+            else func->parametro = NULL;
             func->retorno = $1;
             func->pointer = $2;
             func->prototipo = 0;
@@ -272,6 +279,13 @@ function:
                 }
                 funclist->next = func;
             }
+            iden->type = 2;
+            iden->tipo = func->retorno;
+            strcpy(iden->id,func->nome);
+            iden->linha = func->linha;
+            iden->coluna = func->coluna;
+            if(insert(programa->globalSymbolTable,iden) == 0)
+                return 0;
         }
 ;
 
@@ -415,12 +429,20 @@ protoDeclaration:
             }   
             identi *param = $4;
             par *para = (par*)malloc(sizeof(par));
-            while(param != NULL){
-                strcpy(para->nome,param->id);
-                param = param->i;
-                para = para->prox;
-            }
             func->parametro = para;
+            if(param != NULL){
+                func->parametro = para;
+                while(param != NULL){
+                    strcpy(para->nome,param->id);
+                    param = param->i;
+                    para->prox = (par*)malloc(sizeof(par));
+                    if(param == NULL)
+                        para->prox = NULL;
+                    para = para->prox;
+                }
+                para = NULL;
+            }
+            else func->parametro = NULL;
             func->retorno = $1;
             func->pointer = $2;
             func->prototipo = 1;
@@ -455,6 +477,7 @@ parameters: L_PAREN parametersAux R_PAREN {
 parametersAux: 
         type pointer ID expressionAux {
             identi *ide = $3;
+            printf("id %s\n",ide->id);
             ide->tipo = $1;
             ide->type = 0;
             ide->pointer = $2;
@@ -464,6 +487,7 @@ parametersAux:
         }
     |   type pointer ID expressionAux COMMA parametersAuxB {
             identi *ide = $3;
+            printf("id %s\n",ide->id);
             ide->tipo = $1;
             ide->type = 0;
             ide->pointer = $2;
@@ -1067,7 +1091,7 @@ postfixExpression:
             node *no = (node*)malloc(sizeof(node));
             no->exp = 35;
             no->direito = $3;
-            no->esquerdo = NULL;
+            no->esquerdo = $1;
             $$ = no;
     }
 ;
