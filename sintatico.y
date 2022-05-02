@@ -119,7 +119,7 @@ start:program END_OF_FILE{
         //printAST(programa);
         verifica(programa);
         printf("Semantico Concluido");
-        return 0;
+        return 0;   
 }
 ;
 
