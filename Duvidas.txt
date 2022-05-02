@@ -1,4 +1,4 @@
-Constantes podem ser declaradas com variaveis(globais) do mesmo nome
-Criar prototipo depois da função
-Prototipo e funções precisam ter o mesmo nome dos parametros
-parametros com mesmo nome ?
+Podem ter mais de uma funcao com o mesmo nome ou prototipo ?
+o que retorna nos char + char pont + char, pont + inteiro
+com - tb
+e nos unarios retorna o mesmo tipo ?

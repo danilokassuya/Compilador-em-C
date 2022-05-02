@@ -27,7 +27,7 @@ typedef struct identificador{
 	void = 2
 	*/
 	int tipo;
-	int tamanho;
+	int tamanho[100];
 	int isParameter;
 	int started;
 	char string[100];

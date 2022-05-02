@@ -115,9 +115,10 @@ start:program END_OF_FILE{
             function = function->next;
         }*/
         //printf("start\n");
-        printHash(programa);
+        //printHash(programa);
         //printAST(programa);
         verifica(programa);
+        printf("Semantico Concluido");
         return 0;
 }
 ;
@@ -320,9 +321,13 @@ varDeclarationAux:
                 no = noaux;
             }
             ide->pointer = $1;
-            if($3 != NULL){
-                noaux->exp = 37;
-                ide->pointer = ide->pointer+1;
+            node *n = $3;
+            if(n != NULL){
+                noaux->exp = 37;                
+                while(n != NULL){
+                    ide->pointer = ide->pointer+1;
+                    n = n->prox;
+                }
             }
             retorno->identidade = ide;
             retorno->node = no;
@@ -350,9 +355,13 @@ varDeclarationAux:
             }
             ide->pointer = $1;
             noaux->exp = 36;
-            if($3 != NULL){
-                noaux->exp = 37;
-                ide->pointer = ide->pointer+1;
+            node *n = $3;
+            if(n != NULL){
+                noaux->exp = 37;                
+                while(n != NULL){
+                    ide->pointer = ide->pointer+1;
+                    n = n->prox;
+                }
             }
             ret *retorno = (ret*)malloc(sizeof(ret));
             retorno->identidade = ide;
@@ -362,7 +371,10 @@ varDeclarationAux:
 ;
 
 expressionAux: 
-        L_SQUARE_BRACKET expression R_SQUARE_BRACKET {$$ = $2;}
+        expressionAux L_SQUARE_BRACKET expression R_SQUARE_BRACKET {
+            node *no = $3;
+            no->prox = $1;
+            $$ = no;}
     |   {$$ = NULL;}
 ;
 
@@ -374,6 +386,10 @@ expressionAuxB:
 atribAux: 
         ASSIGN atribExpression {
             node *no = (node*)malloc(sizeof(node));
+            lc *lc = $1;
+            no->linha = lc->linha;
+            no->coluna = lc->coluna;
+            strcpy(no->nome,lc->nome);
             no->exp = 7;
             no->direito = $2;
             no->esquerdo = NULL;
@@ -620,6 +636,7 @@ atribExpression:
         node *no = $2;
         no->direito = $3;
         no->esquerdo = $1;
+        printf("%s\n",no->esquerdo->nome);
     }
 ;
 
@@ -1023,9 +1040,11 @@ postfixExpression:
             $$ = $1;
         }
     |   postfixExpression L_SQUARE_BRACKET expression R_SQUARE_BRACKET {
+            printf("aqui\n");
             node *no = (node*)malloc(sizeof(node));
-            no->exp = 7;
-            no->direito = $1;
+            no->exp = 37;
+            no->esquerdo = $1;
+            printf("%s\n",no->esquerdo->nome);
             no->esquerdo = NULL;
             $$ = no;
     }

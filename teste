@@ -7,12 +7,13 @@ printf("%d\n",i);
 return 0;
 }
 int teste();
-int teste1(){
+char teste(){
     int a = 0;
-    int b[-1];
+    int b[10][5];
     int ab;
     int ba;
     int c;
+    b[0] = 1;
     if(a < b){
         a++;
     }

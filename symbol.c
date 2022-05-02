@@ -48,7 +48,7 @@ Identificador createIdenti(int totalLines,int characters,char name[]){
 	ide->linha = totalLines;
 	ide->coluna = characters;
 	strcpy(ide->id,name);
-	ide->tamanho = 1;
+	ide->tamanho[0] = 1;
 	ide->value = 0;
 	ide->isParameter = 0;
 	ide->started = -1;
@@ -187,7 +187,7 @@ int getLinha(char funcao[], char variavel[], Identificador programa){
 	}
 	else{
 		fun *func = prog->lista_de_funcoes;
-		while(strcmp(func->nome,funcao) != 0){
+		while(strcmp(func->nome,funcao) != 0|| func->prototipo == 1){
 			if(func == NULL)
 				return -1;
 			func = func->next;
@@ -239,7 +239,7 @@ int getColuna(char funcao[], char variavel[], Identificador programa){
 	}
 	else{
 		fun *func = prog->lista_de_funcoes;
-		while(strcmp(func->nome,funcao) != 0){
+		while(strcmp(func->nome,funcao) != 0|| func->prototipo == 1){
 			if(func == NULL)
 				return -1;
 			func = func->next;
@@ -291,7 +291,7 @@ int getPointer(char funcao[], char variavel[], Identificador programa){
 	}
 	else{
 		fun *func = prog->lista_de_funcoes;
-		while(strcmp(func->nome,funcao) != 0){
+		while(strcmp(func->nome,funcao) != 0|| func->prototipo == 1){
 			if(func == NULL)
 				return -1;
 			func = func->next;
@@ -353,7 +353,8 @@ int searchHash(char funcao[], char variavel[], Identificador programa){
 	}
 	else{
 		fun *func = prog->lista_de_funcoes;
-		while(strcmp(func->nome,funcao) != 0){
+		while(strcmp(func->nome,funcao) != 0 || func->prototipo == 1){
+			printf("aqui:%s\n",func->nome);
 			if(func == NULL)
 				return -1;
 			func = func->next;
@@ -402,7 +403,7 @@ identi *getIdenti(char funcao[], char variavel[], Identificador programa){
 	}
 	else{
 		fun *func = prog->lista_de_funcoes;
-		while(strcmp(func->nome,funcao) != 0){
+		while(strcmp(func->nome,funcao) != 0|| func->prototipo == 1){
 			func = func->next;
 		}
 		controle *hash = func->symbolTable;

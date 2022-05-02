@@ -164,4 +164,6 @@ int getLinhaFun(NO programa,char funcao[]);
 
 int getColunaFun(NO programa,char funcao[]);
 
+int verificaParametro(NO programa);
+
 #endif
