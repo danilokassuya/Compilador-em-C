@@ -1,4 +1,0 @@
-Constantes podem ser declaradas com variaveis(globais) do mesmo nome
-Criar prototipo depois da função
-Prototipo e funções precisam ter o mesmo nome dos parametros
-parametros com mesmo nome ?

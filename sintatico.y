@@ -108,17 +108,16 @@
 
 %%
 start:program END_OF_FILE{
-        printf("SUCCESSFUL COMPILATION.\n");
+        
         fun *function = programa->lista_de_funcoes;
         /*while(function != NULL){
             printf("%s\n",function->nome);
             function = function->next;
         }*/
-        //printf("start\n");
-        printHash(programa);
+        //printHash(programa);
         //printAST(programa);
-        verifica(programa);
-        printf("Semantico Concluido");
+        if(verifica(programa) != -1)
+            printf("SUCCESSFUL COMPILATION.");
         return 0;   
 }
 ;
@@ -140,8 +139,8 @@ declarations:
         NUMBER_SIGN DEFINE ID expression {  
         identi *id = $3;
         node *no = $4;
-		if(no->exp == 2){
-			printf("error:semantic:%d:%d: string type is not compatible with define\n",no->linha,no->coluna);
+		if(no->exp == 1){
+			printf("error:semantic:%d:%lu: string type is not compatible with define\n",no->linha,no->coluna-strlen(no->nome));
 			printLinhaErro(no->linha,no->coluna,no->nome);
 			return 0;
         }
@@ -161,6 +160,7 @@ declarations:
                 noaux = noaux->prox;
             }
             noaux->prox = no;
+            no = programa->exp;
         }
         programa->exp = no;
         }
@@ -188,6 +188,7 @@ declarations:
                 noaux = noaux->prox;
             }
             noaux->prox = no;
+            no = programa->exp;
         }
         programa->exp = no;
     }
@@ -202,24 +203,42 @@ function:
             identi *iden = (identi*)malloc(sizeof(identi));
             strcpy(func->nome,ide->id);
             ret* retorno = $6;
-            node *no = retorno->node;
-            node *noaux = retorno->node;
+            node *no;
+            node *noaux;
+            if(retorno != NULL){
+                no = retorno->node;
+                noaux = retorno->node;
+            }
+            else{
+                no = NULL;
+                noaux = NULL;
+            }
             int i = 0;
             identi *parametro = $4;
             identi *parametroaux;
+            par *para = (par*)malloc(sizeof(par));
             while(i< 211){
                 func->symbolTable->hash[i] = programa->globalSymbolTable->hash[i];
                 i++;
             }   
+            if(parametro != NULL)
+                func->parametro = para;
+            else func->parametro = NULL;
             while(parametro != NULL){
                 if(parametro->tipo == 2){
                     printf("parameter '%s' declared void\n",parametro->id);
                     printLinhaErro(parametro->linha,parametro->coluna,parametro->id);
                     return 0;
                 }
+                strcpy(para->nome,parametro->id);
                 parametroaux = parametro;
+                para->tipo = parametro->tipo;
                 parametro = parametro->i;
                 insert(func->symbolTable,parametroaux);
+                para->prox = (par*)malloc(sizeof(par));
+                if(parametro == NULL)
+                    para->prox = NULL;
+                para = para->prox;
             }
             if(retorno != NULL){
                 if(insert(func->symbolTable,retorno->identidade) == 0)
@@ -239,21 +258,6 @@ function:
             }
             cont++;
             func->exp = noaux;
-            identi *param = $4;
-            par *para = (par*)malloc(sizeof(par));
-            if(param != NULL){
-                func->parametro = para;
-                while(param != NULL){
-                    strcpy(para->nome,param->id);
-                    param = param->i;
-                    para->prox = (par*)malloc(sizeof(par));
-                    if(param == NULL)
-                        para->prox = NULL;
-                    para = para->prox;
-                }
-                para = NULL;
-            }
-            else func->parametro = NULL;
             func->retorno = $1;
             func->pointer = $2;
             func->prototipo = 0;
@@ -268,7 +272,7 @@ function:
             else{
                 while(funclist->next != NULL){
                     if(strcmp(funclist->nome,ide->id) ==  0){
-                        printf("Erro\n");
+                        printf("função já declarada\n");
                         return 0;
                     }
                     funclist = funclist->next;
@@ -283,6 +287,7 @@ function:
             iden->tipo = func->retorno;
             strcpy(iden->id,func->nome);
             iden->linha = func->linha;
+            iden->pointer = func->pointer;
             iden->coluna = func->coluna;
             if(insert(programa->globalSymbolTable,iden) == 0)
                 return 0;
@@ -434,6 +439,7 @@ protoDeclaration:
                 func->parametro = para;
                 while(param != NULL){
                     strcpy(para->nome,param->id);
+                    para->tipo = param->tipo;
                     param = param->i;
                     para->prox = (par*)malloc(sizeof(par));
                     if(param == NULL)
@@ -455,7 +461,7 @@ protoDeclaration:
             else{
                 while(funclist->next != NULL){
                     if(strcmp(funclist->nome,ide->id) ==  0){
-                        printf("Erro\n"); 
+                        printf("prototipo já declarado\n"); 
                         return 0;
                     }
                     funclist = funclist->next;
@@ -470,6 +476,7 @@ protoDeclaration:
 ;
 
 parameters: L_PAREN parametersAux R_PAREN {
+            identi *ide = $2;
             $$ = $2;
 }
 ;
@@ -477,7 +484,6 @@ parameters: L_PAREN parametersAux R_PAREN {
 parametersAux: 
         type pointer ID expressionAux {
             identi *ide = $3;
-            printf("id %s\n",ide->id);
             ide->tipo = $1;
             ide->type = 0;
             ide->pointer = $2;
@@ -487,7 +493,6 @@ parametersAux:
         }
     |   type pointer ID expressionAux COMMA parametersAuxB {
             identi *ide = $3;
-            printf("id %s\n",ide->id);
             ide->tipo = $1;
             ide->type = 0;
             ide->pointer = $2;
@@ -660,7 +665,6 @@ atribExpression:
         node *no = $2;
         no->direito = $3;
         no->esquerdo = $1;
-        printf("%s\n",no->esquerdo->nome);
     }
 ;
 
@@ -1064,11 +1068,9 @@ postfixExpression:
             $$ = $1;
         }
     |   postfixExpression L_SQUARE_BRACKET expression R_SQUARE_BRACKET {
-            printf("aqui\n");
             node *no = (node*)malloc(sizeof(node));
             no->exp = 37;
             no->esquerdo = $1;
-            printf("%s\n",no->esquerdo->nome);
             no->esquerdo = NULL;
             $$ = no;
     }
@@ -1225,6 +1227,9 @@ void yyerror(char *s) {
             for(i=1;i<characters;i++) {
 				printf(" ");
             }
+            aux = fgetc(stdin);
+            if(aux == EOF)
+                printf("\n");
 			printf("^");
 			break;
         case UNTERMINATED_COMMENT:

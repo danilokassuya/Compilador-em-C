@@ -34,6 +34,7 @@ typedef struct identificador{
 	//constante
 	//int tipo;
 	int value;
+	int chamada;//numero de arrays na chamada
     int pointer;//se é um ponteiro
 } identi;
 

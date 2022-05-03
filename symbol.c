@@ -53,6 +53,7 @@ Identificador createIdenti(int totalLines,int characters,char name[]){
 	ide->isParameter = 0;
 	ide->started = -1;
 	ide->pointer = 0;
+	ide->chamada = 0;
 	return ide;
 }
 
@@ -103,7 +104,6 @@ void printLinhaErro(int linha,int coluna,char nome[]){
 	char aux;
 	int characters = coluna;
 	fseek(stdin, 0, SEEK_SET);
-	characters -= strlen(nome);
 	while(lineNumber < linha) {
 		aux = fgetc(stdin);
 		if(aux == '\n')    lineNumber++;
@@ -111,7 +111,9 @@ void printLinhaErro(int linha,int coluna,char nome[]){
 	}
 	fgets(line, sizeof(line), stdin);
 	printf("%s", line);
-
+	aux = fgetc(stdin);
+	if(aux == EOF)
+		printf("\n");
 	for(i=1;i<characters;i++) {
 		printf(" ");
 	}
@@ -123,7 +125,7 @@ int insert(Identificador table, Identificador inde){
 	identifica->i = NULL;
 	if(identifica->type == 0)
 		if(identifica->tipo == 2){
-			printf("error:semantic:%d:%d: variable '%s' declared void\n\n",identifica->linha,identifica->coluna,identifica->id);
+			printf("error:semantic:%d:%d: variable '%s' declared void\n",identifica->linha,(identifica->coluna),identifica->id);
 			printLinhaErro(identifica->linha,identifica->coluna,identifica->id);
 			return 0;
 		}
@@ -146,12 +148,12 @@ int insert(Identificador table, Identificador inde){
 			do{
 				if(strcmp(identifica->id, h->id) == 0 && identifica->tipo == h->tipo){
 					printf("error:semantic:%d:%d: variable '%s' already declared, previous declaration in line %d column %d\n",identifica->linha,identifica->coluna,identifica->id,h->linha,h->coluna);
-					printLinhaErro(h->linha,h->coluna,h->id);
+					printLinhaErro(identifica->linha,identifica->coluna,identifica->id);
 					return 0;
 				}
 				if(strcmp(identifica->id, h->id) == 0){
-					printf("error:semantic:%d:%d: redefinition of identifier '%s' previous defined in line %d\n",identifica->linha,identifica->coluna,identifica->id,h->linha);
-					printLinhaErro(h->linha,h->coluna,h->id);
+					printf("error:semantic:%d:%d: redefinition of '%s' previous defined in line %d column %d\n",identifica->linha,identifica->coluna,identifica->id,h->linha,h->coluna);
+					printLinhaErro(identifica->linha,identifica->coluna,identifica->id);
 					return 0;
 				}
 				h = h->i;
@@ -287,7 +289,7 @@ int getPointer(char funcao[], char variavel[], Identificador programa){
 			if(h == NULL)
 				return -1;
 		}
-		return h->pointer;
+		return h->pointer-h->chamada;
 	}
 	else{
 		fun *func = prog->lista_de_funcoes;
@@ -313,7 +315,7 @@ int getPointer(char funcao[], char variavel[], Identificador programa){
 			if(h == NULL)
 				return -1;
 		}
-		return h->pointer;
+		return h->pointer-h->chamada;
 	}
 
 	return -1;
@@ -342,8 +344,9 @@ int searchHash(char funcao[], char variavel[], Identificador programa){
 		}
 		i = buff%211;
 		identi *h = hash->hash[i];
-		if(h == NULL)
+		if(h == NULL){
 				return -1;
+		}
 		while(strcmp(h->id, variavel) != 0){
 			h = h->i;
 			if(h == NULL)
@@ -354,14 +357,11 @@ int searchHash(char funcao[], char variavel[], Identificador programa){
 	else{
 		fun *func = prog->lista_de_funcoes;
 		while(strcmp(func->nome,funcao) != 0 || func->prototipo == 1){
-			printf("aqui:%s\n",func->nome);
 			if(func == NULL)
 				return -1;
 			func = func->next;
 		}
-		printf("aqui:\n");
 		controle *hash = func->symbolTable;
-		printf("aqui:\n");
 		int size = strlen(variavel);
 		int i = 0;
 		int buff = 0;
@@ -371,8 +371,9 @@ int searchHash(char funcao[], char variavel[], Identificador programa){
 		}
 		i = buff%211;
 		identi *h = hash->hash[i];
-		if(h == NULL)
+		if(h == NULL){
 				return -1;
+		}
 		while(strcmp(h->id, variavel) != 0){
 			h = h->i;
 			if(h == NULL){

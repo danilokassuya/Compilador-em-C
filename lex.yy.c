@@ -865,7 +865,7 @@ characters += strlen(yytext); return CHAR;
 case 5:
 YY_RULE_SETUP
 #line 29 "lexico.l"
-characters += strlen(yytext); yylval.lc = createLC(totalLines,characters,yytext);return RETURN;
+yylval.lc = createLC(totalLines,characters,yytext);characters += strlen(yytext); return RETURN;
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
@@ -925,127 +925,127 @@ characters += strlen(yytext); return STRUCT;
 case 17:
 YY_RULE_SETUP
 #line 41 "lexico.l"
-characters += strlen(yytext); yylval.lc = createLC(totalLines,characters,yytext);return PLUS;
+yylval.lc = createLC(totalLines,characters,yytext);characters += strlen(yytext); return PLUS;
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
 #line 42 "lexico.l"
-characters += strlen(yytext); yylval.lc = createLC(totalLines,characters,yytext);return MINUS;
+yylval.lc = createLC(totalLines,characters,yytext);characters += strlen(yytext); return MINUS;
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
 #line 43 "lexico.l"
-characters += strlen(yytext); yylval.lc = createLC(totalLines,characters,yytext);return MULTIPLY;
+yylval.lc = createLC(totalLines,characters,yytext);characters += strlen(yytext); return MULTIPLY;
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
 #line 44 "lexico.l"
-characters += strlen(yytext); yylval.lc = createLC(totalLines,characters,yytext);return DIV;
+yylval.lc = createLC(totalLines,characters,yytext);characters += strlen(yytext); return DIV;
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
 #line 45 "lexico.l"
-characters += strlen(yytext); yylval.lc = createLC(totalLines,characters,yytext);return REMAINDER;
+yylval.lc = createLC(totalLines,characters,yytext);characters += strlen(yytext); return REMAINDER;
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
 #line 46 "lexico.l"
-characters += strlen(yytext); yylval.lc = createLC(totalLines,characters,yytext);return INC;
+yylval.lc = createLC(totalLines,characters,yytext);characters += strlen(yytext); return INC;
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
 #line 47 "lexico.l"
-characters += strlen(yytext); yylval.lc = createLC(totalLines,characters,yytext);return DEC;
+yylval.lc = createLC(totalLines,characters,yytext);characters += strlen(yytext); return DEC;
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
 #line 48 "lexico.l"
-characters += strlen(yytext); yylval.lc = createLC(totalLines,characters,yytext);return BITWISE_AND;
+yylval.lc = createLC(totalLines,characters,yytext);characters += strlen(yytext); return BITWISE_AND;
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
 #line 49 "lexico.l"
-characters += strlen(yytext); yylval.lc = createLC(totalLines,characters,yytext);return BITWISE_OR;
+yylval.lc = createLC(totalLines,characters,yytext);characters += strlen(yytext); return BITWISE_OR;
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
 #line 50 "lexico.l"
-characters += strlen(yytext); yylval.lc = createLC(totalLines,characters,yytext);return BITWISE_NOT;
+yylval.lc = createLC(totalLines,characters,yytext);characters += strlen(yytext); return BITWISE_NOT;
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
 #line 51 "lexico.l"
-characters += strlen(yytext); yylval.lc = createLC(totalLines,characters,yytext);return BITWISE_XOR;
+yylval.lc = createLC(totalLines,characters,yytext);characters += strlen(yytext); return BITWISE_XOR;
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 52 "lexico.l"
-characters += strlen(yytext); yylval.lc = createLC(totalLines,characters,yytext);return NOT;
+yylval.lc = createLC(totalLines,characters,yytext);characters += strlen(yytext); return NOT;
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
 #line 53 "lexico.l"
-characters += strlen(yytext); yylval.lc = createLC(totalLines,characters,yytext);return LOGICAL_AND;
+yylval.lc = createLC(totalLines,characters,yytext);characters += strlen(yytext); return LOGICAL_AND;
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
 #line 54 "lexico.l"
-characters += strlen(yytext); yylval.lc = createLC(totalLines,characters,yytext);return LOGICAL_OR;
+yylval.lc = createLC(totalLines,characters,yytext);characters += strlen(yytext); return LOGICAL_OR;
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
 #line 55 "lexico.l"
-characters += strlen(yytext); yylval.lc = createLC(totalLines,characters,yytext);return EQUAL;
+yylval.lc = createLC(totalLines,characters,yytext);characters += strlen(yytext); return EQUAL;
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
 #line 56 "lexico.l"
-characters += strlen(yytext); yylval.lc = createLC(totalLines,characters,yytext);return NOT_EQUAL;
+yylval.lc = createLC(totalLines,characters,yytext);characters += strlen(yytext); return NOT_EQUAL;
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
 #line 57 "lexico.l"
-characters += strlen(yytext); yylval.lc = createLC(totalLines,characters,yytext);return LESS_THAN;
+yylval.lc = createLC(totalLines,characters,yytext);characters += strlen(yytext); return LESS_THAN;
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
 #line 58 "lexico.l"
-characters += strlen(yytext); yylval.lc = createLC(totalLines,characters,yytext);return GREATER_THAN;
+yylval.lc = createLC(totalLines,characters,yytext);characters += strlen(yytext); return GREATER_THAN;
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
 #line 59 "lexico.l"
-characters += strlen(yytext); yylval.lc = createLC(totalLines,characters,yytext);return LESS_EQUAL;
+yylval.lc = createLC(totalLines,characters,yytext);characters += strlen(yytext); return LESS_EQUAL;
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
 #line 60 "lexico.l"
-characters += strlen(yytext); yylval.lc = createLC(totalLines,characters,yytext);return GREATER_EQUAL;
+yylval.lc = createLC(totalLines,characters,yytext);characters += strlen(yytext); return GREATER_EQUAL;
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
 #line 61 "lexico.l"
-characters += strlen(yytext); yylval.lc = createLC(totalLines,characters,yytext);return R_SHIFT;
+yylval.lc = createLC(totalLines,characters,yytext);characters += strlen(yytext); return R_SHIFT;
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
 #line 62 "lexico.l"
-characters += strlen(yytext); yylval.lc = createLC(totalLines,characters,yytext);return L_SHIFT;
+yylval.lc = createLC(totalLines,characters,yytext);characters += strlen(yytext); return L_SHIFT;
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
 #line 63 "lexico.l"
-characters += strlen(yytext); yylval.lc = createLC(totalLines,characters,yytext);return ASSIGN;
+yylval.lc = createLC(totalLines,characters,yytext);characters += strlen(yytext); return ASSIGN;
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
 #line 64 "lexico.l"
-characters += strlen(yytext); yylval.lc = createLC(totalLines,characters,yytext);return ADD_ASSIGN;
+yylval.lc = createLC(totalLines,characters,yytext);characters += strlen(yytext); return ADD_ASSIGN;
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
 #line 65 "lexico.l"
-characters += strlen(yytext); yylval.lc = createLC(totalLines,characters,yytext);return MINUS_ASSIGN;
+yylval.lc = createLC(totalLines,characters,yytext);characters += strlen(yytext); return MINUS_ASSIGN;
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
@@ -1136,33 +1136,33 @@ totalLines++;
 case 59:
 YY_RULE_SETUP
 #line 83 "lexico.l"
-characters += strlen(yytext);yylval.id = createIdenti(totalLines,characters,yytext);return ID;
+yylval.id = createIdenti(totalLines,characters,yytext);characters += strlen(yytext);return ID;
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
 #line 84 "lexico.l"
-characters += strlen(yytext); yylval.lc = createLC(totalLines,characters,yytext); return NUM_OCTAL;
+yylval.lc = createLC(totalLines,characters,yytext);characters += strlen(yytext);  return NUM_OCTAL;
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
 #line 85 "lexico.l"
-characters += strlen(yytext); yylval.lc = createLC(totalLines,characters,yytext); return NUM_INTEGER;
+yylval.lc = createLC(totalLines,characters,yytext);characters += strlen(yytext);  return NUM_INTEGER;
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
 #line 86 "lexico.l"
-characters += strlen(yytext); yylval.lc = createLC(totalLines,characters,yytext); return NUM_HEXA;
+yylval.lc = createLC(totalLines,characters,yytext);characters += strlen(yytext);  return NUM_HEXA;
 	YY_BREAK
 case 63:
 /* rule 63 can match eol */
 YY_RULE_SETUP
 #line 87 "lexico.l"
-characters += strlen(yytext);  yylval.lc = createLC(totalLines,characters,yytext);return STRING;
+yylval.lc = createLC(totalLines,characters,yytext);characters += strlen(yytext) ;return STRING;
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
 #line 88 "lexico.l"
-characters += strlen(yytext); yylval.lc = createLC(totalLines,characters,yytext);return CHARACTER;
+yylval.lc = createLC(totalLines,characters,yytext);characters += strlen(yytext); return CHARACTER;
 	YY_BREAK
 case 65:
 YY_RULE_SETUP

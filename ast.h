@@ -14,6 +14,7 @@ typedef struct program /* estrutura para programa */
 
 typedef struct parametro{
     char nome[100];
+    int tipo;
     struct parametro* prox;
 }par;
 
